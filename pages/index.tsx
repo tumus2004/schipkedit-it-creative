@@ -16,31 +16,13 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <Image
-          src='/background-ai-image.jpg'
+          src='/background-image.jpg'
           alt='primary-background'
           fill={true}
           className='w-full h-full absolute object-cover'
         />
         <div id='ParentContainer' className='font-sans w-full top-0 left-0 h-full absolute'>
-          <div
-            id='MenuContainer'
-            className='w-full md:w-fit md:max-w-1/2 relative p-16 flex flex-col m-w-1/3 gap-4'>
-            <a target="_blank" href="#" type="button" id='MenuItem' className='w-fit relative bg-none hover:bg-cyan-600 px-4 py-2 transition-all duration-200 rounded-md'>
-              <h2 className='font-bold text-heading-gold'>About</h2>
-            </a>
-            <a target="_blank" href="#" type="button" id='MenuItem' className='w-fit relative bg-none hover:bg-cyan-600 px-4 py-2 transition-all duration-200 rounded-md'>
-              <h2 className='font-bold text-heading-gold'>Web</h2>
-            </a>
-            <a target="_blank" href="#" type="button" id='MenuItem' className='w-fit relative bg-none hover:bg-cyan-600 px-4 py-2 transition-all duration-200 rounded-md'>
-              <h2 className='font-bold text-heading-gold'>Image</h2>
-            </a>
-            <a target="_blank" href="#" type="button" id='MenuItem' className='w-fit relative bg-none hover:bg-cyan-600 px-4 py-2 transition-all duration-200 rounded-md mb-8'>
-              <h2 className='font-bold text-heading-gold'>Video</h2>
-            </a>
-            <a target="_blank" href="#" className='w-fit bg-neutral-900 hover:bg-black rounded-lg relative border-solid border-1 overflow-hidden px-4 flex flex-row transition-all duration-200 py-4 border-white'>
-              <h2 className='text-white text-start text-md w-full'>Ipsum whatever whatever whatever</h2>
-            </a>
-          </div>
+
         </div>
         {/* <div className={styles.description}>
           <p>
