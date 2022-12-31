@@ -33,6 +33,11 @@ const Index: React.FC = ({ className }: IndexProps) => {
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
               My works
             </Link>
+            <Link
+              href='/gallery'
+              className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
+              Gallery
+            </Link>
           </div>
         </div>
       </div>
