@@ -1,5 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import { PrismicText, PrismicRichText } from '@prismicio/react';
+import { createClient } from '../prismicio';
+import Image from 'next/image';
 
 interface IndexProps {
   className?: string;
@@ -46,3 +49,15 @@ const Index: React.FC = ({ className }: IndexProps) => {
 };
 
 export default Index;
+
+export async function getStaticProps() {
+  // Client used to fetch CMS content.
+  const client = createClient();
+
+  const galleryImage = await client.getByUID('galleryImage', 'home');
+
+  // Pass the homepage as prop to our page.
+  return {
+    props: { galleryImage },
+  };
+}
