@@ -2,10 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import S3 from 'aws-sdk/clients/s3';
 
 const s3 = new S3({
-  region: process.env.AWSDEFAULTREGION,
-  accessKeyId: process.env.AWSACCESSKEYID,
-  secretAccessKey: process.env.AWSSECRETACCESSKEY,
-  signatureVersion: 'v4',
+  region: process.env.NEXT_PUBLIC_AWS_REGION,
+  accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY,
+  signatureVersion: 'v1',
 });
 
 const upload = async (req: NextApiRequest, res: NextApiResponse) => {
