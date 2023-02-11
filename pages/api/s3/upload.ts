@@ -17,7 +17,7 @@ const upload = async (req: NextApiRequest, res: NextApiResponse) => {
     let { name, type } = req.body;
 
     const fileParams = {
-      Bucket: process.env.BUCKET_NAME,
+      Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
       Key: name,
       Expires: 600,
       ContentType: type,
