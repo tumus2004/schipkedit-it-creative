@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function FileUpload() {
   const [file, setFile] = useState<any>(null);
@@ -8,7 +8,7 @@ export default function FileUpload() {
   const uploadFile = async () => {
     setUploadingStatus(true);
 
-    let { data } = await axios.post('/api/s3/upload', {
+    let { data } = await axios.post("/api/s3/upload", {
       name: `canvasfun/${file.name}`,
       type: file.type,
     });
@@ -16,8 +16,8 @@ export default function FileUpload() {
     const url = data.url;
     await axios.put(url, file, {
       headers: {
-        'Content-type': file.type,
-        'Access-Control-Allow-Origin': '*',
+        "Content-type": file.type,
+        "Access-Control-Allow-Origin": "*",
       },
     });
 
@@ -34,10 +34,10 @@ export default function FileUpload() {
 
   return (
     <input
-      type='file'
-      accept='image/*'
-      name='image'
-      id='selectFile'
+      type="file"
+      accept="image/*"
+      name="image"
+      id="selectFile"
       onChange={(e: any) => setFile(e.target.files[0])}
     />
   );

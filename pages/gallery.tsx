@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { uploadToS3 } from '../components/uploadToS3';
+import upload from '../components/upload';
 import dotenv from 'dotenv';
 import AWS, { S3 } from 'aws-sdk';
 
