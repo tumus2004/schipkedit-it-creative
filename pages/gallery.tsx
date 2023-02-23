@@ -24,10 +24,6 @@ const Gallery: React.FC = () => {
     Prefix: 'images/',
   };
 
-  useMemo(() => {
-    params;
-  }, [params]);
-
   AWS.config.update({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
@@ -44,7 +40,7 @@ const Gallery: React.FC = () => {
         setListFiles((data as any).Contents);
       }
     });
-  }, [params, s3]);
+  }, []);
 
   const handleThumbnailClick = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -67,7 +63,7 @@ const Gallery: React.FC = () => {
   };
 
   return (
-    <div className='container mx-auto px-6 py-16'>
+    <div id="GalleryDiv" className='container mx-auto px-6 py-16'>
       <h1 className='text-3xl font-bold'>Gallery</h1>
       <input
         id='file'
@@ -80,7 +76,12 @@ const Gallery: React.FC = () => {
       {!!imageUpload && <button onClick={handleImageUpload}>Upload</button>}
       {selectedImage && (
         <div className='mt-12'>
-          <Image width={`${25}`} height={25} src={selectedImage} alt='Selected image' />
+          <Image
+            width={`${25}`}
+            height={25}
+            src={selectedImage}
+            alt='Selected image'
+          />
           <button onClick={() => setSelectedImage(null)}>Close</button>
         </div>
       )}
@@ -89,8 +90,9 @@ const Gallery: React.FC = () => {
           listFiles.length > 0 &&
           listFiles.map((file: any, index: any) => (
             <Image
+              id='image'
               key={index}
-              width={200}
+              width={`${100}`}
               height={160}
               style={{ cursor: 'pointer' }}
               src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
