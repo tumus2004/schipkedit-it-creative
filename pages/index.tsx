@@ -16,8 +16,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
         <div className='container mx-auto px-6 py-16'>
           <h1 className='text-3xl font-bold text-gray-100 ml-4'>Schipked it</h1>
           <p className='text-gray-100 text-xl font-light ml-4 mt-4'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ligula a risus
-            imperdiet tempus.
+            Work in progress
           </p>
           <div className='flex flex-col lg:flex-row mt-12'>
             <Link
