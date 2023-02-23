@@ -4,7 +4,11 @@ import S3 from 'react-aws-s3';
 
 declare let window: any;
 
-export const uploadToS3 = async (file: any, newFilename: any, fileType: any) => {
+export const uploadToS3 = async (
+  file: any,
+  newFilename: any,
+  fileType: any
+) => {
   window.Buffer = window.Buffer || require('buffer').Buffer;
   if (!file) return;
 

@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { uploadToS3 } from '../components/uploadToS3';
-import upload from '../components/upload';
 import dotenv from 'dotenv';
 import AWS, { S3 } from 'aws-sdk';
 
@@ -25,6 +24,10 @@ const Gallery: React.FC = () => {
     Prefix: 'images/',
   };
 
+  useMemo(() => {
+    params;
+  }, [params]);
+
   AWS.config.update({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
@@ -39,10 +42,9 @@ const Gallery: React.FC = () => {
         console.log(err, err.stack);
       } else {
         setListFiles((data as any).Contents);
-        console.log(data.Contents);
       }
     });
-  }, []);
+  }, [params, s3]);
 
   const handleThumbnailClick = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -56,7 +58,6 @@ const Gallery: React.FC = () => {
     } else {
       console.log('Error uploading image');
     }
-    console.log(result);
   };
 
   const handleUploadOfImage = (event: any) => {
@@ -77,26 +78,26 @@ const Gallery: React.FC = () => {
         onChange={handleUploadOfImage}
       />
       {!!imageUpload && <button onClick={handleImageUpload}>Upload</button>}
-      {selectedImage ? (
+      {selectedImage && (
         <div className='mt-12'>
           <Image width={`${25}`} height={25} src={selectedImage} alt='Selected image' />
           <button onClick={() => setSelectedImage(null)}>Close</button>
         </div>
-      ) : (
-        <div className='mt-12 grid grid-cols-2 gap-4'>
-          {listFiles &&
-            listFiles.length > 1 &&
-            listFiles.map((file: any, index: any) => (
-              <Image
-                key={index}
-                width={200}
-                height={160}
-                src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
-                alt={file.Key}
-              />
-            ))}
-        </div>
       )}
+      <div className='mt-12 grid grid-cols-2 gap-4'>
+        {listFiles &&
+          listFiles.length > 0 &&
+          listFiles.map((file: any, index: any) => (
+            <Image
+              key={index}
+              width={200}
+              height={160}
+              style={{ cursor: 'pointer' }}
+              src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
+              alt={file.Key}
+            />
+          ))}
+      </div>
     </div>
   );
 };
