@@ -40,6 +40,109 @@ const Index: React.FC = ({ className }: IndexProps) => {
               Gallery
             </Link>
           </div>
+          <div className='flex flex-wrap w-full'>
+            <div className='grid grid-cols-1 md:grid-cols-4 gap-4 w-full'>
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 1
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 2
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 3
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 4
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 5
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 6
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 7
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 8
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 9
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+
+              <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 h-32 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
+                <div className='accordion-header cursor-pointer px-4 py-2'>
+                  Rectangle 10
+                </div>
+                <div className='accordion-body hidden px-4 py-2'>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  malesuada eget lorem ac suscipit.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
