@@ -63,7 +63,7 @@ const Gallery: React.FC = () => {
   };
 
   return (
-    <div id="GalleryDiv" className='container mx-auto px-6 py-16'>
+    <div id='GalleryDiv' className='container mx-auto px-6 py-16'>
       <h1 className='text-3xl font-bold'>Gallery</h1>
       <input
         id='file'
@@ -92,11 +92,12 @@ const Gallery: React.FC = () => {
             <Image
               id='image'
               key={index}
-              width={`${100}`}
-              height={160}
+              width={0}
+              height={0}
               style={{ cursor: 'pointer' }}
               src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
               alt={file.Key}
+              className='w-1/2 h-1/2 object-cover'
             />
           ))}
       </div>
