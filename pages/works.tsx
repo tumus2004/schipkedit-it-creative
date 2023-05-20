@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/Works.module.css';
 import listOfRedRisingCharacters from '../components/ListOfRedRisingCharHeights';
 
+// Define the type for a character
 type Character = {
   name: string;
   faction: string;
@@ -9,6 +10,7 @@ type Character = {
 };
 
 const Works: React.FC = () => {
+  // Provide the type for the state variable
   const [sortedCharacters, setSortedCharacters] = useState<Character[]>([]);
 
   useEffect(() => {
@@ -29,7 +31,9 @@ const Works: React.FC = () => {
       <h1 className='text-3xl font-bold text-white mb-4'>
         Height and faction of Red Rising characters
       </h1>
-      <div className='overflow-x-auto bg-gray-800 rounded-lg shadow overflow-y-auto relative'>
+      <div
+        className='overflow-x-auto bg-gray-800 rounded-lg shadow overflow-y-auto relative'
+        style={{ margin: 'auto', width: 'fit-content' }}>
         <table className={styles.table}>
           <thead>
             <tr className='text-left'>
