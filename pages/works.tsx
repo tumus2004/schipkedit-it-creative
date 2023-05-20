@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/work.css';
 
 const Works: React.FC = () => {
   const listOfRedRisingCharacters = [
@@ -136,6 +137,9 @@ const Works: React.FC = () => {
 
   return (
     <div className='container mx-auto px-6 py-16 bg-gray-900'>
+      <h1 className='text-3xl font-bold text-white mb-4'>
+        Height and faction of Red Rising characters
+      </h1>
       <div className='overflow-x-auto bg-gray-800 rounded-lg shadow overflow-y-auto relative'>
         <table className='border-collapse table-auto w-full whitespace-no-wrap bg-gray-800 table-striped relative'>
           <thead>
@@ -152,7 +156,7 @@ const Works: React.FC = () => {
             {listOfRedRisingCharacters.map((character, index) => (
               <tr
                 key={index}
-                className='transition-colors duration-300 hover:bg-white hover:text-gray-800'>
+                className='transition-colors duration-300 hover:bg-gray-700 hover:text-white'>
                 <td className='py-2 px-3 text-white'>
                   {character.name}{' '}
                   <span className='text-gray-500'>({character.faction})</span>

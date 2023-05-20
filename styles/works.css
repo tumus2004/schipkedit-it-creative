@@ -1,0 +1,19 @@
+.container {
+  font-family: 'Roboto', sans-serif;
+}
+
+table {
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+table th,
+table td {
+  border-radius: 15px;
+}
+
+tr:hover {
+  background-color: #4a5568 !important;
+  color: #f7fafc !important;
+  transition: all 0.3s ease;
+}
