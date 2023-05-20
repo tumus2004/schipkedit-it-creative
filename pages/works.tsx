@@ -28,7 +28,7 @@ const Works: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className='text-3xl font-bold text-white mb-4'>
+      <h1 className='text-2xl font-bold text-white mb-4 text-center'>
         Height and faction of Red Rising characters
       </h1>
       <div
