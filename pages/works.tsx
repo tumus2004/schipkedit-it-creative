@@ -144,10 +144,12 @@ const Works: React.FC = () => {
         <table className={styles.table}>
           <thead>
             <tr className='text-left'>
-              <th className='py-2 px-3 sticky top-0 border-b border-gray-700 bg-gray-800 text-gray-100'>
+              <th
+                className={`py-2 px-3 sticky top-0 border-b border-gray-700 bg-gray-800 text-gray-100 ${styles.tableCell}`}>
                 Name
               </th>
-              <th className='py-2 px-3 sticky top-0 border-b border-gray-700 bg-gray-800 text-gray-100'>
+              <th
+                className={`py-2 px-3 sticky top-0 border-b border-gray-700 bg-gray-800 text-gray-100 ${styles.tableCell}`}>
                 Height
               </th>
             </tr>
@@ -155,11 +157,13 @@ const Works: React.FC = () => {
           <tbody>
             {listOfRedRisingCharacters.map((character, index) => (
               <tr key={index} className={styles.row}>
-                <td className='py-2 px-3 text-white'>
+                <td className={`py-2 px-3 text-white ${styles.tableCell}`}>
                   {character.name}{' '}
                   <span className='text-gray-500'>({character.faction})</span>
                 </td>
-                <td className='py-2 px-3 text-white'>{character.height}</td>
+                <td className={`py-2 px-3 text-white ${styles.tableCell}`}>
+                  {character.height}
+                </td>
               </tr>
             ))}
           </tbody>
