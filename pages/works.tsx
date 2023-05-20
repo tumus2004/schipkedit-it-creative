@@ -135,27 +135,29 @@ const Works: React.FC = () => {
   ];
 
   return (
-    <div className='container mx-auto px-6 py-16'>
-      <div className='overflow-x-auto bg-white rounded-lg shadow overflow-y-auto relative'>
-        <table className='border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped relative'>
+    <div className='container mx-auto px-6 py-16 bg-gray-900'>
+      <div className='overflow-x-auto bg-gray-800 rounded-lg shadow overflow-y-auto relative'>
+        <table className='border-collapse table-auto w-full whitespace-no-wrap bg-gray-800 table-striped relative'>
           <thead>
             <tr className='text-left'>
-              <th className='py-2 px-3 sticky top-0 border-b border-gray-200 bg-gray-800 text-gray-100'>
+              <th className='py-2 px-3 sticky top-0 border-b border-gray-700 bg-gray-800 text-gray-100'>
                 Name
               </th>
-              <th className='py-2 px-3 sticky top-0 border-b border-gray-200 bg-gray-800 text-gray-100'>
+              <th className='py-2 px-3 sticky top-0 border-b border-gray-700 bg-gray-800 text-gray-100'>
                 Height
               </th>
             </tr>
           </thead>
           <tbody>
             {listOfRedRisingCharacters.map((character, index) => (
-              <tr key={index} className='hover:bg-gray-100'>
-                <td className='py-2 px-3'>
+              <tr
+                key={index}
+                className='transition-colors duration-300 hover:bg-white hover:text-gray-800'>
+                <td className='py-2 px-3 text-white'>
                   {character.name}{' '}
                   <span className='text-gray-500'>({character.faction})</span>
                 </td>
-                <td className='py-2 px-3'>{character.height}</td>
+                <td className='py-2 px-3 text-white'>{character.height}</td>
               </tr>
             ))}
           </tbody>
