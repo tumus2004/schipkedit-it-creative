@@ -1,8 +1,8 @@
-export const Breakpoints = {
-  xs: 0,
-  sm: 576,
-  md: 768,
-  lg: 992,
-  xl: 1200,
-  xxl: 1400,
-};
+export const Breakpoints = [
+  { name: 'xs', width: 0 },
+  { name: 'sm', width: 576 },
+  { name: 'md', width: 768 },
+  { name: 'lg', width: 992 },
+  { name: 'xl', width: 1200 },
+  { name: 'xxl', width: 1400 },
+];

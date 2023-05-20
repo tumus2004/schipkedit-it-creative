@@ -12,7 +12,17 @@ const LAYOUT: Record<Layout, string> = {
   undefined: '',
 };
 
-const DEFAULT_SIZES = `(max-width: ${Breakpoints['md']}px) 96vw, (max-width: ${Breakpoints['lg']}px) 96vw, (max-width: ${Breakpoints['xl']}px) 96vw`; // Size of an image that spans the full width of screen
+const DEFAULT_SIZES = `(max-width: ${getBreakpointWidth(
+  'md'
+)}px) 96vw, (max-width: ${getBreakpointWidth(
+  'lg'
+)}px) 96vw, (max-width: ${getBreakpointWidth('xl')}px) 96vw`; // Size of an image that spans the full width of screen
+
+function getBreakpointWidth(name: string) {
+  const breakpoint = Breakpoints.find((bp) => bp.name === name);
+  console.log(breakpoint, 'breakpoints');
+  return breakpoint ? breakpoint.width : undefined;
+}
 
 interface OptimisedImageProps extends Omit<ImageProps, 'layout' | 'width'> {
   src: string;
@@ -44,7 +54,7 @@ export const OptimisedImage: FC<OptimisedImageProps> = ({
             src={src}
             alt={alt}
             className={cx('w-full', className)}
-            // {...props}
+            {...props}
           />
         </>
       ) : (
