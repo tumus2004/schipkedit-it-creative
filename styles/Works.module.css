@@ -2,17 +2,16 @@
   font-family: 'Roboto', sans-serif;
 }
 
-table {
+.table {
   border-radius: 15px;
   transition: all 0.3s ease;
 }
 
-table th,
-table td {
+.tableCell {
   border-radius: 15px;
 }
 
-tr:hover {
+.row:hover {
   background-color: #4a5568 !important;
   color: #f7fafc !important;
   transition: all 0.3s ease;
