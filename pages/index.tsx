@@ -19,7 +19,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
             Work in progress
           </p>
           <div className='flex flex-col lg:flex-row mt-12'>
-            <Link
+            {/* <Link
               href='/about'
               id='about-link'
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
@@ -42,9 +42,9 @@ const Index: React.FC = ({ className }: IndexProps) => {
               id='gallery-link'
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
               Gallery
-            </Link>
+            </Link> */}
           </div>
-          <div className='flex flex-wrap w-full'>
+          {/* <div className='flex flex-wrap w-full'>
             <div className='grid grid-cols-1 md:grid-cols-4 gap-4 w-full'>
               <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
                 <div className='accordion-header cursor-pointer px-4 py-2'>
@@ -162,7 +162,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
