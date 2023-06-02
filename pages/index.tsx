@@ -1,7 +1,8 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import dotenv from 'dotenv';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import dotenv from "dotenv";
+import MyScene from "./threejs";
 
 interface IndexProps {
   className?: string;
@@ -9,16 +10,18 @@ interface IndexProps {
 
 const Index: React.FC = ({ className }: IndexProps) => {
   return (
-    <div className='bg-gray-900 min-h-screen'>
+    <div className="bg-gray-900 min-h-screen">
       <div
-        className='bg-center w-full h-screen bg-no-repeat bg-cover md:bg-fixed'
-        style={{ backgroundImage: `url('./background_image.jpg')` }}>
-        <div className='container mx-auto px-6 py-16'>
-          <h1 className='text-3xl font-bold text-gray-100 ml-4'>Schipked it</h1>
-          <p className='text-gray-100 text-xl font-light ml-4 mt-4'>
+        className="bg-center w-full h-screen bg-no-repeat bg-cover md:bg-fixed"
+        style={{ backgroundImage: `url('./background_image.jpg')` }}
+      >
+        <div className="container mx-auto px-6 py-16">
+          <h1 className="text-3xl font-bold text-gray-100 ml-4">Schipked it</h1>
+          <p className="text-gray-100 text-xl font-light ml-4 mt-4">
             Work in progress
           </p>
-          <div className='flex flex-col lg:flex-row mt-12'>
+          <div className="flex flex-col lg:flex-row mt-12">
+            <div><MyScene /></div>
             {/* <Link
               href='/about'
               id='about-link'

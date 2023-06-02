@@ -2,16 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import * as THREE from "three";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <MyScene />
-      </div>
-    );
-  }
-}
-
 const MyScene = () => {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
@@ -36,4 +26,4 @@ const MyScene = () => {
   return <div id="scene"></div>;
 };
 
-ReactDOM.render(<App />, document.getElementById("root"));
+export default MyScene;
