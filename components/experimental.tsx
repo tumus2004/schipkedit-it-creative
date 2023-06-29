@@ -44,7 +44,7 @@ const SolarSystem = () => {
       requestAnimationFrame(animate);
 
       sphere.rotation.x += 0.01;
-      sphere.rotation.y += 0.01;
+      sphere.rotation.y += 0.00;
 
       renderer.render(scene, camera);
     };
