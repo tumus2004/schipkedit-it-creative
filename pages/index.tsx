@@ -1,8 +1,7 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import dotenv from "dotenv";
-import MyScene from "./threejs";
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import dotenv from 'dotenv';
 
 interface IndexProps {
   className?: string;
@@ -10,19 +9,17 @@ interface IndexProps {
 
 const Index: React.FC = ({ className }: IndexProps) => {
   return (
-    <div className="bg-gray-900 min-h-screen">
+    <div className='bg-gray-900 min-h-screen'>
       <div
-        className="bg-center w-full h-screen bg-no-repeat bg-cover md:bg-fixed"
-        style={{ backgroundImage: `url('./background_image.jpg')` }}
-      >
-        <div className="container mx-auto px-6 py-16">
-          <h1 className="text-3xl font-bold text-gray-100 ml-4">Schipked it</h1>
-          <p className="text-gray-100 text-xl font-light ml-4 mt-4">
+        className='bg-center w-full h-screen bg-no-repeat bg-cover md:bg-fixed'
+        style={{ backgroundImage: `url('./background_image.jpg')` }}>
+        <div className='container mx-auto px-6 py-16'>
+          <h1 className='text-3xl font-bold text-gray-100 ml-4'>Schipked it</h1>
+          <p className='text-gray-100 text-xl font-light ml-4 mt-4'>
             Work in progress
           </p>
-          <div className="flex flex-col lg:flex-row mt-12">
-            <div><MyScene /></div>
-            {/* <Link
+          <div className='flex flex-col lg:flex-row mt-12'>
+            <Link
               href='/about'
               id='about-link'
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
@@ -45,9 +42,9 @@ const Index: React.FC = ({ className }: IndexProps) => {
               id='gallery-link'
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
               Gallery
-            </Link> */}
+            </Link>
           </div>
-          {/* <div className='flex flex-wrap w-full'>
+          <div className='flex flex-wrap w-full'>
             <div className='grid grid-cols-1 md:grid-cols-4 gap-4 w-full'>
               <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
                 <div className='accordion-header cursor-pointer px-4 py-2'>
@@ -165,7 +162,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
