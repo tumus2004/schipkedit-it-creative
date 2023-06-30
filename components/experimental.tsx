@@ -27,7 +27,7 @@ const SolarSystem = () => {
     const texture = textureLoader.load('/texture.jpg');
 
     // Create a sphere geometry with radius 1, and 32 vertical and horizontal segments
-    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    const geometry = new THREE.SphereGeometry(1, 64, 64);
     const material = new THREE.MeshStandardMaterial({ map: texture });
     const sphere = new THREE.Mesh(geometry, material);
 
@@ -40,11 +40,18 @@ const SolarSystem = () => {
 
     camera.position.z = 5;
 
+    // Create a new rotation axis that is tilted 23.5 degrees from the y-axis
+    const rotationAxis = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(-23.5)),
+      Math.cos(THREE.MathUtils.degToRad(-23.5)),
+      0
+    );
+
     const animate = function () {
       requestAnimationFrame(animate);
 
-      sphere.rotation.x += 0.01;
-      sphere.rotation.y += 0.00;
+      // Rotate the sphere around the new axis
+      sphere.rotateOnAxis(rotationAxis, 0.01);
 
       renderer.render(scene, camera);
     };
