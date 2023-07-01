@@ -24,36 +24,41 @@ const SolarSystem = () => {
 
     // Load the texture
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('/texture.jpg');
+    const earthTexture = textureLoader.load('/texture.jpg');
+    const sunTexture = textureLoader.load('./thesun.jpg');
+    const marsTexture = textureLoader.load('/marsTexture.jpg'); // Load Mars texture
 
     // Create the central, larger sphere
     const centerGeometry = new THREE.SphereGeometry(4, 64, 64);
-    const centerMaterial = new THREE.MeshStandardMaterial({ color: 'yellow' });
+    const centerMaterial = new THREE.MeshStandardMaterial({ map: sunTexture });
     const centerSphere = new THREE.Mesh(centerGeometry, centerMaterial);
-
     scene.add(centerSphere);
 
-    // Create a sphere geometry with radius 1, and 32 vertical and horizontal segments
+    // Create a sphere geometry with radius 1, and 64 vertical and horizontal segments
     const geometry = new THREE.SphereGeometry(1, 64, 64);
-    const material = new THREE.MeshStandardMaterial({ map: texture });
+    const material = new THREE.MeshStandardMaterial({ map: earthTexture });
     const sphere = new THREE.Mesh(geometry, material);
-
-    // Position the sphere at the edge of the orbital path
     sphere.position.x = 15;
-
-    // Create a parent object and add the sphere to it
     const parentObject = new THREE.Object3D();
     parentObject.add(sphere);
-
     scene.add(parentObject);
+
+    // Add Mars
+    const marsGeometry = new THREE.SphereGeometry(0.53, 64, 64); // Mars is approximately half the size of Earth
+    const marsMaterial = new THREE.MeshStandardMaterial({ map: marsTexture });
+    const mars = new THREE.Mesh(marsGeometry, marsMaterial);
+    mars.position.x = 23; // Mars is further from the Sun
+    const marsParentObject = new THREE.Object3D();
+    marsParentObject.add(mars);
+    scene.add(marsParentObject);
 
     // Add lighting
     const light = new THREE.PointLight(0xffffff, 1, 100);
     light.position.set(0, 0, 5);
     scene.add(light);
 
-    camera.position.z = 15;
-    camera.position.y = 2;
+    camera.position.z = 35;
+    camera.position.y = 5;
 
     // Create a new rotation axis that is tilted 23.5 degrees from the y-axis
     const rotationAxis = new THREE.Vector3(
@@ -62,18 +67,32 @@ const SolarSystem = () => {
       0
     );
 
+    // Sun rotation
+    const sunRotationAxis = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(0.5)),
+      Math.cos(THREE.MathUtils.degToRad(0.5)),
+      0
+    );
+
     // Adjust the speed of rotation to match Earth's
-    const rotationSpeed = 0.05; 
-    const orbitalSpeed = rotationSpeed / 365; 
+    const rotationSpeed = 0.5;
+    const orbitalSpeed = rotationSpeed / 365;
+    const marsOrbitalSpeed = rotationSpeed / 687; // Mars orbital speed
+
+    // Sun rotation speed
+    const sunRotationSpeed = rotationSpeed / 27;
 
     const animate = function () {
       requestAnimationFrame(animate);
 
-      // Rotate the sphere around the new axis
+      // Rotate the spheres around the new axis
       sphere.rotateOnAxis(rotationAxis, rotationSpeed);
+      mars.rotateOnAxis(rotationAxis, rotationSpeed); // Mars day/night cycle
+      centerSphere.rotateOnAxis(sunRotationAxis, sunRotationSpeed);
 
-      // Rotate the parent object around the y-axis
+      // Rotate the parent objects around the y-axis
       parentObject.rotation.y += orbitalSpeed;
+      marsParentObject.rotation.y += marsOrbitalSpeed; // Mars orbit
 
       renderer.render(scene, camera);
     };
@@ -85,6 +104,8 @@ const SolarSystem = () => {
       renderer.dispose();
       material.dispose();
       geometry.dispose();
+      marsMaterial.dispose();
+      marsGeometry.dispose();
       centerMaterial.dispose();
       centerGeometry.dispose();
     };
