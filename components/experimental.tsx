@@ -57,7 +57,7 @@ const SolarSystem = () => {
     light.position.set(0, 0, 5);
     scene.add(light);
 
-    camera.position.z = 35;
+    camera.position.z = 30;
     camera.position.y = 5;
 
     // Create a new rotation axis that is tilted 23.5 degrees from the y-axis
@@ -81,6 +81,19 @@ const SolarSystem = () => {
 
     // Sun rotation speed
     const sunRotationSpeed = rotationSpeed / 27;
+
+    // Fetch or calculate current orientation data
+    // For demonstration, let's assume these values represent the current angles
+    // of Earth and Mars in their orbits (in degrees)
+    const currentEarthAngle = 120; // replace with actual fetched or calculated value
+    const currentMarsAngle = 240; // replace with actual fetched or calculated value
+
+    // Convert the angles to radians
+    const earthRad = THREE.MathUtils.degToRad(currentEarthAngle);
+    const marsRad = THREE.MathUtils.degToRad(currentMarsAngle);
+
+    parentObject.rotation.y = earthRad;
+    marsParentObject.rotation.y = marsRad;
 
     const animate = function () {
       requestAnimationFrame(animate);
