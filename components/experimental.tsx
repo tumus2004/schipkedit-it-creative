@@ -26,7 +26,7 @@ const SolarSystem = () => {
     const textureLoader = new THREE.TextureLoader();
     const earthTexture = textureLoader.load('/texture.jpg');
     const sunTexture = textureLoader.load('./thesun.jpg');
-    const marsTexture = textureLoader.load('/marsTexture.jpg'); // Load Mars texture
+    const marsTexture = textureLoader.load('/marstexture.jpg'); // Load Mars texture
 
     // Create the central, larger sphere
     const centerGeometry = new THREE.SphereGeometry(4, 64, 64);
@@ -75,7 +75,7 @@ const SolarSystem = () => {
     );
 
     // Adjust the speed of rotation to match Earth's
-    const rotationSpeed = 0.5;
+    const rotationSpeed = 0.1;
     const orbitalSpeed = rotationSpeed / 365;
     const marsOrbitalSpeed = rotationSpeed / 687; // Mars orbital speed
 
