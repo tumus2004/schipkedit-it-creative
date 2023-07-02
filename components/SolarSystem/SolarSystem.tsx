@@ -4,7 +4,6 @@ import * as THREE from 'three';
 const SolarSystem = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
-
   useEffect(() => {
     if (!isBrowser || !containerRef.current) {
       return;
@@ -17,8 +16,8 @@ const SolarSystem = () => {
       0.1,
       1000
     );
-    const renderer = new THREE.WebGLRenderer();
 
+    const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
@@ -30,13 +29,21 @@ const SolarSystem = () => {
 
     // Create the central, larger sphere
     const centerGeometry = new THREE.SphereGeometry(4, 64, 64);
-    const centerMaterial = new THREE.MeshStandardMaterial({ map: sunTexture, depthTest: true, depthWrite: true });
+    const centerMaterial = new THREE.MeshStandardMaterial({
+      map: sunTexture,
+      depthTest: true,
+      depthWrite: true,
+    });
     const centerSphere = new THREE.Mesh(centerGeometry, centerMaterial);
     scene.add(centerSphere);
 
     // Create a sphere geometry with radius 1, and 64 vertical and horizontal segments
     const geometry = new THREE.SphereGeometry(1, 64, 64);
-    const material = new THREE.MeshStandardMaterial({ map: earthTexture, depthTest: true, depthWrite: true });
+    const material = new THREE.MeshStandardMaterial({
+      map: earthTexture,
+      depthTest: true,
+      depthWrite: true,
+    });
     const sphere = new THREE.Mesh(geometry, material);
     const parentObject = new THREE.Object3D();
     parentObject.add(sphere);
@@ -44,7 +51,11 @@ const SolarSystem = () => {
 
     // Add Mars
     const marsGeometry = new THREE.SphereGeometry(0.53, 64, 64); // Mars is approximately half the size of Earth
-    const marsMaterial = new THREE.MeshStandardMaterial({ map: marsTexture, depthTest: true, depthWrite: true });
+    const marsMaterial = new THREE.MeshStandardMaterial({
+      map: marsTexture,
+      depthTest: true,
+      depthWrite: true,
+    });
     const mars = new THREE.Mesh(marsGeometry, marsMaterial);
     const marsParentObject = new THREE.Object3D();
     marsParentObject.add(mars);
@@ -54,7 +65,6 @@ const SolarSystem = () => {
     const light = new THREE.PointLight(0xffffff, 1, 100);
     light.position.set(0, 0, 5);
     scene.add(light);
-
     camera.position.z = 30;
     camera.position.y = 5;
 
@@ -79,7 +89,6 @@ const SolarSystem = () => {
 
     // Sun rotation speed
     const sunRotationSpeed = rotationSpeed / 27;
-
     // Fetch or calculate current orientation data
     // For demonstration, let's assume these values represent the current angles
     // of Earth and Mars in their orbits (in degrees)
@@ -110,7 +119,6 @@ const SolarSystem = () => {
       const z = 15.3 * Math.sin((2 * Math.PI * i) / 100);
       pointsMars.push(new THREE.Vector3(x, 0, z));
     }
-
     const geometryLineMars = new THREE.BufferGeometry().setFromPoints(
       pointsMars
     );
@@ -120,7 +128,6 @@ const SolarSystem = () => {
       color: 0xff0000,
       linewidth: 1,
     });
-
     const lineMars = new THREE.Line(geometryLineMars, materialLineMars);
     const marsLineParentObject = new THREE.Object3D(); // New parent object for Mars line
     marsLineParentObject.add(lineMars); // Add Mars line to its parent object
@@ -129,22 +136,18 @@ const SolarSystem = () => {
 
     // Convert the inclination angle to radians
     const marsInclinationRad = THREE.MathUtils.degToRad(1.85);
-
     // Tilt the orbits of Mars
     marsParentObject.rotation.x = marsInclinationRad;
     marsLineParentObject.rotation.x = marsInclinationRad; // Apply inclination to Mars line
-
     sphere.position.x = 10; // Earth position
     mars.position.x = 15.3; // Mars position
 
     // Convert the angles to radians
     const earthRad = THREE.MathUtils.degToRad(currentEarthAngle);
     const marsRad = THREE.MathUtils.degToRad(currentMarsAngle);
-
     parentObject.rotation.y = earthRad;
     marsParentObject.rotation.y = marsRad;
     marsLineParentObject.rotation.y = marsRad; // Set the initial rotation of Mars line to match Mars
-
     const animate = function () {
       requestAnimationFrame(animate);
 
@@ -157,12 +160,9 @@ const SolarSystem = () => {
       parentObject.rotation.y += orbitalSpeed;
       marsParentObject.rotation.y += marsOrbitalSpeed; // Mars orbit
       marsLineParentObject.rotation.y += marsOrbitalSpeed; // Mars line orbit
-
       renderer.render(scene, camera);
     };
-
     animate();
-
     return () => {
       // Cleanup on unmount
       renderer.dispose();

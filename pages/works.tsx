@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/Works.module.css';
 import listOfRedRisingCharacters from '../components/ListOfRedRisingCharHeights';
-import SolarSystem from '../components/experimental';
+import SolarSystem from '../components/SolarSystem/SolarSystem';
 
 // Define the type for a character
 type Character = {
