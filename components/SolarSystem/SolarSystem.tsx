@@ -83,7 +83,7 @@ const SolarSystem = () => {
     );
 
     // Adjust the speed of rotation to match Earth's
-    const rotationSpeed = 0.1;
+    const rotationSpeed = 0.01;
     const orbitalSpeed = rotationSpeed / 365;
     const marsOrbitalSpeed = rotationSpeed / 687; // Mars orbital speed
 
@@ -92,8 +92,8 @@ const SolarSystem = () => {
     // Fetch or calculate current orientation data
     // For demonstration, let's assume these values represent the current angles
     // of Earth and Mars in their orbits (in degrees)
-    const currentEarthAngle = 102; // replace with actual fetched or calculated value
-    const currentMarsAngle = 111; // replace with actual fetched or calculated value
+    const currentEarthAngle = 122; // replace with actual fetched or calculated value
+    const currentMarsAngle = 141; // replace with actual fetched or calculated value
 
     // Create line circle representing orbital path for Earth
     const points = [];
