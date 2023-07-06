@@ -1,8 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { uploadToS3 } from '../components/uploadToS3';
-import dotenv from 'dotenv';
-import AWS, { S3 } from 'aws-sdk';
+import Modal from 'react-modal';
+import AWS from 'aws-sdk';
+
+Modal.setAppElement('#__next'); //This line is important for accessibility reasons.
 
 const Gallery: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -75,22 +77,28 @@ const Gallery: React.FC = () => {
       />
       {!!imageUpload && (
         <button
-          className='m-4 w-8 h-2 rounded-sm bg-slate-300'
+          className='m-4 w-8 h-2 rounded-sm bg-blue-500 text-white p-2' //Change here for a better button
           onClick={handleImageUpload}>
           Upload
         </button>
       )}
-      {selectedImage && (
+      <Modal
+        isOpen={!!selectedImage}
+        onRequestClose={() => setSelectedImage(null)}
+        contentLabel='Selected Image'>
         <div className='mt-12'>
-          <Image
-            width={`${25}`}
-            height={25}
-            src={selectedImage}
-            alt='Selected image'
-          />
+          {selectedImage && (
+            <Image
+              width={500} //Change to full resolution
+              height={500} //Change to full resolution
+              src={selectedImage}
+              alt='Selected image'
+            />
+          )}
           <button onClick={() => setSelectedImage(null)}>Close</button>
         </div>
-      )}
+      </Modal>
+
       <div className='mt-12 grid grid-cols-2 gap-4'>
         {listFiles &&
           listFiles.length > 0 &&
@@ -98,12 +106,12 @@ const Gallery: React.FC = () => {
             <Image
               id='image'
               key={index}
-              width={0}
-              height={0}
+              width={250} //Change to higher resolution
+              height={250} //Change to higher resolution
               style={{ cursor: 'pointer' }}
               src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
               alt={file.Key}
-              className='w-1/2 h-1/2 object-cover'
+              className='w-full object-cover' //Change here for a better image
               onClick={() =>
                 handleThumbnailClick(
                   `https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`
