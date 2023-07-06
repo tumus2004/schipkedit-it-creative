@@ -73,7 +73,7 @@ const Gallery: React.FC = () => {
         ref={inputRef}
         onChange={handleUploadOfImage}
       />
-      {!!imageUpload && <button onClick={handleImageUpload}>Upload</button>}
+      {!!imageUpload && <button className="m-4 w-8 h-2 rounded-sm bg-slate-300" onClick={handleImageUpload}>Upload</button>}
       {selectedImage && (
         <div className='mt-12'>
           <Image
