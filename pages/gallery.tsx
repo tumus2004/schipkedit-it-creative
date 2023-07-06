@@ -73,7 +73,13 @@ const Gallery: React.FC = () => {
         ref={inputRef}
         onChange={handleUploadOfImage}
       />
-      {!!imageUpload && <button className="m-4 w-8 h-2 rounded-sm bg-slate-300" onClick={handleImageUpload}>Upload</button>}
+      {!!imageUpload && (
+        <button
+          className='m-4 w-8 h-2 rounded-sm bg-slate-300'
+          onClick={handleImageUpload}>
+          Upload
+        </button>
+      )}
       {selectedImage && (
         <div className='mt-12'>
           <Image
@@ -98,6 +104,11 @@ const Gallery: React.FC = () => {
               src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
               alt={file.Key}
               className='w-1/2 h-1/2 object-cover'
+              onClick={() =>
+                handleThumbnailClick(
+                  `https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`
+                )
+              }
             />
           ))}
       </div>
