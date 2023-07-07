@@ -18,7 +18,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
           <p className='text-gray-100 text-xl font-light ml-4 mt-4'>
             Work in progress
           </p>
-          <div className='flex flex-col lg:flex-row mt-12'>
+          {/* <div className='flex flex-col lg:flex-row mt-12'>
             <Link
               href='/about'
               id='about-link'
@@ -162,7 +162,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
