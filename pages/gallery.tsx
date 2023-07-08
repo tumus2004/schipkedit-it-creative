@@ -15,6 +15,10 @@ const Gallery: React.FC = () => {
   const [listFiles, setListFiles] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    console.log(listFiles);
+  }, [listFiles]);
+
   const config = {
     bucketName: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
     dirName: 'images',
