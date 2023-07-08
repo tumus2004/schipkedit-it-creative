@@ -18,8 +18,8 @@ const Index: React.FC = ({ className }: IndexProps) => {
           <p className='text-gray-100 text-xl font-light ml-4 mt-4'>
             Work in progress
           </p>
-          {/* <div className='flex flex-col lg:flex-row mt-12'>
-            <Link
+          <div className='flex flex-col lg:flex-row mt-12'>
+            {/* <Link
               href='/about'
               id='about-link'
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
@@ -28,23 +28,23 @@ const Index: React.FC = ({ className }: IndexProps) => {
             <Link
               href='/contact'
               id='contact-link'
-              className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
+              className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white hover:text-black duration-300'>
               Contact me
-            </Link>
+            </Link> */}
             <Link
               href='/works'
               id='works-link'
-              className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
-              My works
+              className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white hover:text-black duration-300'>
+              Some random stuff
             </Link>
             <Link
               href='/gallery'
               id='gallery-link'
-              className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white duration-300'>
+              className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white hover:text-black duration-300'>
               Gallery
             </Link>
           </div>
-          <div className='flex flex-wrap w-full'>
+          {/* <div className='flex flex-wrap w-full'>
             <div className='grid grid-cols-1 md:grid-cols-4 gap-4 w-full'>
               <div className='rounded-3xl bg-lime-800 border-2 border-lime-300 bg-opacity-60 hover:bg-green-400 hover:bg-opacity-60'>
                 <div className='accordion-header cursor-pointer px-4 py-2'>
