@@ -52,6 +52,8 @@ const Gallery: React.FC = () => {
     };
 
     s3.listObjectsV2(params, (err, data) => {
+      console.log('params', params, data, 'data');
+      
       if (err) {
         console.log(err, err.stack);
       } else {
