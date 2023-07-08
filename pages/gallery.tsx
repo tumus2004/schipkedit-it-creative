@@ -16,7 +16,7 @@ const Gallery: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    console.log(listFiles);
+    console.log(listFiles, 'listfiles');
   }, [listFiles]);
 
   const config = {
@@ -52,8 +52,6 @@ const Gallery: React.FC = () => {
     };
 
     s3.listObjectsV2(params, (err, data) => {
-      console.log('params', params, data, 'data');
-      
       if (err) {
         console.log(err, err.stack);
       } else {
