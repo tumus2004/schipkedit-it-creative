@@ -32,6 +32,7 @@ export const uploadToS3 = async (
     Key: `${config.dirName}/${newFilename || file.name}`,
     Body: file,
     ContentType: file.type,
+    ACL: 'public-read',
   });
 
   upload.on('httpUploadProgress', (progress) => {
