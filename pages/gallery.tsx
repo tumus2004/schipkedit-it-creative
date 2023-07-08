@@ -85,6 +85,16 @@ const Gallery: React.FC = () => {
     }
   };
 
+  const deleteParams = {
+    Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
+    Key: process.env.NEXT_PUBLIC_AWS_SECRET_KEY!,
+  };
+
+  s3.deleteObject(deleteParams, function (err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else console.log('Delete Success'); // successful response
+  });
+
   return (
     <div id='GalleryDiv' className='container mx-auto px-6 py-16'>
       <h1 className='text-3xl font-bold'>Gallery</h1>
