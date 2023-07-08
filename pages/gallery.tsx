@@ -62,13 +62,17 @@ const Gallery: React.FC = () => {
 
   const handleImageUpload = async () => {
     const file = (inputRef.current?.files as any)[0];
-    const result = await uploadToS3(file, setUploadProgress, null);
-    if (result?.Location) {
-      console.log(result.Location);
-      window.location.reload();
-      setImageUpload(false);
-    } else {
-      console.log('Error uploading image');
+    try {
+      const result = await uploadToS3(file, setUploadProgress, null);
+      if (result?.Location) {
+        console.log(result.Location);
+        window.location.reload();
+        setImageUpload(false);
+      } else {
+        console.log('Error uploading image');
+      }
+    } catch (error) {
+      console.error('Error in handleImageUpload: ', error);
     }
   };
 
