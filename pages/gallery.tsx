@@ -69,7 +69,6 @@ const Gallery: React.FC = () => {
     try {
       const result = await uploadToS3(file, setUploadProgress, null);
       if (result?.Location) {
-        console.log(result.Location);
         window.location.reload();
         setImageUpload(false);
       } else {
