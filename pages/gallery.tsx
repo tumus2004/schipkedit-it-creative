@@ -98,6 +98,16 @@ const Gallery: React.FC = () => {
   return (
     <div id='GalleryDiv' className='container mx-auto px-6 py-16'>
       <h1 className='text-3xl font-bold'>Gallery</h1>
+      <div className='fixed top-0 left-0 w-full z-50'>
+        <div className='relative bg-gray-300 h-4'>
+          <div
+            className={`absolute left-0 top-0 h-4 bg-green-500 transition-all duration-500 ease-in-out`}
+            style={{ width: `${uploadProgress}%` }}></div>
+          <span className='absolute w-full text-center text-sm text-white'>
+            {uploadProgress}%
+          </span>
+        </div>
+      </div>
       <input
         id='file'
         type='file'
