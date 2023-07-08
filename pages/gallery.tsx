@@ -109,7 +109,7 @@ const Gallery: React.FC = () => {
       {imageUpload && (
         <>
           <button
-            className='m-4 w-8 h-2 rounded-sm bg-blue-500 text-white p-2'
+            className='m-4 w-fit h-fit rounded-sm bg-blue-500 text-white p-2'
             onClick={handleImageUpload}>
             Upload
           </button>
