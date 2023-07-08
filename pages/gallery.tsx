@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { uploadToS3 } from '../components/uploadToS3';
 import Modal from 'react-modal';
-import AWS from 'aws-sdk';
+import AWS, { S3 } from 'aws-sdk';
+import { ProgressBar } from 'react-bootstrap';
 
 Modal.setAppElement('#__next'); //This line is important for accessibility reasons.
 
 const Gallery: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [imageUpload, setImageUpload] = useState<boolean>(false);
   const [listFiles, setListFiles] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -50,9 +52,10 @@ const Gallery: React.FC = () => {
 
   const handleImageUpload = async () => {
     const file = (inputRef.current?.files as any)[0];
-    const result = await uploadToS3(file, null, null);
-    if (result?.key) {
-      console.log(result);
+    const result = await uploadToS3(file, setUploadProgress, null);
+    if (result?.Location) {
+      console.log(result.Location);
+      window.location.reload();
     } else {
       console.log('Error uploading image');
     }
@@ -76,25 +79,21 @@ const Gallery: React.FC = () => {
         onChange={handleUploadOfImage}
       />
       {!!imageUpload && (
-        <button
-          className='m-4 w-8 h-2 rounded-sm bg-blue-500 text-white p-2' //Change here for a better button
-          onClick={handleImageUpload}>
-          Upload
-        </button>
+        <>
+          <button
+            className='m-4 w-8 h-2 rounded-sm bg-blue-500 text-white p-2'
+            onClick={handleImageUpload}>
+            Upload
+          </button>
+          <ProgressBar now={uploadProgress} max={100} />
+        </>
       )}
       <Modal
         isOpen={!!selectedImage}
         onRequestClose={() => setSelectedImage(null)}
         contentLabel='Selected Image'>
         <div className='mt-12'>
-          {selectedImage && (
-            <Image
-              width={500} //Change to full resolution
-              height={500} //Change to full resolution
-              src={selectedImage}
-              alt='Selected image'
-            />
-          )}
+          {selectedImage && <Image src={selectedImage} alt='Selected image' />}
           <button onClick={() => setSelectedImage(null)}>Close</button>
         </div>
       </Modal>

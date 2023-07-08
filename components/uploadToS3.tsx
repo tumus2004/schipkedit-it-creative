@@ -1,29 +1,49 @@
 import React from 'react';
 import dotenv from 'dotenv';
-import S3 from 'react-aws-s3';
+import AWS from 'aws-sdk';
 
 declare let window: any;
 
 export const uploadToS3 = async (
-  file: any,
-  newFilename: any,
-  fileType: any
+  file: File,
+  setUploadProgress: React.Dispatch<React.SetStateAction<number>>,
+  newFilename: string | null = null
 ) => {
-  window.Buffer = window.Buffer || require('buffer').Buffer;
   if (!file) return;
 
   const config = {
-    bucketName: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
+    bucketName: process.env.NEXT_PUBLIC_S3_BUCKET_NAME || '',
     dirName: 'images',
     region: process.env.NEXT_PUBLIC_AWS_REGION,
     accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
     secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY,
   };
 
-  const ReactS3Client = new S3(config);
+  AWS.config.update({
+    accessKeyId: config.accessKeyId,
+    secretAccessKey: config.secretAccessKey,
+    region: config.region,
+  });
 
-  const result = ReactS3Client.uploadFile(file, newFilename)
-    .then((data: any) => data)
-    .catch((err: any) => console.error(err));
-  return result;
+  const s3 = new AWS.S3();
+
+  const upload = s3.upload({
+    Bucket: config.bucketName,
+    Key: `${config.dirName}/${newFilename || file.name}`,
+    Body: file,
+    ContentType: file.type,
+  });
+
+  upload.on('httpUploadProgress', (progress) => {
+    const percent = Math.round((progress.loaded / progress.total) * 100);
+    setUploadProgress(percent);
+  });
+
+  try {
+    const result = await upload.promise();
+    return result;
+  } catch (error) {
+    console.error('Error uploading file: ', error);
+    throw error;
+  }
 };
