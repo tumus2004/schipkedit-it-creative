@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { uploadToS3 } from '../components/uploadToS3';
 import Modal from 'react-modal';
 import AWS, { S3 } from 'aws-sdk';
 import { ProgressBar } from 'react-bootstrap';
+import { OptimisedImage } from '../components/FormattedImage';
 
 Modal.setAppElement('#__next');
 
@@ -22,21 +23,30 @@ const Gallery: React.FC = () => {
     secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_KEY,
   };
 
-  const params = {
-    Bucket: 'schipkeditbucket',
-    Delimiter: '',
-    Prefix: 'images/',
-  };
-
   AWS.config.update({
     accessKeyId: config.accessKeyId,
     secretAccessKey: config.secretAccessKey,
     region: config.region,
   });
 
-  const s3 = new AWS.S3();
+  // Create an instance of s3 using useMemo
+  const s3 = useMemo(() => {
+    AWS.config.update({
+      accessKeyId: config.accessKeyId,
+      secretAccessKey: config.secretAccessKey,
+      region: config.region,
+    });
+
+    return new AWS.S3();
+  }, [config.accessKeyId, config.secretAccessKey, config.region]);
 
   useEffect(() => {
+    const params = {
+      Bucket: 'schipkeditbucket',
+      Delimiter: '',
+      Prefix: 'images/',
+    };
+
     s3.listObjectsV2(params, (err, data) => {
       if (err) {
         console.log(err, err.stack);
@@ -44,7 +54,7 @@ const Gallery: React.FC = () => {
         setListFiles((data as any).Contents);
       }
     });
-  }, []);
+  }, [s3]);
 
   const handleThumbnailClick = (imageUrl: string) => {
     setSelectedImage(imageUrl);
@@ -88,21 +98,19 @@ const Gallery: React.FC = () => {
           <ProgressBar now={uploadProgress} max={100} />
         </>
       )}
+
       <Modal
         isOpen={!!selectedImage}
         onRequestClose={() => setSelectedImage(null)}
         contentLabel='Selected Image'>
-        <div className='mt-12' style={{ maxWidth: '90vw', maxHeight: '90vh' }}>
+        <div
+          className='mt-12'
+          style={{ position: 'relative', width: '90vw', height: '90vh' }}>
           {selectedImage && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain',
-              }}
+            <OptimisedImage
               src={selectedImage}
               alt='Selected image'
+              layout='contain'
             />
           )}
           <button onClick={() => setSelectedImage(null)}>Close</button>
