@@ -66,14 +66,15 @@ const Gallery: React.FC = () => {
     if (result?.Location) {
       console.log(result.Location);
       window.location.reload();
+      setImageUpload(false);
     } else {
       console.log('Error uploading image');
     }
   };
 
   const handleUploadOfImage = (event: any) => {
-    if (event.target.value) {
-      setImageUpload(event.target.value.length);
+    if (event.target.files[0]) {
+      setImageUpload(true);
     }
   };
 
@@ -88,7 +89,7 @@ const Gallery: React.FC = () => {
         ref={inputRef}
         onChange={handleUploadOfImage}
       />
-      {!!imageUpload && (
+      {imageUpload && (
         <>
           <button
             className='m-4 w-8 h-2 rounded-sm bg-blue-500 text-white p-2'
