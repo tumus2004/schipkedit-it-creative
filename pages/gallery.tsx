@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import AWS, { S3 } from 'aws-sdk';
 import { ProgressBar } from 'react-bootstrap';
 
-Modal.setAppElement('#__next'); //This line is important for accessibility reasons.
+Modal.setAppElement('#__next');
 
 const Gallery: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -92,8 +92,19 @@ const Gallery: React.FC = () => {
         isOpen={!!selectedImage}
         onRequestClose={() => setSelectedImage(null)}
         contentLabel='Selected Image'>
-        <div className='mt-12'>
-          {selectedImage && <Image src={selectedImage} alt='Selected image' />}
+        <div className='mt-12' style={{ maxWidth: '90vw', maxHeight: '90vh' }}>
+          {selectedImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain',
+              }}
+              src={selectedImage}
+              alt='Selected image'
+            />
+          )}
           <button onClick={() => setSelectedImage(null)}>Close</button>
         </div>
       </Modal>
@@ -105,12 +116,12 @@ const Gallery: React.FC = () => {
             <Image
               id='image'
               key={index}
-              width={250} //Change to higher resolution
-              height={250} //Change to higher resolution
+              width={250}
+              height={250}
               style={{ cursor: 'pointer' }}
               src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
               alt={file.Key}
-              className='w-full object-cover' //Change here for a better image
+              className='w-full object-cover'
               onClick={() =>
                 handleThumbnailClick(
                   `https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`
