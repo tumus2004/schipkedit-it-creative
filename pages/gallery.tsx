@@ -116,6 +116,7 @@ const Gallery: React.FC = () => {
         ref={inputRef}
         onChange={handleUploadOfImage}
       />
+      
       {imageUpload && (
         <>
           <button
@@ -144,7 +145,6 @@ const Gallery: React.FC = () => {
           <button onClick={() => setSelectedImage(null)}>Close</button>
         </div>
       </Modal>
-
       <div className='mt-12 grid grid-cols-2 gap-4'>
         {listFiles &&
           listFiles.length > 0 &&
@@ -157,7 +157,7 @@ const Gallery: React.FC = () => {
               style={{ cursor: 'pointer' }}
               src={`https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`}
               alt={file.Key}
-              className='w-full object-cover'
+              className='w-full object-fit'
               onClick={() =>
                 handleThumbnailClick(
                   `https://schipkeditbucket.s3.ap-southeast-2.amazonaws.com/${file.Key}`
