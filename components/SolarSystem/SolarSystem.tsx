@@ -1,9 +1,15 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import createPlanet from './helpers/createPlanet';
+import axios from 'axios';
+import dotenv from 'dotenv';
+
+const nasakey = process.env.NEXT_PUBLIC_NASA_API_KEY;
 
 const SolarSystem = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
+
   useEffect(() => {
     if (!isBrowser || !containerRef.current) {
       return;
@@ -11,59 +17,19 @@ const SolarSystem = () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
-      75,
+      50,
       window.innerWidth / window.innerHeight,
       0.1,
-      1000
+      2000
     );
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Load the texture
-    const textureLoader = new THREE.TextureLoader();
-    const earthTexture = textureLoader.load('/texture.png');
-    const sunTexture = textureLoader.load('./thesun.png');
-    const marsTexture = textureLoader.load('/marstexture.png'); // Load Mars texture
-
-    // Create the central, larger sphere
-    const centerGeometry = new THREE.SphereGeometry(4, 64, 64);
-    const centerMaterial = new THREE.MeshStandardMaterial({
-      map: sunTexture,
-      depthTest: true,
-      depthWrite: true,
-    });
-    const centerSphere = new THREE.Mesh(centerGeometry, centerMaterial);
-    scene.add(centerSphere);
-
-    // Create a sphere geometry with radius 1, and 64 vertical and horizontal segments
-    const geometry = new THREE.SphereGeometry(1, 64, 64);
-    const material = new THREE.MeshStandardMaterial({
-      map: earthTexture,
-      depthTest: true,
-      depthWrite: true,
-    });
-    const sphere = new THREE.Mesh(geometry, material);
-    const parentObject = new THREE.Object3D();
-    parentObject.add(sphere);
-    scene.add(parentObject);
-
-    // Add Mars
-    const marsGeometry = new THREE.SphereGeometry(0.53, 64, 64); // Mars is approximately half the size of Earth
-    const marsMaterial = new THREE.MeshStandardMaterial({
-      map: marsTexture,
-      depthTest: true,
-      depthWrite: true,
-    });
-    const mars = new THREE.Mesh(marsGeometry, marsMaterial);
-    const marsParentObject = new THREE.Object3D();
-    marsParentObject.add(mars);
-    scene.add(marsParentObject);
-
     // Add lighting
     const light = new THREE.PointLight(0xffffff, 1, 100);
-    light.position.set(0, 0, 5);
+    light.position.set(0, 15, 25);
     scene.add(light);
     camera.position.z = 30;
     camera.position.y = 5;
@@ -83,95 +49,119 @@ const SolarSystem = () => {
     );
 
     // Adjust the speed of rotation to match Earth's
-    const rotationSpeed = 0.01;
+    const rotationSpeed = 0.1;
     const orbitalSpeed = rotationSpeed / 365;
     const marsOrbitalSpeed = rotationSpeed / 687; // Mars orbital speed
 
     // Sun rotation speed
     const sunRotationSpeed = rotationSpeed / 27;
-    // Fetch or calculate current orientation data
-    // For demonstration, let's assume these values represent the current angles
-    // of Earth and Mars in their orbits (in degrees)
-    const currentEarthAngle = 122; // replace with actual fetched or calculated value
-    const currentMarsAngle = 141; // replace with actual fetched or calculated value
 
-    // Create line circle representing orbital path for Earth
-    const points = [];
-    for (let i = 0; i < 100; i++) {
-      const x = 10 * Math.cos((2 * Math.PI * i) / 100);
-      const z = 10 * Math.sin((2 * Math.PI * i) / 100);
-      points.push(new THREE.Vector3(x, 0, z));
-    }
-    const geometryLine = new THREE.BufferGeometry().setFromPoints(points);
-    const materialLine = new THREE.LineBasicMaterial({
-      color: 0x0000ff,
-      linewidth: 1,
-    });
-    const line = new THREE.Line(geometryLine, materialLine);
-    line.position.y += 0.01; // adjust as needed
-    line.computeLineDistances();
-    scene.add(line);
+    // Load the texture
+    const textureLoader = new THREE.TextureLoader();
 
-    // Create solid line circle representing orbit for Mars
-    const pointsMars = [];
-    for (let i = 0; i < 100; i++) {
-      const x = 15.3 * Math.cos((2 * Math.PI * i) / 100);
-      const z = 15.3 * Math.sin((2 * Math.PI * i) / 100);
-      pointsMars.push(new THREE.Vector3(x, 0, z));
-    }
-    const geometryLineMars = new THREE.BufferGeometry().setFromPoints(
-      pointsMars
+    // Create the sun
+    const sun = createPlanet(
+      4,
+      '/thesun.png',
+      sunRotationAxis,
+      sunRotationSpeed,
+      textureLoader
     );
+    scene.add(sun.sphere);
 
-    // This will create a solid red line
-    const materialLineMars = new THREE.LineBasicMaterial({
-      color: 0xff0000,
-      linewidth: 1,
-    });
-    const lineMars = new THREE.Line(geometryLineMars, materialLineMars);
-    const marsLineParentObject = new THREE.Object3D(); // New parent object for Mars line
-    marsLineParentObject.add(lineMars); // Add Mars line to its parent object
-    lineMars.position.y += 0.01; // adjust as needed
-    scene.add(marsLineParentObject); // Add Mars line parent object to the scene
+    // Create Earth
+    const earth = createPlanet(
+      1,
+      '/texture.png',
+      rotationAxis,
+      rotationSpeed,
+      textureLoader
+    );
+    const earthPivot = new THREE.Object3D();
+    earthPivot.add(earth.sphere);
+    scene.add(earthPivot);
 
-    // Convert the inclination angle to radians
-    const marsInclinationRad = THREE.MathUtils.degToRad(1.85);
-    // Tilt the orbits of Mars
-    marsParentObject.rotation.x = marsInclinationRad;
-    marsLineParentObject.rotation.x = marsInclinationRad; // Apply inclination to Mars line
-    sphere.position.x = 10; // Earth position
-    mars.position.x = 15.3; // Mars position
+    // Create the Earth's orbit
+    const earthOrbitGeometry = new THREE.RingGeometry(9.99, 10, 64);
+    earthOrbitGeometry.rotateX(Math.PI / 2); // Align the geometry on the xz plane
+    const earthOrbit = new THREE.Line(
+      earthOrbitGeometry,
+      new THREE.LineBasicMaterial({ color: 0xffffff })
+    );
+    scene.add(earthOrbit);
 
-    // Convert the angles to radians
-    const earthRad = THREE.MathUtils.degToRad(currentEarthAngle);
-    const marsRad = THREE.MathUtils.degToRad(currentMarsAngle);
-    parentObject.rotation.y = earthRad;
-    marsParentObject.rotation.y = marsRad;
-    marsLineParentObject.rotation.y = marsRad; // Set the initial rotation of Mars line to match Mars
+    // Create Mars
+    const mars = createPlanet(
+      0.53,
+      '/marstexture.png',
+      rotationAxis,
+      rotationSpeed,
+      textureLoader
+    );
+    const marsPivot = new THREE.Object3D();
+    marsPivot.add(mars.sphere);
+    scene.add(marsPivot);
+
+    // Create the Mars's orbit
+    const marsOrbitGeometry = new THREE.RingGeometry(14.99, 15, 64);
+    marsOrbitGeometry.rotateX(Math.PI / 2); // Align the geometry on the xz plane
+    const marsOrbit = new THREE.Line(
+      marsOrbitGeometry,
+      new THREE.LineBasicMaterial({ color: 0xffffff })
+    );
+    scene.add(marsOrbit);
+
+    // Fetch current positions of Earth and Mars from NASA HORIZONS API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.nasa.gov/insight_weather/?api_key=${nasakey}&feedtype=json&ver=1.0`
+        );
+
+        const { mars, earth } = response.data;
+        console.log('positions', mars, earth);
+
+        const earthPosition = new THREE.Vector3(
+          earth.position.x,
+          earth.position.y,
+          earth.position.z
+        );
+        earth.sphere.position.copy(earthPosition);
+
+        const marsPosition = new THREE.Vector3(
+          mars.position.x,
+          mars.position.y,
+          mars.position.z
+        );
+        mars.sphere.position.copy(marsPosition);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+    // Animation
     const animate = function () {
       requestAnimationFrame(animate);
 
-      // Rotate the spheres around the new axis
-      sphere.rotateOnAxis(rotationAxis, rotationSpeed);
-      mars.rotateOnAxis(rotationAxis, rotationSpeed); // Mars day/night cycle
-      centerSphere.rotateOnAxis(sunRotationAxis, sunRotationSpeed);
+      // Apply the rotation
+      earth.rotate();
+      mars.rotate();
+      sun.rotate();
 
-      // Rotate the parent objects around the y-axis
-      parentObject.rotation.y += orbitalSpeed;
-      marsParentObject.rotation.y += marsOrbitalSpeed; // Mars orbit
-      marsLineParentObject.rotation.y += marsOrbitalSpeed; // Mars line orbit
+      // Rotate the pivot objects around the y-axis
+      earthPivot.rotation.y += orbitalSpeed;
+      marsPivot.rotation.y += marsOrbitalSpeed;
+
       renderer.render(scene, camera);
     };
+
     animate();
+
     return () => {
       // Cleanup on unmount
       renderer.dispose();
-      material.dispose();
-      geometry.dispose();
-      materialLine.dispose();
-      marsMaterial.dispose();
-      marsGeometry.dispose();
-      materialLineMars.dispose();
     };
   }, [isBrowser]);
 
