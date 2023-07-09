@@ -4,6 +4,8 @@ import ApiUtils from '../utils/ApiUtils';
 import firebase, { initializeApp } from 'firebase/app';
 import { getDatabase, ref, push } from 'firebase/database';
 import { firebaseConfig } from '../firebase.config';
+const functions = require('firebase-functions');
+const cors = require('cors')({ origin: true });
 
 interface ListItem {
   name: string;
@@ -29,14 +31,22 @@ const BabyStuff: React.FC = () => {
   const handleAdd = async () => {
     if (newItem.name) {
       try {
-        const babyListRef = ref(database, 'babyList');
-        await push(babyListRef, newItem);
-        setNewItem({
-          name: '',
-          babylist: 'one',
-          brand: '',
-          providedBy: '',
-          checked: false,
+        cors((req: any, res: any) => {
+          const babyListRef = ref(database, 'babyList');
+          push(babyListRef, newItem)
+            .then(() => {
+              setNewItem({
+                name: '',
+                babylist: 'one',
+                brand: '',
+                providedBy: '',
+                checked: false,
+              });
+            })
+            .catch((error) => {
+              console.error('Failed to add item', error);
+            });
+          res.status(200).send('Item added successfully');
         });
       } catch (error) {
         console.error('Failed to add item', error);
