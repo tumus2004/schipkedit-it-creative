@@ -1,10 +1,7 @@
-import AWS from 'aws-sdk';
 import React, { useState } from 'react';
-import ApiUtils from '../utils/ApiUtils';
 import firebase, { initializeApp } from 'firebase/app';
 import { getDatabase, ref, push } from 'firebase/database';
 import { firebaseConfig } from '../firebase.config';
-const functions = require('firebase-functions');
 const cors = require('cors')({ origin: true });
 
 interface ListItem {
