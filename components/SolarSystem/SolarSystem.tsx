@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import createPlanet from './helpers/createPlanet';
+import * as constants from './constants';
 
 const SolarSystem = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -13,10 +14,10 @@ const SolarSystem = () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
-      50,
+      constants.CAMERA_FOV,
       window.innerWidth / window.innerHeight,
-      0.1,
-      2000
+      constants.CAMERA_NEAR,
+      constants.CAMERA_FAR
     );
 
     const renderer = new THREE.WebGLRenderer();
@@ -24,7 +25,11 @@ const SolarSystem = () => {
     containerRef.current.appendChild(renderer.domElement);
 
     // Add lighting
-    const light = new THREE.PointLight(0xffffff, 1, 100);
+    const light = new THREE.PointLight(
+      constants.LIGHT_COLOR,
+      constants.LIGHT_INTENSITY,
+      constants.LIGHT_DISTANCE
+    );
     light.position.set(0, 15, 25);
     scene.add(light);
     camera.position.z = 30;
@@ -32,8 +37,8 @@ const SolarSystem = () => {
 
     // Create a new rotation axis that is tilted 23.5 degrees from the y-axis
     const rotationAxis = new THREE.Vector3(
-      Math.sin(THREE.MathUtils.degToRad(23.5)),
-      Math.cos(THREE.MathUtils.degToRad(23.5)),
+      Math.sin(THREE.MathUtils.degToRad(constants.EARTH_AXIS_TILT_ANGLE)),
+      Math.cos(THREE.MathUtils.degToRad(constants.EARTH_AXIS_TILT_ANGLE)),
       0
     );
 
@@ -56,21 +61,21 @@ const SolarSystem = () => {
 
     // Create the sun
     const sun = createPlanet(
-      4,
-      '/thesun.png',
+      constants.SUN_SIZE,
+      constants.SUN_TEXTURE,
       sunRotationAxis,
-      sunRotationSpeed,
+      rotationSpeed,
       textureLoader
     );
     scene.add(sun.sphere);
 
     // Adjust the speed of rotation to match each planet's rotation period
-    const earthRotationSpeed = 0.1; // 1 rotation per day
-    const marsRotationSpeed = earthRotationSpeed * 1.03; // 1.03 rotations per day
+    const earthRotationSpeed = constants.EARTH_ROTATION_SPEED; // 1 rotation per day
+    const marsRotationSpeed = constants.MARS_ROTATION_SPEED; // 1.03 rotations per day
 
     // Adjust the speed of orbit to match each planet's orbital period
-    const earthOrbitalSpeed = earthRotationSpeed / 365.25; // 1 orbit per 365.25 days
-    const marsOrbitalSpeed = earthRotationSpeed / 687; // 1 orbit per 687 days
+    const earthOrbitalSpeed = constants.EARTH_ORBITAL_SPEED; // 1 orbit per 365.25 days
+    const marsOrbitalSpeed = constants.MARS_ORBITAL_SPEED; // 1 orbit per 687 days
 
     // Create Earth
     const earth = createPlanet(
@@ -85,7 +90,11 @@ const SolarSystem = () => {
     sun.sphere.add(earthPivot); // Add the pivot to the sun
 
     // Create the Earth's orbit
-    const earthOrbitGeometry = new THREE.RingGeometry(9.99, 10, 64);
+    const earthOrbitGeometry = new THREE.RingGeometry(
+      constants.ORBIT_INNER_RADIUS,
+      constants.ORBIT_OUTER_RADIUS,
+      constants.ORBIT_SEGMENTS
+    );
     earthOrbitGeometry.rotateX(Math.PI / 2); // Align the geometry on the xz plane
     const earthOrbit = new THREE.Line(
       earthOrbitGeometry,
@@ -95,8 +104,8 @@ const SolarSystem = () => {
 
     // Create Mars
     const mars = createPlanet(
-      0.53,
-      '/marstexture.png',
+      constants.MARS_SIZE,
+      constants.MARS_TEXTURE,
       rotationAxis,
       rotationSpeed,
       textureLoader
@@ -107,7 +116,11 @@ const SolarSystem = () => {
     sun.sphere.add(marsPivot);
 
     // Create the Mars's orbit
-    const marsOrbitGeometry = new THREE.RingGeometry(14.99, 15.3, 64);
+    const marsOrbitGeometry = new THREE.RingGeometry(
+      constants.MARS_ORBIT_INNER_RADIUS,
+      constants.MARS_ORBIT_OUTER_RADIUS,
+      constants.ORBIT_SEGMENTS
+    );
     marsOrbitGeometry.rotateX(Math.PI / 2); // Align the geometry on the xz plane
     marsOrbitGeometry.rotateZ(THREE.MathUtils.degToRad(1.85)); // Tilt the orbit by 1.85 degrees
     const marsOrbit = new THREE.Line(
@@ -116,8 +129,8 @@ const SolarSystem = () => {
     );
     scene.add(marsOrbit);
 
-    const earthOrbitRadius = 10; // Distance from the Sun
-    const marsOrbitRadius = 15.3; // Distance from the Sun
+    const earthOrbitRadius = constants.EARTH_ORBIT_RADIUS;
+    const marsOrbitRadius = constants.MARS_ORBIT_RADIUS;
 
     // Set the positions of Mars and Earth based on current date
     const setDatePositions = () => {
