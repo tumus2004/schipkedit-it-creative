@@ -4,6 +4,7 @@ import ApiUtils from '../utils/ApiUtils';
 
 interface ListItem {
   name: string;
+  babylist: string;
   brand?: string;
   providedBy?: string;
   checked?: boolean;
@@ -13,16 +14,23 @@ const BabyStuff: React.FC = () => {
   const [list, setList] = useState<ListItem[]>([]);
   const [newItem, setNewItem] = useState<{
     name: string;
+    babylist: string;
     brand: string;
     providedBy: string;
     checked?: boolean;
-  }>({ name: '', brand: '', providedBy: '' });
+  }>({ name: '', babylist: 'one', brand: '', providedBy: '', checked: false });
 
   const handleAdd = async () => {
     if (newItem.name) {
       try {
         await ApiUtils.SendRequest('POST', '/add-item', newItem);
-        setNewItem({ name: '', brand: '', providedBy: '', checked: false });
+        setNewItem({
+          name: '',
+          babylist: 'one',
+          brand: '',
+          providedBy: '',
+          checked: false,
+        });
       } catch (error) {
         console.error('Failed to add item', error);
       }
