@@ -21,10 +21,10 @@ export default class ApiUtils {
       'Content-Type': 'application/json',
     };
 
-    let baseUrl = '';
-
     const requestConfig: AxiosRequestConfig = { headers };
     const axiosInstance = axios.create(requestConfig);
+
+    const baseUrl = 'https://schipkedit.xyz';
 
     try {
       const url = `${baseUrl}/${endpoint}${queryString}`;
