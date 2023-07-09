@@ -13,7 +13,7 @@ export const SUN_ORBITAL_SPEED = SUN_ROTATION_SPEED / 27;
 
 export const EARTH_SIZE = 1;
 export const EARTH_TEXTURE = '/texture.png';
-export const EARTH_ROTATION_SPEED = 0.1;
+export const EARTH_ROTATION_SPEED = 0.01;
 export const EARTH_ORBITAL_SPEED = EARTH_ROTATION_SPEED / 365.25;
 export const EARTH_ORBIT_RADIUS = 10;
 export const EARTH_AXIS_TILT_ANGLE = 23.5;
