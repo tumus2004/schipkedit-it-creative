@@ -1,8 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-var admin = require('firebase-admin');
-var serviceAccount = require('./serviceAccountKey.json');
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,15 +14,9 @@ export const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-  credential: admin.credential.cert(serviceAccount),
+  // credential: admin.credential.cert(serviceAccount),
   databaseUrl: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 };
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL:
-    'https://schipkedit-default-rtdb.asia-southeast1.firebasedatabase.app',
-});
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
