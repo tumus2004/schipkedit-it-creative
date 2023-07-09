@@ -1,18 +1,31 @@
+import AWS from 'aws-sdk';
 import React, { useState } from 'react';
+import ApiUtils from '../utils/ApiUtils';
 
 interface ListItem {
   name: string;
-  checked: boolean;
+  brand?: string;
+  providedBy?: string;
+  checked?: boolean;
 }
 
-const BabyItems: React.FC = () => {
+const BabyStuff: React.FC = () => {
   const [list, setList] = useState<ListItem[]>([]);
-  const [newItem, setNewItem] = useState<string>('');
+  const [newItem, setNewItem] = useState<{
+    name: string;
+    brand: string;
+    providedBy: string;
+    checked?: boolean;
+  }>({ name: '', brand: '', providedBy: '' });
 
-  const handleAdd = () => {
-    if (newItem) {
-      setList([...list, { name: newItem, checked: false }]);
-      setNewItem('');
+  const handleAdd = async () => {
+    if (newItem.name) {
+      try {
+        await ApiUtils.SendRequest('POST', '/add-item', newItem);
+        setNewItem({ name: '', brand: '', providedBy: '', checked: false });
+      } catch (error) {
+        console.error('Failed to add item', error);
+      }
     }
   };
 
@@ -26,9 +39,21 @@ const BabyItems: React.FC = () => {
     <>
       <div>
         <input
-          value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
+          value={newItem.name}
+          onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
           placeholder='Enter new item'
+        />
+        <input
+          value={newItem.brand}
+          onChange={(e) => setNewItem({ ...newItem, brand: e.target.value })}
+          placeholder='Enter brand'
+        />
+        <input
+          value={newItem.providedBy}
+          onChange={(e) =>
+            setNewItem({ ...newItem, providedBy: e.target.value })
+          }
+          placeholder='Enter provider'
         />
         <button onClick={handleAdd}>Add Item</button>
         <ul>
@@ -39,7 +64,7 @@ const BabyItems: React.FC = () => {
                 checked={item.checked}
                 onChange={() => toggleChecked(index)}
               />
-              {item.name}
+              {item.name} - {item.brand} - {item.providedBy}
             </li>
           ))}
         </ul>
@@ -48,4 +73,4 @@ const BabyItems: React.FC = () => {
   );
 };
 
-export default BabyItems;
+export default BabyStuff;
