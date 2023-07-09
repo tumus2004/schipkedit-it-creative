@@ -43,12 +43,12 @@ const Index: React.FC = ({ className }: IndexProps) => {
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white hover:text-black duration-300'>
               Gallery
             </Link>
-            <Link
+            {/* <Link
               href='/baby-stuff'
               id='baby-link'
               className='btn bg-gray-800 text-gray-100 font-bold py-2 px-4 rounded-full mt-4 lg:mt-0 lg:ml-4 hover:bg-white hover:text-black duration-300'>
               Baby stuff
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
