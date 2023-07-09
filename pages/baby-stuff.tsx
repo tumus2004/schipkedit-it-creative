@@ -1,6 +1,9 @@
 import AWS from 'aws-sdk';
 import React, { useState } from 'react';
 import ApiUtils from '../utils/ApiUtils';
+import firebase, { initializeApp } from 'firebase/app';
+import { getDatabase, ref, push } from 'firebase/database';
+import { firebaseConfig } from '../firebase.config';
 
 interface ListItem {
   name: string;
@@ -20,10 +23,14 @@ const BabyStuff: React.FC = () => {
     checked?: boolean;
   }>({ name: '', babylist: 'one', brand: '', providedBy: '', checked: false });
 
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
   const handleAdd = async () => {
     if (newItem.name) {
       try {
-        await ApiUtils.SendRequest('POST', '/add-item', newItem);
+        const babyListRef = ref(database, 'babyList');
+        await push(babyListRef, newItem);
         setNewItem({
           name: '',
           babylist: 'one',
