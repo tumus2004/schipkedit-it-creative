@@ -1,8 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-// TODO: Add SDKs for Firebase products that you want to use
-import dotenv from 'dotenv';
+var admin = require('firebase-admin');
 var serviceAccount = require('./serviceAccountKey.json');
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,10 +19,6 @@ export const firebaseConfig = {
   credential: admin.credential.cert(serviceAccount),
   databaseUrl: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 };
-
-var admin = require('firebase-admin');
-
-var serviceAccount = require('path/to/serviceAccountKey.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
