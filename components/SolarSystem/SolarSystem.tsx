@@ -65,6 +65,7 @@ const SolarSystem = () => {
       constants.SUN_TEXTURE,
       sunRotationAxis,
       rotationSpeed,
+      0,
       textureLoader
     );
     scene.add(sun.sphere);
@@ -82,6 +83,7 @@ const SolarSystem = () => {
       1,
       '/texture.png',
       rotationAxis,
+      constants.EARTH_ORBITAL_SPEED,
       rotationSpeed,
       textureLoader
     );
@@ -107,6 +109,7 @@ const SolarSystem = () => {
       constants.MARS_SIZE,
       constants.MARS_TEXTURE,
       rotationAxis,
+      constants.MARS_ORBITAL_SPEED,
       rotationSpeed,
       textureLoader
     );

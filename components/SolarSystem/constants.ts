@@ -14,17 +14,17 @@ export const SUN_ORBITAL_SPEED = SUN_ROTATION_SPEED / 27;
 export const EARTH_SIZE = 1;
 export const EARTH_TEXTURE = '/texture.png';
 export const EARTH_ROTATION_SPEED = 0.01;
-export const EARTH_ORBITAL_SPEED = EARTH_ROTATION_SPEED / 365.25;
+export const EARTH_ORBITAL_SPEED = 1 / 365.25;
 export const EARTH_ORBIT_RADIUS = 10;
 export const EARTH_AXIS_TILT_ANGLE = 23.5;
 
 export const MARS_SIZE = 0.53;
 export const MARS_TEXTURE = '/marstexture.png';
 export const MARS_ROTATION_SPEED = EARTH_ROTATION_SPEED * 1.03;
-export const MARS_ORBITAL_SPEED = EARTH_ROTATION_SPEED / 687;
+export const MARS_ORBITAL_SPEED = 1 / 687;
 export const MARS_ORBIT_RADIUS = 15.3;
 
-export const ORBIT_SEGMENTS = 64;
+export const ORBIT_SEGMENTS = 128; 
 export const ORBIT_LINE_COLOR = 0xffffff;
 export const ORBIT_INNER_RADIUS = 9.99;
 export const ORBIT_OUTER_RADIUS = 10;
