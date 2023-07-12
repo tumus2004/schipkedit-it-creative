@@ -113,7 +113,7 @@ interface SolarSystemProps {
   className?: string;
 }
 
-const SolarSystem = ({className}: SolarSystemProps) => {
+const SolarSystem = ({ className }: SolarSystemProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
 
@@ -123,15 +123,29 @@ const SolarSystem = ({className}: SolarSystemProps) => {
     }
 
     const scene = new THREE.Scene();
+    // const camera = new THREE.PerspectiveCamera(
+    //   CAMERA_FOV,
+    //   window.innerWidth / window.innerHeight,
+    //   CAMERA_NEAR,
+    //   CAMERA_FAR
+    // );
+
+    // const renderer = new THREE.WebGLRenderer();
+    // renderer.setSize(window.innerWidth, window.innerHeight);
+    // containerRef.current.appendChild(renderer.domElement);
+
     const camera = new THREE.PerspectiveCamera(
-      CAMERA_FOV,
-      window.innerWidth / window.innerHeight,
+      window.innerWidth > 768 ? CAMERA_FOV : 100,
+      containerRef.current.clientWidth / containerRef.current.clientHeight,
       CAMERA_NEAR,
       CAMERA_FAR
     );
 
     const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(
+      containerRef.current.clientWidth,
+      containerRef.current.clientHeight
+    );
     containerRef.current.appendChild(renderer.domElement);
 
     const light = new THREE.PointLight(
@@ -163,6 +177,20 @@ const SolarSystem = ({className}: SolarSystemProps) => {
       0
     );
 
+    const onWindowResize = () => {
+      if (containerRef.current) {
+        camera.aspect =
+          containerRef.current.clientWidth / containerRef.current.clientHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+          containerRef.current.clientWidth,
+          containerRef.current.clientHeight
+        );
+      }
+    };
+
+    window.addEventListener('resize', onWindowResize);
     const textureLoader = new THREE.TextureLoader();
 
     const sun = createPlanet(
@@ -224,6 +252,7 @@ const SolarSystem = ({className}: SolarSystemProps) => {
 
     return () => {
       renderer.dispose();
+      window.removeEventListener('resize', onWindowResize);
     };
   }, [isBrowser]);
 
@@ -233,7 +262,7 @@ const SolarSystem = ({className}: SolarSystemProps) => {
         1 second = {BASE_SPEED} Earth days or {MARS_ROTATION_SPEED.toFixed(3)}{' '}
         Mars days
       </div>
-      <div ref={containerRef} />
+      <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );
 };
