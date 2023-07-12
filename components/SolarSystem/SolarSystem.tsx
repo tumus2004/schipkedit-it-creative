@@ -1,7 +1,113 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import createPlanet from './helpers/createPlanet';
-import * as constants from './constants';
+interface Planet {
+  sphere: THREE.Mesh;
+  rotate: () => void;
+}
+
+const createPlanet = (
+  radius: number,
+  texture: string,
+  rotationAxis: THREE.Vector3,
+  rotationSpeed: number,
+  textureLoader: THREE.TextureLoader
+): Planet => {
+  const planetTexture = textureLoader.load(texture);
+  const geometry = new THREE.SphereGeometry(radius, 64, 64);
+  const material = new THREE.MeshStandardMaterial({ map: planetTexture });
+  const sphere = new THREE.Mesh(geometry, material);
+
+  const rotate = () => {
+    sphere.rotateOnAxis(rotationAxis, rotationSpeed);
+  };
+
+  return { sphere, rotate };
+};
+
+export const BASE_SPEED = 0.1; // Set this to any positive number to adjust the overall speed of the simulation
+
+export const RELATIVE_EARTH_ROTATION_SPEED = 1;
+export const RELATIVE_SUN_ROTATION_SPEED = 1 / 27;
+export const RELATIVE_MARS_ROTATION_SPEED = 1 / 1.027;
+
+export const RELATIVE_EARTH_ORBITAL_SPEED = 1 / 365.25;
+export const RELATIVE_MARS_ORBITAL_SPEED = 1 / (1.88 * 365.25);
+
+export const EARTH_ROTATION_SPEED = BASE_SPEED * RELATIVE_EARTH_ROTATION_SPEED;
+export const SUN_ROTATION_SPEED = BASE_SPEED * RELATIVE_SUN_ROTATION_SPEED;
+export const MARS_ROTATION_SPEED = BASE_SPEED * RELATIVE_MARS_ROTATION_SPEED;
+
+export const EARTH_ORBITAL_SPEED = BASE_SPEED * RELATIVE_EARTH_ORBITAL_SPEED;
+export const MARS_ORBITAL_SPEED = BASE_SPEED * RELATIVE_MARS_ORBITAL_SPEED;
+
+export const CAMERA_FOV = 50;
+export const CAMERA_NEAR = 0.1;
+export const CAMERA_FAR = 2000;
+
+export const LIGHT_COLOR = 0xffffff;
+export const LIGHT_INTENSITY = 1;
+export const LIGHT_DISTANCE = 100;
+
+export const SUN_SIZE = 4;
+export const SUN_TEXTURE = '/thesun.png';
+export const SUN_AXIS_TILT_ANGLE = 7.25;
+
+export const EARTH_SIZE = 1;
+export const EARTH_TEXTURE = '/texture.png';
+export const EARTH_ORBIT_RADIUS = 10;
+export const EARTH_AXIS_TILT_ANGLE = 23.5;
+
+export const MARS_SIZE = 0.53;
+export const MARS_TEXTURE = '/marstexture.png';
+export const MARS_ORBIT_RADIUS = 15.3;
+export const MARS_AXIS_TILT_ANGLE = 25.19;
+
+export const ORBIT_SEGMENTS = 512;
+export const ORBIT_LINE_COLOR = 0xffffff;
+export const ORBIT_INNER_RADIUS = 9.95;
+export const ORBIT_OUTER_RADIUS = 10.05;
+export const ORBIT_TILT_ANGLE = 1.85;
+
+const createOrbit = (
+  innerRadius: number,
+  outerRadius: number,
+  segments: number,
+  scene: THREE.Scene
+) => {
+  const orbitGeometry = new THREE.RingGeometry(
+    innerRadius,
+    outerRadius,
+    segments
+  );
+  orbitGeometry.rotateX(Math.PI / 2);
+  const orbit = new THREE.Line(
+    orbitGeometry,
+    new THREE.LineBasicMaterial({ color: 0xffffff })
+  );
+  scene.add(orbit);
+  return orbit;
+};
+
+const createPivot = (scene: THREE.Scene) => {
+  const pivot = new THREE.Object3D();
+  scene.add(pivot);
+  return pivot;
+};
+
+const setPosition = (
+  planet: { sphere: THREE.Mesh },
+  orbitRadius: number,
+  timeFactor: number
+) => {
+  const orbitAngle =
+    (new Date().getTime() / (24 * 60 * 60 * 1000)) * timeFactor;
+  const position = new THREE.Vector3(
+    orbitRadius * Math.cos(orbitAngle),
+    0,
+    orbitRadius * Math.sin(orbitAngle)
+  );
+  planet.sphere.position.copy(position);
+};
 
 const SolarSystem = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -14,186 +120,98 @@ const SolarSystem = () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
-      constants.CAMERA_FOV,
+      CAMERA_FOV,
       window.innerWidth / window.innerHeight,
-      constants.CAMERA_NEAR,
-      constants.CAMERA_FAR
+      CAMERA_NEAR,
+      CAMERA_FAR
     );
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Add lighting
     const light = new THREE.PointLight(
-      constants.LIGHT_COLOR,
-      constants.LIGHT_INTENSITY,
-      constants.LIGHT_DISTANCE
+      LIGHT_COLOR,
+      LIGHT_INTENSITY,
+      LIGHT_DISTANCE
     );
     light.position.set(0, 15, 25);
     scene.add(light);
+
     camera.position.z = 30;
     camera.position.y = 5;
 
-    // Create a new rotation axis that is tilted 23.5 degrees from the y-axis
-    const rotationAxis = new THREE.Vector3(
-      Math.sin(THREE.MathUtils.degToRad(constants.EARTH_AXIS_TILT_ANGLE)),
-      Math.cos(THREE.MathUtils.degToRad(constants.EARTH_AXIS_TILT_ANGLE)),
+    const earthRotationAxis = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(EARTH_AXIS_TILT_ANGLE)),
+      Math.cos(THREE.MathUtils.degToRad(EARTH_AXIS_TILT_ANGLE)),
       0
     );
 
-    // Sun rotation
+    const marsRotationAxis = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(MARS_AXIS_TILT_ANGLE)),
+      Math.cos(THREE.MathUtils.degToRad(MARS_AXIS_TILT_ANGLE)),
+      0
+    );
+
     const sunRotationAxis = new THREE.Vector3(
-      Math.sin(THREE.MathUtils.degToRad(0.5)),
-      Math.cos(THREE.MathUtils.degToRad(0.5)),
+      Math.sin(THREE.MathUtils.degToRad(SUN_AXIS_TILT_ANGLE)),
+      Math.cos(THREE.MathUtils.degToRad(SUN_AXIS_TILT_ANGLE)),
       0
     );
 
-    // Adjust the speed of rotation to match Earth's
-    const rotationSpeed = 0.1;
-    const orbitalSpeed = rotationSpeed / 365;
-
-    // Sun rotation speed
-    const sunRotationSpeed = rotationSpeed / 27;
-
-    // Load the texture
     const textureLoader = new THREE.TextureLoader();
 
-    // Create the sun
     const sun = createPlanet(
-      constants.SUN_SIZE,
-      constants.SUN_TEXTURE,
+      SUN_SIZE,
+      SUN_TEXTURE,
       sunRotationAxis,
-      rotationSpeed,
-      0,
+      SUN_ROTATION_SPEED,
       textureLoader
     );
-    scene.add(sun.sphere);
 
-    // Adjust the speed of rotation to match each planet's rotation period
-    const earthRotationSpeed = constants.EARTH_ROTATION_SPEED; // 1 rotation per day
-    const marsRotationSpeed = constants.MARS_ROTATION_SPEED; // 1.03 rotations per day
+    const sunPivot = createPivot(scene); // Added
+    sunPivot.add(sun.sphere); // Added
 
-    // Adjust the speed of orbit to match each planet's orbital period
-    const earthOrbitalSpeed = constants.EARTH_ORBITAL_SPEED; // 1 orbit per 365.25 days
-    const marsOrbitalSpeed = constants.MARS_ORBITAL_SPEED; // 1 orbit per 687 days
-
-    // Create Earth
     const earth = createPlanet(
-      1,
-      '/texture.png',
-      rotationAxis,
-      constants.EARTH_ORBITAL_SPEED,
-      rotationSpeed,
+      EARTH_SIZE,
+      EARTH_TEXTURE,
+      earthRotationAxis,
+      EARTH_ROTATION_SPEED,
       textureLoader
     );
-    const earthPivot = new THREE.Object3D();
+    const earthPivot = createPivot(scene);
     earthPivot.add(earth.sphere);
-    sun.sphere.add(earthPivot); // Add the pivot to the sun
 
-    // Create the Earth's orbit
-    const earthOrbitGeometry = new THREE.RingGeometry(
-      constants.ORBIT_INNER_RADIUS,
-      constants.ORBIT_OUTER_RADIUS,
-      constants.ORBIT_SEGMENTS
-    );
-    earthOrbitGeometry.rotateX(Math.PI / 2); // Align the geometry on the xz plane
-    const earthOrbit = new THREE.Line(
-      earthOrbitGeometry,
-      new THREE.LineBasicMaterial({ color: 0xffffff })
-    );
-    scene.add(earthOrbit);
+    createOrbit(EARTH_ORBIT_RADIUS, EARTH_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    setPosition(earth, EARTH_ORBIT_RADIUS, EARTH_ROTATION_SPEED);
 
-    // Create Mars
     const mars = createPlanet(
-      constants.MARS_SIZE,
-      constants.MARS_TEXTURE,
-      rotationAxis,
-      constants.MARS_ORBITAL_SPEED,
-      rotationSpeed,
+      MARS_SIZE,
+      MARS_TEXTURE,
+      marsRotationAxis,
+      MARS_ROTATION_SPEED,
       textureLoader
     );
-    const marsPivot = new THREE.Object3D();
-    marsPivot.rotateZ(THREE.MathUtils.degToRad(1.85)); // Tilt the pivot by 1.85 degrees
+    const marsPivot = createPivot(scene);
     marsPivot.add(mars.sphere);
-    sun.sphere.add(marsPivot);
 
-    // Create the Mars's orbit
-    const marsOrbitGeometry = new THREE.RingGeometry(
-      constants.MARS_ORBIT_INNER_RADIUS,
-      constants.MARS_ORBIT_OUTER_RADIUS,
-      constants.ORBIT_SEGMENTS
-    );
-    marsOrbitGeometry.rotateX(Math.PI / 2); // Align the geometry on the xz plane
-    marsOrbitGeometry.rotateZ(THREE.MathUtils.degToRad(1.85)); // Tilt the orbit by 1.85 degrees
-    const marsOrbit = new THREE.Line(
-      marsOrbitGeometry,
-      new THREE.LineBasicMaterial({ color: 0xffffff })
-    );
-    scene.add(marsOrbit);
+    createOrbit(MARS_ORBIT_RADIUS, MARS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    setPosition(mars, MARS_ORBIT_RADIUS, EARTH_ROTATION_SPEED / 1.88);
 
-    const earthOrbitRadius = constants.EARTH_ORBIT_RADIUS;
-    const marsOrbitRadius = constants.MARS_ORBIT_RADIUS;
-
-    // Set the positions of Mars and Earth based on current date
-    const setDatePositions = () => {
-      const currentDate = new Date();
-
-      // Calculate Earth's position
-      const earthOrbitAngle =
-        (2 * Math.PI * currentDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000); // Earth's orbital angle
-      const earthPosition = new THREE.Vector3(
-        earthOrbitRadius * Math.cos(earthOrbitAngle),
-        0,
-        earthOrbitRadius * Math.sin(earthOrbitAngle)
-      );
-      earthPivot.position.copy(earthPosition);
-
-      // Calculate Mars' position
-      const marsOrbitAngle =
-        (2 * Math.PI * currentDate.getTime()) / (687 * 24 * 60 * 60 * 1000); // Mars' orbital angle
-      const marsPosition = new THREE.Vector3(
-        marsOrbitRadius * Math.cos(marsOrbitAngle),
-        0,
-        marsOrbitRadius * Math.sin(marsOrbitAngle)
-      );
-      marsPivot.position.copy(marsPosition);
-    };
-
-    setDatePositions();
-
-    // Animation
-    // Animation
     const animate = function () {
       requestAnimationFrame(animate);
 
-      // Apply the rotation
       earth.rotate();
       mars.rotate();
       sun.rotate();
 
-      // Update the position of the planets along their orbits
-      const currentDate = new Date();
+      earthPivot.rotation.y += EARTH_ORBITAL_SPEED;
+      marsPivot.rotation.y += MARS_ORBITAL_SPEED;
+      sunPivot.rotation.y += SUN_ROTATION_SPEED; // Added
 
-      // Calculate Earth's position
-      const earthOrbitAngle =
-        (2 * Math.PI * currentDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000); // Earth's orbital angle
-      const earthPosition = new THREE.Vector3(
-        earthOrbitRadius * Math.cos(earthOrbitAngle),
-        0,
-        earthOrbitRadius * Math.sin(earthOrbitAngle)
-      );
-      earthPivot.position.copy(earthPosition);
-
-      // Calculate Mars' position
-      const marsOrbitAngle =
-        (2 * Math.PI * currentDate.getTime()) / (687 * 24 * 60 * 60 * 1000); // Mars' orbital angle
-      const marsPosition = new THREE.Vector3(
-        marsOrbitRadius * Math.cos(marsOrbitAngle),
-        0,
-        marsOrbitRadius * Math.sin(marsOrbitAngle)
-      );
-      marsPivot.position.copy(marsPosition);
+      // Update positions in the animation loop
+      setPosition(earth, EARTH_ORBIT_RADIUS, EARTH_ORBITAL_SPEED);
+      setPosition(mars, MARS_ORBIT_RADIUS, MARS_ORBITAL_SPEED);
 
       renderer.render(scene, camera);
     };
@@ -201,11 +219,18 @@ const SolarSystem = () => {
     animate();
 
     return () => {
-      // Cleanup on unmount
       renderer.dispose();
     };
   }, [isBrowser]);
-  return <div ref={containerRef} />;
+
+  return (
+    <div>
+      <div className='flex justify-center items-center w-full h-12 fixed top-0 left-0 bg-black text-white'>
+        1 second = {BASE_SPEED} Earth days or {MARS_ROTATION_SPEED.toFixed(3)} Mars days
+      </div>
+      <div ref={containerRef} />
+    </div>
+  );
 };
 
 export default SolarSystem;
