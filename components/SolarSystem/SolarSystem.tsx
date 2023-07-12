@@ -93,14 +93,15 @@ const createOrbit = (
   innerRadius: number,
   outerRadius: number,
   segments: number,
-  scene: THREE.Scene
+  scene: THREE.Scene,
+  tiltAngle: number = 0
 ) => {
   const orbitGeometry = new THREE.RingGeometry(
     innerRadius,
     outerRadius,
     segments
   );
-  orbitGeometry.rotateX(Math.PI / 2);
+  orbitGeometry.rotateX(Math.PI / 2 + THREE.MathUtils.degToRad(tiltAngle));
   const orbit = new THREE.Line(
     orbitGeometry,
     new THREE.LineBasicMaterial({ color: 0xffffff })
@@ -109,8 +110,9 @@ const createOrbit = (
   return orbit;
 };
 
-const createPivot = (scene: THREE.Scene) => {
+const createPivot = (scene: THREE.Scene, tiltAngle: number = 0) => {
   const pivot = new THREE.Object3D();
+  pivot.rotation.x = THREE.MathUtils.degToRad(tiltAngle);
   scene.add(pivot);
   return pivot;
 };
@@ -139,13 +141,15 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
   const isBrowser = typeof window !== 'undefined';
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+
     if (!isBrowser || !containerRef.current) {
       return;
     }
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
-      window.innerWidth > 768 ? CAMERA_FOV : 100,
+      !isMobile ? CAMERA_FOV : 100,
       containerRef.current.clientWidth / containerRef.current.clientHeight,
       CAMERA_NEAR,
       CAMERA_FAR
@@ -246,10 +250,16 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       MARS_ROTATION_SPEED,
       textureLoader
     );
-    const marsPivot = createPivot(scene);
+    const marsPivot = createPivot(scene, 1.88);
     marsPivot.add(mars.sphere);
 
-    createOrbit(MARS_ORBIT_RADIUS, MARS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    createOrbit(
+      MARS_ORBIT_RADIUS,
+      MARS_ORBIT_RADIUS,
+      ORBIT_SEGMENTS,
+      scene,
+      1.88
+    );
     setPosition(mars, MARS_ORBIT_RADIUS, EARTH_ROTATION_SPEED / 1.88);
 
     const venus = createPlanet(
@@ -317,7 +327,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
 
   return (
     <div className='absolute left-0 top-0 w-full -z-10 h-full'>
-      <div className='flex justify-center items-center w-full h-12 fixed top-0 left-0 bg-black text-white'>
+      <div className='flex justify-center items-center w-full px-4 h-12 fixed bottom-10 left-0 bg-black text-white'>
         In this simulation: 1 Earth rotation ={' '}
         {RELATIVE_MARS_ROTATION_SPEED.toFixed(3)}
         Mars rotations, {RELATIVE_VENUS_ROTATION_SPEED.toFixed(5)} Venus
