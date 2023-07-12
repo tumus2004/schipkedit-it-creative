@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/Works.module.css';
 import listOfRedRisingCharacters from '../components/ListOfRedRisingCharHeights';
-import SolarSystem from '../components/SolarSystem/SolarSystem';
 
 // Define the type for a character
 type Character = {
@@ -29,7 +28,6 @@ const Works: React.FC = () => {
 
   return (
     <>
-      <SolarSystem />
       <div className={styles.container}>
         <h1 className='text-2xl font-bold text-white mb-4 text-center'>
           Height and faction of Red Rising characters
