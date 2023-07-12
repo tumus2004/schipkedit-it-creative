@@ -109,7 +109,11 @@ const setPosition = (
   planet.sphere.position.copy(position);
 };
 
-const SolarSystem = () => {
+interface SolarSystemProps {
+  className?: string;
+}
+
+const SolarSystem = ({className}: SolarSystemProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
 
@@ -224,9 +228,10 @@ const SolarSystem = () => {
   }, [isBrowser]);
 
   return (
-    <div>
+    <div className='absolute left-0 top-0 w-full -z-10 h-full'>
       <div className='flex justify-center items-center w-full h-12 fixed top-0 left-0 bg-black text-white'>
-        1 second = {BASE_SPEED} Earth days or {MARS_ROTATION_SPEED.toFixed(3)} Mars days
+        1 second = {BASE_SPEED} Earth days or {MARS_ROTATION_SPEED.toFixed(3)}{' '}
+        Mars days
       </div>
       <div ref={containerRef} />
     </div>
