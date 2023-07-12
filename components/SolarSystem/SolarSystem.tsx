@@ -24,21 +24,25 @@ const createPlanet = (
   return { sphere, rotate };
 };
 
-export const BASE_SPEED = 0.1; // Set this to any positive number to adjust the overall speed of the simulation
+export const BASE_SPEED = 0.1;
 
 export const RELATIVE_EARTH_ROTATION_SPEED = 1;
 export const RELATIVE_SUN_ROTATION_SPEED = 1 / 27;
 export const RELATIVE_MARS_ROTATION_SPEED = 1 / 1.027;
+export const RELATIVE_VENUS_ROTATION_SPEED = 1 / 243;
 
 export const RELATIVE_EARTH_ORBITAL_SPEED = 1 / 365.25;
 export const RELATIVE_MARS_ORBITAL_SPEED = 1 / (1.88 * 365.25);
+export const RELATIVE_VENUS_ORBITAL_SPEED = 1 / 224.7;
 
 export const EARTH_ROTATION_SPEED = BASE_SPEED * RELATIVE_EARTH_ROTATION_SPEED;
 export const SUN_ROTATION_SPEED = BASE_SPEED * RELATIVE_SUN_ROTATION_SPEED;
 export const MARS_ROTATION_SPEED = BASE_SPEED * RELATIVE_MARS_ROTATION_SPEED;
+export const VENUS_ROTATION_SPEED = BASE_SPEED * RELATIVE_VENUS_ROTATION_SPEED;
 
 export const EARTH_ORBITAL_SPEED = BASE_SPEED * RELATIVE_EARTH_ORBITAL_SPEED;
 export const MARS_ORBITAL_SPEED = BASE_SPEED * RELATIVE_MARS_ORBITAL_SPEED;
+export const VENUS_ORBITAL_SPEED = BASE_SPEED * RELATIVE_VENUS_ORBITAL_SPEED;
 
 export const CAMERA_FOV = 50;
 export const CAMERA_NEAR = 0.1;
@@ -62,7 +66,12 @@ export const MARS_TEXTURE = '/marstexture.png';
 export const MARS_ORBIT_RADIUS = 15.3;
 export const MARS_AXIS_TILT_ANGLE = 25.19;
 
-export const ORBIT_SEGMENTS = 512;
+export const VENUS_SIZE = 0.949;
+export const VENUS_TEXTURE = '/venustexture.png'; // Replace this with the path to your Venus texture.
+export const VENUS_ORBIT_RADIUS = 7.2;
+export const VENUS_AXIS_TILT_ANGLE = 3;
+
+export const ORBIT_SEGMENTS = 1024;
 export const ORBIT_LINE_COLOR = 0xffffff;
 export const ORBIT_INNER_RADIUS = 9.95;
 export const ORBIT_OUTER_RADIUS = 10.05;
@@ -123,17 +132,6 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     }
 
     const scene = new THREE.Scene();
-    // const camera = new THREE.PerspectiveCamera(
-    //   CAMERA_FOV,
-    //   window.innerWidth / window.innerHeight,
-    //   CAMERA_NEAR,
-    //   CAMERA_FAR
-    // );
-
-    // const renderer = new THREE.WebGLRenderer();
-    // renderer.setSize(window.innerWidth, window.innerHeight);
-    // containerRef.current.appendChild(renderer.domElement);
-
     const camera = new THREE.PerspectiveCamera(
       window.innerWidth > 768 ? CAMERA_FOV : 100,
       containerRef.current.clientWidth / containerRef.current.clientHeight,
@@ -171,6 +169,12 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       0
     );
 
+    const venusRotationAxis = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(VENUS_AXIS_TILT_ANGLE)),
+      Math.cos(THREE.MathUtils.degToRad(VENUS_AXIS_TILT_ANGLE)),
+      0
+    );
+
     const sunRotationAxis = new THREE.Vector3(
       Math.sin(THREE.MathUtils.degToRad(SUN_AXIS_TILT_ANGLE)),
       Math.cos(THREE.MathUtils.degToRad(SUN_AXIS_TILT_ANGLE)),
@@ -201,8 +205,8 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       textureLoader
     );
 
-    const sunPivot = createPivot(scene); // Added
-    sunPivot.add(sun.sphere); // Added
+    const sunPivot = createPivot(scene);
+    sunPivot.add(sun.sphere);
 
     const earth = createPlanet(
       EARTH_SIZE,
@@ -230,20 +234,35 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     createOrbit(MARS_ORBIT_RADIUS, MARS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
     setPosition(mars, MARS_ORBIT_RADIUS, EARTH_ROTATION_SPEED / 1.88);
 
+    const venus = createPlanet(
+      VENUS_SIZE,
+      VENUS_TEXTURE,
+      venusRotationAxis,
+      VENUS_ROTATION_SPEED,
+      textureLoader
+    );
+    const venusPivot = createPivot(scene);
+    venusPivot.add(venus.sphere);
+
+    createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    setPosition(venus, VENUS_ORBIT_RADIUS, VENUS_ORBITAL_SPEED);
+
     const animate = function () {
       requestAnimationFrame(animate);
 
       earth.rotate();
       mars.rotate();
+      venus.rotate();
       sun.rotate();
 
       earthPivot.rotation.y += EARTH_ORBITAL_SPEED;
       marsPivot.rotation.y += MARS_ORBITAL_SPEED;
-      sunPivot.rotation.y += SUN_ROTATION_SPEED; // Added
+      venusPivot.rotation.y += VENUS_ORBITAL_SPEED;
+      sunPivot.rotation.y += SUN_ROTATION_SPEED;
 
-      // Update positions in the animation loop
       setPosition(earth, EARTH_ORBIT_RADIUS, EARTH_ORBITAL_SPEED);
       setPosition(mars, MARS_ORBIT_RADIUS, MARS_ORBITAL_SPEED);
+      setPosition(venus, VENUS_ORBIT_RADIUS, VENUS_ORBITAL_SPEED);
 
       renderer.render(scene, camera);
     };
@@ -259,7 +278,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
   return (
     <div className='absolute left-0 top-0 w-full -z-10 h-full'>
       <div className='flex justify-center items-center w-full h-12 fixed top-0 left-0 bg-black text-white'>
-        1 second = {BASE_SPEED} Earth days or {MARS_ROTATION_SPEED.toFixed(3)}{' '}
+        1 second = {BASE_SPEED} Earth days or {MARS_ROTATION_SPEED.toFixed(3)}
         Mars days
       </div>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
