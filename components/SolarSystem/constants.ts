@@ -1,32 +1,53 @@
-export const CAMERA_FOV = 50;
-export const CAMERA_NEAR = 0.1;
-export const CAMERA_FAR = 2000;
+export const PLANETS = [
+  {
+	id: 'Earth',
+    texture: '/texture.png',
+    size: 1,
+    relativeRotationSpeed: 1,
+    tiltAngle: 23.44,
+    orbitRadius: 10,
+    orbitSpeed: 1 / 365.25,
+    orbitTiltAngle: 0,
+  },
+  {
+	id: 'Mars',
+    texture: '/marstexture.jpg',
+    size: 0.53,
+    rotationSpeed: 1.03,
+    tiltAngle: 25.19,
+    orbitRadius: 3,
+    orbitSpeed: 0.524,
+    orbitTiltAngle: 1.85,
+  },
+  // ... add other planets here
+];
 
-export const LIGHT_COLOR = 0xffffff;
-export const LIGHT_INTENSITY = 1;
-export const LIGHT_DISTANCE = 100;
+export const ORBIT = {
+  innerRadius: 0.7,
+  outerRadius: 1,
+  segments: 64,
+};
 
-export const SUN_SIZE = 4;
-export const SUN_TEXTURE = '/thesun.png';
-export const SUN_ROTATION_SPEED = 0.1;
-export const SUN_AXIS_TILT_ANGLE = 7.25;
+export const CAMERA = {
+  aspect: 0.7,
+  near: 0.1,
+  far: 1000,
+};
 
-export const EARTH_SIZE = 1;
-export const EARTH_TEXTURE = '/texture.png';
-export const EARTH_ROTATION_SPEED = 0.01;
-export const EARTH_ORBITAL_SPEED = 1 / 365.25;
-export const EARTH_ORBIT_RADIUS = 10;
-export const EARTH_AXIS_TILT_ANGLE = 23.5;
+export const LIGHT = {
+  color: 0xffffff,
+  intensity: 1,
+  distance: 500,
+};
 
-export const MARS_SIZE = 0.53;
-export const MARS_TEXTURE = '/marstexture.png';
-export const MARS_ROTATION_SPEED = EARTH_ROTATION_SPEED ;
-export const MARS_ORBITAL_SPEED = 1 / 687;
-export const MARS_ORBIT_RADIUS = 15.3;
-export const MARS_AXIS_TILT_ANGLE = 25.19;
+export const BASE_SPEED = 0.002;
 
-export const ORBIT_SEGMENTS = 512; 
-export const ORBIT_LINE_COLOR = 0xffffff;
-export const ORBIT_INNER_RADIUS = 9.99;
-export const ORBIT_OUTER_RADIUS = 10;
-export const ORBIT_TILT_ANGLE = 1.85;
+export const SCENE_SIZE = {
+  375: 50,
+  768: 55,
+  1024: 60,
+  1440: 65,
+  1920: 70,
+};
+
+export const ORBIT_SEGMENTS = 64;
