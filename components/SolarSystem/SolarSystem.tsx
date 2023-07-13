@@ -25,7 +25,7 @@ const createPlanet = (
   return { sphere, rotate };
 };
 
-export const BASE_SPEED = 0.2;
+export const BASE_SPEED = 0.1;
 
 export const RELATIVE_EARTH_ROTATION_SPEED = 1;
 export const RELATIVE_SUN_ROTATION_SPEED = 1 / 27;
@@ -78,7 +78,7 @@ export const VENUS_TEXTURE = '/venustexture.png';
 export const VENUS_ORBIT_RADIUS = 7.2;
 export const VENUS_AXIS_TILT_ANGLE = 3;
 
-export const MERCURY_SIZE = 0.38; 
+export const MERCURY_SIZE = 0.38;
 export const MERCURY_TEXTURE = '/mercurytexture.jpg';
 export const MERCURY_ORBIT_RADIUS = 3.9;
 export const MERCURY_AXIS_TILT_ANGLE = 0.03;
