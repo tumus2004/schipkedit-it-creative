@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
@@ -25,7 +26,7 @@ const createPlanet = (
   return { sphere, rotate };
 };
 
-export const BASE_SPEED = 0.05;
+export const BASE_SPEED = 0.1;
 
 export const RELATIVE_EARTH_ROTATION_SPEED = 1;
 export const RELATIVE_SUN_ROTATION_SPEED = 1 / 27;
@@ -191,7 +192,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
 
     camera.position.z = 30;
     camera.position.y = 9;
-    
+
     camera.lookAt(new THREE.Vector3(0, -1, 0));
 
     const earthRotationAxis = new THREE.Vector3(
@@ -332,11 +333,6 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       venusPivot.rotation.y += VENUS_ORBITAL_SPEED;
       sunPivot.rotation.y += SUN_ROTATION_SPEED;
       mercuryPivot.rotation.y += MERCURY_ORBITAL_SPEED;
-
-      setPosition(earth, EARTH_ORBIT_RADIUS, EARTH_ORBITAL_SPEED);
-      setPosition(mars, MARS_ORBIT_RADIUS, MARS_ORBITAL_SPEED);
-      setPosition(venus, VENUS_ORBIT_RADIUS, VENUS_ORBITAL_SPEED);
-      setPosition(mercury, MERCURY_ORBIT_RADIUS, MERCURY_ORBITAL_SPEED);
 
       renderer.render(scene, camera);
     };
