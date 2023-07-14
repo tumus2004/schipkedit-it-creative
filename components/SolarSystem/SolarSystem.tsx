@@ -140,7 +140,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
   const bottomClass =
-    isBrowser && window?.innerWidth > 768 ? 'bottom-0' : 'bottom-10';
+    isBrowser && window.innerWidth >= 768 ? 'bottom-0' : 'bottom-10';
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
@@ -156,7 +156,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
         return 90;
       }
       if (window.innerWidth > 768 && window.innerWidth < 1024) {
-        return 60;
+        return 75;
       }
       return 50;
     };
@@ -174,7 +174,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     );
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio); // This line was added.
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(
       containerRef.current.clientWidth,
       containerRef.current.clientHeight
@@ -189,8 +189,10 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     light.position.set(0, 15, 25);
     scene.add(light);
 
-    camera.position.z = 30;
-    camera.position.y = 5;
+    camera.position.z = 32;
+    camera.position.y = 10;
+    
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     const earthRotationAxis = new THREE.Vector3(
       Math.sin(THREE.MathUtils.degToRad(EARTH_AXIS_TILT_ANGLE)),
