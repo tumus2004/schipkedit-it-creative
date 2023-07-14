@@ -223,14 +223,18 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
 
     const onWindowResize = () => {
       if (containerRef.current) {
+        // Update the camera's aspect ratio
         camera.aspect =
           containerRef.current.clientWidth / containerRef.current.clientHeight;
         camera.updateProjectionMatrix();
 
-        renderer.setSize(
-          containerRef.current.clientWidth,
-          containerRef.current.clientHeight
-        );
+        // Update the renderer's size to match the container's size
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
+
+        // Consider devicePixelRatio for high DPI screens
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(width, height, false);
       }
     };
 
