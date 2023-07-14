@@ -173,7 +173,8 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       CAMERA_FAR
     );
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio); // This line was added.
     renderer.setSize(
       containerRef.current.clientWidth,
       containerRef.current.clientHeight
