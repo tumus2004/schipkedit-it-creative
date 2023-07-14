@@ -158,7 +158,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       if (window.innerWidth > 768 && window.innerWidth < 1024) {
         return 75;
       }
-      return 50;
+      return 45;
     };
 
     if (!isBrowser || !containerRef.current) {
@@ -189,10 +189,10 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     light.position.set(0, 15, 25);
     scene.add(light);
 
-    camera.position.z = 32;
-    camera.position.y = 10;
+    camera.position.z = 30;
+    camera.position.y = 9;
     
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    camera.lookAt(new THREE.Vector3(0, -1, 0));
 
     const earthRotationAxis = new THREE.Vector3(
       Math.sin(THREE.MathUtils.degToRad(EARTH_AXIS_TILT_ANGLE)),
