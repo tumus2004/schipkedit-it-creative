@@ -25,7 +25,7 @@ const createPlanet = (
   return { sphere, rotate };
 };
 
-export const BASE_SPEED = 0.1;
+export const BASE_SPEED = 0.05;
 
 export const RELATIVE_EARTH_ROTATION_SPEED = 1;
 export const RELATIVE_SUN_ROTATION_SPEED = 1 / 27;
