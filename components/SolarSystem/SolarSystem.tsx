@@ -60,11 +60,11 @@ export const LIGHT_INTENSITY = 1;
 export const LIGHT_DISTANCE = 100;
 
 export const SUN_SIZE = 3;
-export const SUN_TEXTURE = '/thesun.png';
+export const SUN_TEXTURE = '/thesun.jpg';
 export const SUN_AXIS_TILT_ANGLE = 7.25;
 
 export const EARTH_SIZE = 1;
-export const EARTH_TEXTURE = '/texture.png';
+export const EARTH_TEXTURE = '/earthtexture.jpg';
 export const EARTH_ORBIT_RADIUS = 10;
 export const EARTH_AXIS_TILT_ANGLE = 23.5;
 
@@ -74,7 +74,7 @@ export const MARS_ORBIT_RADIUS = 15.3;
 export const MARS_AXIS_TILT_ANGLE = 25.19;
 
 export const VENUS_SIZE = 0.949;
-export const VENUS_TEXTURE = '/venustexture.png';
+export const VENUS_TEXTURE = '/venustexture.jpg';
 export const VENUS_ORBIT_RADIUS = 7.2;
 export const VENUS_AXIS_TILT_ANGLE = 3;
 
