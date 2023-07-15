@@ -321,8 +321,6 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     setPosition(mercury, MERCURY_ORBIT_RADIUS, MERCURY_ROTATION_SPEED);
 
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true; // This line enables smooth animation
-    controls.dampingFactor = 0.1;
     controls.enablePan = true;
     controls.enableZoom = true;
     controls.enableRotate = true;
@@ -356,8 +354,8 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
   }, [isBrowser]);
 
   return (
-    <div className='absolute left-0 top-0 w-full -z-10 h-full'>
-      <div
+    <div className='absolute left-0 top-0 w-full z-50 h-full'>
+      {/* <div
         className={`flex justify-center items-center w-full px-4 h-12 fixed ${bottomClass} left-0 bg-black text-white`}>
         In this simulation: 1 Earth rotation ={' '}
         {RELATIVE_MARS_ROTATION_SPEED.toFixed(3)}
@@ -365,7 +363,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
         rotations, and {RELATIVE_MERCURY_ROTATION_SPEED.toFixed(5)} Mercury
         rotations, which is approximately proportional to the actual ratio of
         their rotation speeds.
-      </div>
+      </div> */}
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );

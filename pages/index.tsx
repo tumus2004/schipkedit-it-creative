@@ -11,7 +11,7 @@ interface IndexProps {
 const Index: React.FC = ({ className }: IndexProps) => {
   return (
     <div className='min-h-screen relative overflow-hidden'>
-      <SolarSystem className='fixed top-0 left-0 z-10' />
+      <SolarSystem className='fixed top-0 left-0 z-30' />
       <div
         className='bg-center w-full h-screen relative z-20'
         style={{ background: `transparent` }}>
