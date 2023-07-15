@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
@@ -319,6 +320,13 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     );
     setPosition(mercury, MERCURY_ORBIT_RADIUS, MERCURY_ROTATION_SPEED);
 
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; // This line enables smooth animation
+    controls.dampingFactor = 0.1;
+    controls.enablePan = true;
+    controls.enableZoom = true;
+    controls.enableRotate = true;
+
     const animate = function () {
       requestAnimationFrame(animate);
 
@@ -327,6 +335,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       venus.rotate();
       sun.rotate();
       mercury.rotate();
+      controls.update();
 
       earthPivot.rotation.y += EARTH_ORBITAL_SPEED;
       marsPivot.rotation.y += MARS_ORBITAL_SPEED;
@@ -340,6 +349,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     animate();
 
     return () => {
+      controls.dispose();
       renderer.dispose();
       window.removeEventListener('resize', onWindowResize);
     };
