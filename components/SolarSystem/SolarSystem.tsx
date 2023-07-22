@@ -110,6 +110,19 @@ export const ORBIT_INNER_RADIUS = 9.95;
 export const ORBIT_OUTER_RADIUS = 10.05;
 export const ORBIT_TILT_ANGLE = 1.85;
 
+const MOON_SIZE = EARTH_SIZE / 4; // Moon is approximately 1/8th the size of the Earth
+const MOON_TEXTURE = '/moontexture.jpg'; // Assuming you have the texture image for Moon
+const MOON_ORBIT_RADIUS = EARTH_SIZE + 0.4; // Assuming the moon's orbit radius is slightly larger than Earth's size
+
+// Assuming same tilt axis as earth for simplicity
+const MOON_AXIS_TILT_ANGLE = (1 / 4) * EARTH_AXIS_TILT_ANGLE;
+
+// Assuming the rotation speed of the moon, you can adjust it to the actual value
+const rotationDegreesPerMillisecondMoon = 0.00001 * BASE_SPEED;
+
+// Assuming the orbit speed of the moon, you can adjust it to the actual value
+const orbitDegreesPerMillisecondMoon = 0.000001 * BASE_SPEED;
+
 const createOrbit = (
   innerRadius: number,
   outerRadius: number,
@@ -162,7 +175,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
   const isBrowser = typeof window !== 'undefined';
   const bottomClass =
     isBrowser && window.innerWidth >= 768 ? 'bottom-0' : 'bottom-10';
-    
+
   if (containerRef.current) {
     containerRef.current.style.background = 'transparent';
   }
@@ -351,6 +364,23 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       orbitDegreesPerMillisecond.Mercury
     );
 
+    const moonRotationAxis = new THREE.Vector3(
+      Math.sin(THREE.MathUtils.degToRad(MOON_AXIS_TILT_ANGLE)),
+      Math.cos(THREE.MathUtils.degToRad(MOON_AXIS_TILT_ANGLE)),
+      0
+    );
+
+    const moon = createPlanet(
+      MOON_SIZE,
+      MOON_TEXTURE,
+      moonRotationAxis,
+      rotationDegreesPerMillisecondMoon,
+      textureLoader
+    );
+
+    earth.sphere.add(moon.sphere);
+    moon.sphere.position.set(MOON_ORBIT_RADIUS, 0, 0);
+
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enablePan = true;
     controls.enableZoom = true;
@@ -367,6 +397,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       venus.rotate(deltaTime);
       sun.rotate(deltaTime);
       mercury.rotate(deltaTime);
+      moon.rotate(deltaTime);
 
       controls.update();
 
@@ -375,6 +406,9 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       venusPivot.rotation.y += orbitDegreesPerMillisecond.Venus * deltaTime;
       sunPivot.rotation.y += rotationDegreesPerMillisecond.Sun * deltaTime;
       mercuryPivot.rotation.y += orbitDegreesPerMillisecond.Mercury * deltaTime;
+      moon.sphere.rotation.y += orbitDegreesPerMillisecondMoon * deltaTime;
+      moon.sphere.rotation.x -= orbitDegreesPerMillisecondMoon * deltaTime;
+      moon.sphere.rotateOnAxis(moonRotationAxis, 0.000005 * deltaTime);
 
       requestAnimationFrame(animate);
 
