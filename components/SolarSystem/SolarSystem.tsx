@@ -27,7 +27,6 @@ const createPlanet = (
   return { sphere, rotate };
 };
 
-// CONSTANTS
 // Planet rotation time in real world days
 export const rotationTimeInDays = {
   Earth: 1,
@@ -36,6 +35,7 @@ export const rotationTimeInDays = {
   Venus: 243,
   Mercury: 58.6,
 };
+
 // Planet orbit time in real world days
 export const orbitTimeInDays = {
   Earth: 365.25,
@@ -44,11 +44,20 @@ export const orbitTimeInDays = {
   Mercury: 88,
   Sun: 0,
 };
+
 export const distancePerOrbitInKm = {
   Earth: 94000000,
   Mars: 1430000000,
   Venus: 679000000,
   Mercury: 363000000,
+  Sun: 0,
+};
+
+export const orbitDegreesPerMillisecond = {
+  Earth: 1.14077e-8,
+  Mars: 6.067e-9,
+  Venus: 1.854e-8,
+  Mercury: 4.736e-8,
   Sun: 0,
 };
 
