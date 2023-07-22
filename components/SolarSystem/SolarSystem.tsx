@@ -5,14 +5,14 @@ import * as THREE from 'three';
 
 interface Planet {
   sphere: THREE.Mesh;
-  rotate: () => void;
+  rotate: (deltaTime: number) => void;
 }
 
 const createPlanet = (
   radius: number,
   texture: string,
   rotationAxis: THREE.Vector3,
-  rotationSpeed: number,
+  rotationAngle: number,
   textureLoader: THREE.TextureLoader
 ): Planet => {
   const planetTexture = textureLoader.load(texture);
@@ -20,8 +20,8 @@ const createPlanet = (
   const material = new THREE.MeshStandardMaterial({ map: planetTexture });
   const sphere = new THREE.Mesh(geometry, material);
 
-  const rotate = () => {
-    sphere.rotateOnAxis(rotationAxis, rotationSpeed);
+  const rotate = (deltaTime: number) => {
+    sphere.rotateOnAxis(rotationAxis, rotationAngle * deltaTime);
   };
 
   return { sphere, rotate };
@@ -35,6 +35,9 @@ export const rotationTimeInDays = {
   Venus: 243,
   Mercury: 58.6,
 };
+
+// Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
+let BASE_SPEED = 480;
 
 // Planet orbit time in real world days
 export const orbitTimeInDays = {
@@ -53,39 +56,21 @@ export const distancePerOrbitInKm = {
   Sun: 0,
 };
 
-export const orbitDegreesPerMillisecond = {
-  Earth: 1.14077e-8,
-  Mars: 6.067e-9,
-  Venus: 1.854e-8,
-  Mercury: 4.736e-8,
-  Sun: 0,
+export const rotationDegreesPerMillisecond = {
+  Earth: 0.000004167 * BASE_SPEED,
+  Mars: 0.000004057 * BASE_SPEED,
+  Venus: 0.00000001714 * BASE_SPEED,
+  Mercury: 0.0000000711 * BASE_SPEED,
+  Sun: 0.0000001643 * BASE_SPEED,
 };
 
-export const BASE_SPEED = 0.1;
-
-export const RELATIVE_EARTH_ROTATION_SPEED = 1;
-export const RELATIVE_SUN_ROTATION_SPEED = 1 / 27;
-export const RELATIVE_MARS_ROTATION_SPEED = 1 / 1.027;
-export const RELATIVE_VENUS_ROTATION_SPEED = 1 / 243;
-export const RELATIVE_MERCURY_ROTATION_SPEED = 1 / 176;
-
-export const RELATIVE_EARTH_ORBITAL_SPEED = 1 / 365.25;
-export const RELATIVE_MARS_ORBITAL_SPEED = 1 / (1.88 * 365.25);
-export const RELATIVE_VENUS_ORBITAL_SPEED = 1 / 224.7;
-export const RELATIVE_MERCURY_ORBITAL_SPEED = 1 / 88;
-
-export const EARTH_ROTATION_SPEED = BASE_SPEED * RELATIVE_EARTH_ROTATION_SPEED;
-export const SUN_ROTATION_SPEED = BASE_SPEED * RELATIVE_SUN_ROTATION_SPEED;
-export const MARS_ROTATION_SPEED = BASE_SPEED * RELATIVE_MARS_ROTATION_SPEED;
-export const VENUS_ROTATION_SPEED = BASE_SPEED * RELATIVE_VENUS_ROTATION_SPEED;
-export const MERCURY_ROTATION_SPEED =
-  BASE_SPEED * RELATIVE_MERCURY_ROTATION_SPEED;
-
-export const EARTH_ORBITAL_SPEED = BASE_SPEED * RELATIVE_EARTH_ORBITAL_SPEED;
-export const MARS_ORBITAL_SPEED = BASE_SPEED * RELATIVE_MARS_ORBITAL_SPEED;
-export const VENUS_ORBITAL_SPEED = BASE_SPEED * RELATIVE_VENUS_ORBITAL_SPEED;
-export const MERCURY_ORBITAL_SPEED =
-  BASE_SPEED * RELATIVE_MERCURY_ORBITAL_SPEED;
+export const orbitDegreesPerMillisecond = {
+  Earth: 0.0000000114077 * BASE_SPEED,
+  Mars: 0.000000006067 * BASE_SPEED,
+  Venus: 0.00000001854 * BASE_SPEED,
+  Mercury: 0.00000004736 * BASE_SPEED,
+  Sun: 0,
+};
 
 export const CAMERA_FOV = 50;
 export const CAMERA_NEAR = 0.1;
@@ -177,6 +162,10 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
   const isBrowser = typeof window !== 'undefined';
   const bottomClass =
     isBrowser && window.innerWidth >= 768 ? 'bottom-0' : 'bottom-10';
+    
+  if (containerRef.current) {
+    containerRef.current.style.background = 'transparent';
+  }
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
@@ -209,7 +198,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       CAMERA_FAR
     );
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(
       containerRef.current.clientWidth,
@@ -284,7 +273,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       SUN_SIZE,
       SUN_TEXTURE,
       sunRotationAxis,
-      SUN_ROTATION_SPEED,
+      rotationDegreesPerMillisecond.Sun,
       textureLoader
     );
 
@@ -295,20 +284,20 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       EARTH_SIZE,
       EARTH_TEXTURE,
       earthRotationAxis,
-      EARTH_ROTATION_SPEED,
+      rotationDegreesPerMillisecond.Earth,
       textureLoader
     );
     const earthPivot = createPivot(scene);
     earthPivot.add(earth.sphere);
 
     createOrbit(EARTH_ORBIT_RADIUS, EARTH_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
-    setPosition(earth, EARTH_ORBIT_RADIUS, EARTH_ROTATION_SPEED);
+    setPosition(earth, EARTH_ORBIT_RADIUS, rotationDegreesPerMillisecond.Earth);
 
     const mars = createPlanet(
       MARS_SIZE,
       MARS_TEXTURE,
       marsRotationAxis,
-      MARS_ROTATION_SPEED,
+      rotationDegreesPerMillisecond.Mars,
       textureLoader
     );
     const marsPivot = createPivot(scene, 1.88);
@@ -321,26 +310,30 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       scene,
       1.88
     );
-    setPosition(mars, MARS_ORBIT_RADIUS, EARTH_ROTATION_SPEED / 1.88);
+    setPosition(
+      mars,
+      MARS_ORBIT_RADIUS,
+      rotationDegreesPerMillisecond.Earth / 1.88
+    );
 
     const venus = createPlanet(
       VENUS_SIZE,
       VENUS_TEXTURE,
       venusRotationAxis,
-      VENUS_ROTATION_SPEED,
+      rotationDegreesPerMillisecond.Venus,
       textureLoader
     );
     const venusPivot = createPivot(scene);
     venusPivot.add(venus.sphere);
 
     createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
-    setPosition(venus, VENUS_ORBIT_RADIUS, VENUS_ORBITAL_SPEED);
+    setPosition(venus, VENUS_ORBIT_RADIUS, orbitDegreesPerMillisecond.Venus);
 
     const mercury = createPlanet(
       MERCURY_SIZE,
       MERCURY_TEXTURE,
       mercuryRotationAxis,
-      MERCURY_ROTATION_SPEED,
+      rotationDegreesPerMillisecond.Mercury,
       textureLoader
     );
     const mercuryPivot = createPivot(scene);
@@ -352,28 +345,40 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       ORBIT_SEGMENTS,
       scene
     );
-    setPosition(mercury, MERCURY_ORBIT_RADIUS, MERCURY_ROTATION_SPEED);
+    setPosition(
+      mercury,
+      MERCURY_ORBIT_RADIUS,
+      orbitDegreesPerMillisecond.Mercury
+    );
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enablePan = true;
     controls.enableZoom = true;
     controls.enableRotate = true;
 
-    const animate = function () {
-      requestAnimationFrame(animate);
+    let lastRenderTime = performance.now();
 
-      earth.rotate();
-      mars.rotate();
-      venus.rotate();
-      sun.rotate();
-      mercury.rotate();
+    const animate = function () {
+      const currentRenderTime = window.performance.now();
+      const deltaTime = currentRenderTime - lastRenderTime;
+
+      earth.rotate(deltaTime);
+      mars.rotate(deltaTime);
+      venus.rotate(deltaTime);
+      sun.rotate(deltaTime);
+      mercury.rotate(deltaTime);
+
       controls.update();
 
-      earthPivot.rotation.y += EARTH_ORBITAL_SPEED;
-      marsPivot.rotation.y += MARS_ORBITAL_SPEED;
-      venusPivot.rotation.y += VENUS_ORBITAL_SPEED;
-      sunPivot.rotation.y += SUN_ROTATION_SPEED;
-      mercuryPivot.rotation.y += MERCURY_ORBITAL_SPEED;
+      earthPivot.rotation.y += orbitDegreesPerMillisecond.Earth * deltaTime;
+      marsPivot.rotation.y += orbitDegreesPerMillisecond.Mars * deltaTime;
+      venusPivot.rotation.y += orbitDegreesPerMillisecond.Venus * deltaTime;
+      sunPivot.rotation.y += rotationDegreesPerMillisecond.Sun * deltaTime;
+      mercuryPivot.rotation.y += orbitDegreesPerMillisecond.Mercury * deltaTime;
+
+      requestAnimationFrame(animate);
+
+      lastRenderTime = currentRenderTime;
 
       renderer.render(scene, camera);
     };
@@ -389,15 +394,12 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
 
   return (
     <div className='absolute left-0 top-0 w-full z-50 h-full'>
-      {/* <div
-        className={`flex justify-center items-center w-full px-4 h-12 fixed ${bottomClass} left-0 bg-black text-white`}>
-        In this simulation: 1 Earth rotation ={' '}
-        {RELATIVE_MARS_ROTATION_SPEED.toFixed(3)}
-        Mars rotations, {RELATIVE_VENUS_ROTATION_SPEED.toFixed(5)} Venus
-        rotations, and {RELATIVE_MERCURY_ROTATION_SPEED.toFixed(5)} Mercury
-        rotations, which is approximately proportional to the actual ratio of
-        their rotation speeds.
-      </div> */}
+      <div className='absolute top-10 center w-full text-center'>
+        <p>
+          1 Second = {BASE_SPEED / 60} {BASE_SPEED === 60 ? `hour` : `hours`}{' '}
+          irl
+        </p>
+      </div>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );
