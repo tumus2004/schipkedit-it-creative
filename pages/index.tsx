@@ -10,17 +10,17 @@ interface IndexProps {
 
 const Index: React.FC = ({ className }: IndexProps) => {
   return (
-    <div className='min-h-screen relative overflow-hidden'>
-      <SolarSystem className='fixed top-0 left-0 z-30' />
+    <div className='min-h-screen relative'>
+      <SolarSystem className='fixed top-0 left-0' />
       <div
-        className='bg-center w-full h-screen relative z-20'
+        className='bg-center w-full h-screen relative'
         style={{ background: `transparent` }}>
         <div className='container mx-auto px-6 py-16'>
           <h1 className='text-3xl font-bold text-gray-100 ml-4'>Schipked it</h1>
           <p className='text-gray-100 text-xl font-light ml-4 mt-4'>
             Work in progress
           </p>
-          <div className='flex flex-col lg:flex-row mt-12'>
+          <div className='flex relative flex-col z-50 lg:flex-row mt-12'>
             <Link
               href='/works'
               id='works-link'
