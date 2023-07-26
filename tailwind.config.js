@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       colors: {
         'heading-gold': '#a9997a',
+      },
+      backgroundImage: {
+        'background-hero': "url('/img/background-hero.png')",
       }
     },
   },
