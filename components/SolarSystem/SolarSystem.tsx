@@ -170,6 +170,19 @@ interface SolarSystemProps {
   className?: string;
 }
 
+axios
+  .get(
+    "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='199'&MAKE_EPHEM='YES'&EPHEM_TYPE='VECTORS'&CENTER='@10'&START_TIME='2022-01-01'&STOP_TIME='2022-01-02'&STEP_SIZE='1%20d'"
+  )
+  .then((response) => {
+    const mercuryData = response.data;
+    console.log(mercuryData);
+
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
 const SolarSystem = ({ className }: SolarSystemProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
