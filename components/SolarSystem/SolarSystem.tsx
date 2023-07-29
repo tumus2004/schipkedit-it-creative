@@ -80,6 +80,18 @@ export const LIGHT_COLOR = 0xffffff;
 export const LIGHT_INTENSITY = 1;
 export const LIGHT_DISTANCE = 100;
 
+export const LIGHT_TWO_COLOR = 0xffffff;
+export const LIGHT_TWO_INTENSITY = 1;
+export const LIGHT_TWO_DISTANCE = 100;
+
+export const LIGHT_THREE_COLOR = 0xffffff;
+export const LIGHT_THREE_INTENSITY = 1;
+export const LIGHT_THREE_DISTANCE = 100;
+
+export const LIGHT_FOUR_COLOR = 0xffffff;
+export const LIGHT_FOUR_INTENSITY = 1;
+export const LIGHT_FOUR_DISTANCE = 100;
+
 export const SUN_SIZE = 3;
 export const SUN_TEXTURE = '/thesun.jpg';
 export const SUN_AXIS_TILT_ANGLE = 7.25;
@@ -239,6 +251,30 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     );
     light.position.set(0, 15, 25);
     scene.add(light);
+    
+    const lightTwo = new THREE.PointLight(
+      LIGHT_TWO_COLOR,
+      LIGHT_TWO_INTENSITY,
+      LIGHT_TWO_DISTANCE
+    );
+    lightTwo.position.set(0, -15, -25);
+    scene.add(lightTwo);
+    
+    const lightThree = new THREE.PointLight(
+      LIGHT_THREE_COLOR,
+      LIGHT_THREE_INTENSITY,
+      LIGHT_THREE_DISTANCE
+    );
+    lightThree.position.set(-10, 5, 10);
+    scene.add(lightThree);
+    
+    const lightFour = new THREE.PointLight(
+      LIGHT_FOUR_COLOR,
+      LIGHT_FOUR_INTENSITY,
+      LIGHT_FOUR_DISTANCE
+    );
+    lightFour.position.set(10, -5, -10);
+    scene.add(lightFour);
 
     camera.position.z = 30;
     camera.position.y = 9;
