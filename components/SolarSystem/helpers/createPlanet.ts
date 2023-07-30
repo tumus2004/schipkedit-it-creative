@@ -2,29 +2,24 @@ import * as THREE from 'three';
 
 interface Planet {
   sphere: THREE.Mesh;
-  rotate: () => void;
+  rotate: (deltaTime: number) => void;
 }
 
-const createPlanet = (
+export const createPlanet = (
   radius: number,
   texture: string,
   rotationAxis: THREE.Vector3,
-  rotationSpeed: number,
+  rotationAngle: number,
   textureLoader: THREE.TextureLoader
 ): Planet => {
-  // Load the texture
   const planetTexture = textureLoader.load(texture);
-
-  // Create the sphere
   const geometry = new THREE.SphereGeometry(radius, 64, 64);
   const material = new THREE.MeshStandardMaterial({ map: planetTexture });
   const sphere = new THREE.Mesh(geometry, material);
 
-  const rotate = () => {
-    sphere.rotateOnAxis(rotationAxis, rotationSpeed);
+  const rotate = (deltaTime: number) => {
+    sphere.rotateOnAxis(rotationAxis, rotationAngle * deltaTime);
   };
 
   return { sphere, rotate };
 };
-
-export default createPlanet;

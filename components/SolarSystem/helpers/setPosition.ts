@@ -1,4 +1,4 @@
-import THREE from 'three';
+import * as THREE from 'three';
 
 export const setPosition = (
   planet: { sphere: THREE.Mesh },
@@ -6,7 +6,7 @@ export const setPosition = (
   timeFactor: number
 ) => {
   const orbitAngle =
-    (new Date().getTime() / (24 * 60 * 60 * 1000)) * timeFactor; // planet's orbital angle
+    (new Date().getTime() / (24 * 60 * 60 * 1000)) * timeFactor;
   const position = new THREE.Vector3(
     orbitRadius * Math.cos(orbitAngle),
     0,
