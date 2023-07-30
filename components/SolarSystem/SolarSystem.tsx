@@ -189,13 +189,33 @@ axios
   .then((response) => {
     const mercuryData = response.data;
     console.log(mercuryData);
-
   })
   .catch((error) => {
     console.log(error);
   });
 
 const SolarSystem = ({ className }: SolarSystemProps) => {
+  const starCoords = [];
+
+  for (let i = 0; i < 10000; i++) {
+    const x = THREE.MathUtils.randFloatSpread(1000);
+    const y = THREE.MathUtils.randFloatSpread(1000);
+    const z = THREE.MathUtils.randFloatSpread(1000);
+
+    starCoords.push(x, y, z);
+  }
+
+  const starsGeometry = new THREE.BufferGeometry();
+
+  starsGeometry.setAttribute(
+    'position',
+    new THREE.Float32BufferAttribute(starCoords, 3)
+  );
+
+  const starsMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa });
+  const stars = new THREE.Points(starsGeometry, starsMaterial);
+
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
   const bottomClass =
@@ -251,7 +271,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     );
     light.position.set(0, 15, 25);
     scene.add(light);
-    
+
     const lightTwo = new THREE.PointLight(
       LIGHT_TWO_COLOR,
       LIGHT_TWO_INTENSITY,
@@ -259,7 +279,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     );
     lightTwo.position.set(0, -15, -25);
     scene.add(lightTwo);
-    
+
     const lightThree = new THREE.PointLight(
       LIGHT_THREE_COLOR,
       LIGHT_THREE_INTENSITY,
@@ -267,7 +287,7 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     );
     lightThree.position.set(-10, 5, 10);
     scene.add(lightThree);
-    
+
     const lightFour = new THREE.PointLight(
       LIGHT_FOUR_COLOR,
       LIGHT_FOUR_INTENSITY,
@@ -280,6 +300,8 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     camera.position.y = 9;
 
     camera.lookAt(new THREE.Vector3(0, -1, 0));
+    
+    scene.add(stars);
 
     const earthRotationAxis = new THREE.Vector3(
       Math.sin(THREE.MathUtils.degToRad(EARTH_AXIS_TILT_ANGLE)),
