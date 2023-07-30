@@ -122,7 +122,7 @@ export const ORBIT_INNER_RADIUS = 9.95;
 export const ORBIT_OUTER_RADIUS = 10.05;
 export const ORBIT_TILT_ANGLE = 1.85;
 
-const MOON_SIZE = EARTH_SIZE / 4; // Moon is approximately 1/8th the size of the Earth
+const MOON_SIZE = 0.272; // Moon is approximately 1/8th the size of the Earth
 const MOON_TEXTURE = '/moontexture.jpg'; // Assuming you have the texture image for Moon
 const MOON_ORBIT_RADIUS = EARTH_SIZE + 0.4; // Assuming the moon's orbit radius is slightly larger than Earth's size
 
