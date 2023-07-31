@@ -10,7 +10,7 @@ interface IndexProps {
 
 const Index: React.FC = ({ className }: IndexProps) => {
   return (
-    <div className='min-h-screen relative bg-gradient-to-br from-gray-900 to-gray-800'>
+    <div className='min-h-screen relative bg-gradient-to-br from-black to-gray-800'>
       <SolarSystem className='fixed top-0 left-0' />
       <div
         className='bg-center w-full h-screen relative'
