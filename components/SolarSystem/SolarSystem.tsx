@@ -51,6 +51,8 @@ import {
   LIGHT_TWO_COLOR,
   LIGHT_TWO_DISTANCE,
   LIGHT_TWO_INTENSITY,
+  YOUR_MAX_ZOOM,
+  YOUR_MIN_ZOOM,
 } from './constants/configurationConstants';
 import { createAndAddLight } from './helpers/createAndAddLight';
 
@@ -287,6 +289,8 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
     earth.sphere.add(moon.sphere);
 
     const controls = new OrbitControls(camera, renderer.domElement);
+    controls.maxDistance = YOUR_MAX_ZOOM;
+    controls.minDistance = YOUR_MIN_ZOOM;
     controls.enablePan = true;
     controls.enableZoom = true;
     controls.enableRotate = true;
