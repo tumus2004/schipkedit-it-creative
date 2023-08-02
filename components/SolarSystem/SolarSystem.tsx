@@ -55,15 +55,10 @@ import {
   YOUR_MIN_ZOOM,
 } from './constants/configurationConstants';
 import { createAndAddLight } from './helpers/createAndAddLight';
-
-// Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
-let BASE_SPEED = 480;
-
-// Assuming the orbit speed of the moon, you can adjust it to the actual value
-const orbitDegreesPerMillisecondMoon = 0.000001 * BASE_SPEED;
-
 interface SolarSystemProps {
   className?: string;
+  setBaseSpeed: (speed: number) => void;
+  baseSpeed: number;
 }
 
 axios
@@ -78,7 +73,13 @@ axios
     console.log(error);
   });
 
-const SolarSystem = ({ className }: SolarSystemProps) => {
+const SolarSystem = ({ className, setBaseSpeed, baseSpeed }: SolarSystemProps) => {
+  // Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
+  let BASE_SPEED = baseSpeed;
+
+  // Assuming the orbit speed of the moon, you can adjust it to the actual value
+  const orbitDegreesPerMillisecondMoon = 0.000001 * BASE_SPEED;
+
   const starCoords = [];
 
   for (let i = 0; i < 10000; i++) {
@@ -330,16 +331,11 @@ const SolarSystem = ({ className }: SolarSystemProps) => {
       renderer.dispose();
       window.removeEventListener('resize', onWindowResize);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBrowser, stars]);
 
   return (
     <div className='absolute left-0 top-0 w-full z-50 h-full'>
-      <div className='absolute top-10 center w-full text-center'>
-        <p>
-          1 Second = {BASE_SPEED / 60} {BASE_SPEED === 60 ? `hour` : `hours`}{' '}
-          irl
-        </p>
-      </div>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );
