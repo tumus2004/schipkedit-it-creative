@@ -209,7 +209,7 @@ const SolarSystem = ({
       [10, -5, -10],
       scene
     );
-    
+
     createAndAddLight(
       LIGHT_FIVE_COLOR,
       LIGHT_FIVE_INTENSITY,
@@ -217,7 +217,7 @@ const SolarSystem = ({
       [20, -10, 10],
       scene
     );
-    
+
     createAndAddLight(
       LIGHT_SIX_COLOR,
       LIGHT_SIX_INTENSITY,
@@ -232,6 +232,20 @@ const SolarSystem = ({
     camera.lookAt(new THREE.Vector3(0, -1, 0));
 
     scene.add(stars);
+    
+    scene.add(new THREE.AmbientLight(0xcccccc));
+    const pointLight = new THREE.PointLight(0xffffff, 100);
+    camera.add(pointLight);
+
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      1.5,
+      0.4,
+      0.85
+    );
+    bloomPass.threshold = 0;
+    bloomPass.strength = 1.2;
+    bloomPass.radius = 0.1;
 
     const earthRotationAxis = createRotationAxis(EARTH_AXIS_TILT_ANGLE);
     const marsRotationAxis = createRotationAxis(MARS_AXIS_TILT_ANGLE);
@@ -261,31 +275,13 @@ const SolarSystem = ({
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
 
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(window.innerWidth, window.innerHeight),
-      1.5,
-      0.4,
-      0.85
-    );
-    bloomPass.threshold = 0.2;
-    bloomPass.strength = 0.25;
-    bloomPass.radius = 0.1;
-    composer.addPass(bloomPass);
-
     const shaderPass = new ShaderPass(CopyShader);
     shaderPass.renderToScreen = true;
     composer.addPass(shaderPass);
+    
 
     window.addEventListener('resize', onWindowResize);
     const textureLoader = new THREE.TextureLoader();
-
-    const sun = createPlanet(
-      SUN_SIZE,
-      SUN_TEXTURE,
-      sunRotationAxis,
-      rotationDegreesPerMillisecond.Sun,
-      textureLoader
-    );
 
     // Create glow texture
     const glowTexture = createSunGlowTexture();
@@ -301,6 +297,14 @@ const SolarSystem = ({
     // Create glow sprite
     const glowSprite = new THREE.Sprite(glowMaterial);
     glowSprite.scale.set(SUN_SIZE * 3, SUN_SIZE * 3, 1); // Adjust the scale as needed
+    
+    const sun = createPlanet(
+      SUN_SIZE,
+      SUN_TEXTURE,
+      sunRotationAxis,
+      rotationDegreesPerMillisecond.Sun,
+      textureLoader
+    );
 
     // Add glow sprite to sun
     sun.sphere.add(glowSprite);

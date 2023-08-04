@@ -83,3 +83,60 @@ export const MOON_ORBIT_RADIUS = EARTH_SIZE + 0.5257;
 
 // Assuming same tilt axis as earth for simplicity
 export const MOON_AXIS_TILT_ANGLE = (1 / 4) * EARTH_AXIS_TILT_ANGLE;
+
+// Constants for planets
+export const PLANETS_CONFIGURATION = [
+  {
+    name: 'Sun',
+    size: 3,
+    texture: '/thesun.jpg',
+    axisTiltAngle: 7.25,
+    rotationSpeed: 0.0000001643 * BASE_SPEED,
+    orbitRadius: 0,
+    orbitSpeed: 0,
+  },
+  {
+    name: 'Earth',
+    size: 1,
+    texture: '/earthtexture.jpg',
+    axisTiltAngle: 23.5,
+    orbitRadius: 10,
+    rotationSpeed: 0.000004167 * BASE_SPEED,
+    orbitSpeed: 0.0000000114077 * BASE_SPEED,
+    moon: {
+      size: 0.272,
+      texture: '/moontexture.jpg',
+      orbitRadius: 1 + 0.5257,
+      axisTiltAngle: (1 / 4) * 23.5,
+      rotationSpeed: 0.0000001643 * BASE_SPEED,
+      orbitSpeed: 0.00000004736 * BASE_SPEED,
+    },
+  },
+  {
+    name: 'Mars',
+    size: 0.53,
+    texture: '/marstexture.png',
+    axisTiltAngle: 25.19,
+    orbitRadius: 15.3,
+    rotationSpeed: 0.000004057 * BASE_SPEED,
+    orbitSpeed: 0.000000006067 * BASE_SPEED,
+  },
+  {
+    name: 'Venus',
+    size: 0.949,
+    texture: '/venustexture.jpg',
+    axisTiltAngle: 3,
+    orbitRadius: 7.2,
+    rotationSpeed: 0.00000001714 * BASE_SPEED,
+    orbitSpeed: 0.00000001854 * BASE_SPEED,
+  },
+  {
+    name: 'Mercury',
+    size: 0.38,
+    texture: '/mercurytexture.jpg',
+    axisTiltAngle: 0.03,
+    orbitRadius: 3.9,
+    rotationSpeed: 0.0000000711 * BASE_SPEED,
+    orbitSpeed: 0.00000004736 * BASE_SPEED,
+  },
+];
