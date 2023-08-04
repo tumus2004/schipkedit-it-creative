@@ -94,8 +94,8 @@ function createSunGlowTexture() {
   );
 
   gradient.addColorStop(0, 'rgba(255,255,255,1)');
-  gradient.addColorStop(0.2, 'rgba(255,180,0,1)');
-  gradient.addColorStop(0.4, 'rgba(255,100,0,0.6)');
+  gradient.addColorStop(0.3, 'rgba(255,180,0,1)');
+  gradient.addColorStop(0.6, 'rgba(255,100,0,0.6)');
   gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
   context.fillStyle = gradient;
