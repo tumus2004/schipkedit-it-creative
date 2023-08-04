@@ -272,7 +272,13 @@ const SolarSystem = ({
     const earthPivot = createPivot(scene);
     earthPivot.add(earth.sphere);
 
-    createOrbit(EARTH_ORBIT_RADIUS, EARTH_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    createOrbit(
+      EARTH_ORBIT_RADIUS,
+      EARTH_ORBIT_RADIUS,
+      ORBIT_SEGMENTS,
+      scene,
+      false
+    );
     setPosition(earth, EARTH_ORBIT_RADIUS, rotationDegreesPerMillisecond.Earth);
 
     const mars = createPlanet(
@@ -290,6 +296,7 @@ const SolarSystem = ({
       MARS_ORBIT_RADIUS,
       ORBIT_SEGMENTS,
       scene,
+      false,
       1.88
     );
     setPosition(
@@ -308,7 +315,13 @@ const SolarSystem = ({
     const venusPivot = createPivot(scene);
     venusPivot.add(venus.sphere);
 
-    createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    createOrbit(
+      VENUS_ORBIT_RADIUS,
+      VENUS_ORBIT_RADIUS,
+      ORBIT_SEGMENTS,
+      scene,
+      true
+    );
     setPosition(venus, VENUS_ORBIT_RADIUS, orbitDegreesPerMillisecond.Venus);
 
     const mercury = createPlanet(
@@ -325,7 +338,8 @@ const SolarSystem = ({
       MERCURY_ORBIT_RADIUS,
       MERCURY_ORBIT_RADIUS,
       ORBIT_SEGMENTS,
-      scene
+      scene,
+      false
     );
     setPosition(
       mercury,
