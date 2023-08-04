@@ -10,6 +10,8 @@ import { setSolarSystemSize } from './helpers/setSolarSystemSize';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
 import {
   EARTH_AXIS_TILT_ANGLE,
   EARTH_ORBIT_RADIUS,
@@ -248,6 +250,10 @@ const SolarSystem = ({
     bloomPass.radius = 0.1;
     composer.addPass(bloomPass);
 
+    const shaderPass = new ShaderPass(CopyShader);
+    shaderPass.renderToScreen = true;
+    composer.addPass(shaderPass);
+
     window.addEventListener('resize', onWindowResize);
     const textureLoader = new THREE.TextureLoader();
 
@@ -267,7 +273,7 @@ const SolarSystem = ({
       map: glowTexture,
       blending: THREE.AdditiveBlending,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.7,
     });
 
     // Create glow sprite
