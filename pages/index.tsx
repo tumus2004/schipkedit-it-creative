@@ -18,7 +18,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
         className='fixed top-0 left-0'
       />
       <div
-        className='bg-center w-full h-screen relative'
+        className='bg-center z-50 w-full h-screen relative'
         style={{ background: `transparent` }}>
         <div className='absolute top-10 center w-full text-center'>
           <p className='font-sans text-2xl text-gray-300'>
@@ -26,7 +26,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
             irl
           </p>
         </div>
-        <div className='container relative z-50 mx-auto px-6 py-16'>
+        <div className='container mx-auto px-6 py-16'>
           <h1 className='text-6xl font-extrabold neonText text-gray-100 ml-4'>
             Schipked it
           </h1>
