@@ -73,7 +73,45 @@ axios
     console.log(error);
   });
 
-const SolarSystem = ({ className, setBaseSpeed, baseSpeed }: SolarSystemProps) => {
+function createSunGlowTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+
+  const context = canvas.getContext('2d');
+  if (!context) {
+    console.error('Could not get 2D context');
+    return;
+  }
+
+  const gradient = context.createRadialGradient(
+    canvas.width / 2,
+    canvas.height / 2,
+    0,
+    canvas.width / 2,
+    canvas.height / 2,
+    canvas.width / 2
+  );
+
+  gradient.addColorStop(0, 'rgba(255,255,255,1)');
+  gradient.addColorStop(0.2, 'rgba(255,180,0,1)');
+  gradient.addColorStop(0.4, 'rgba(255,100,0,0.6)');
+  gradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  const texture = new THREE.Texture(canvas);
+  texture.needsUpdate = true;
+
+  return texture;
+}
+
+const SolarSystem = ({
+  className,
+  setBaseSpeed,
+  baseSpeed,
+}: SolarSystemProps) => {
   // Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
   let BASE_SPEED = baseSpeed;
 
@@ -203,6 +241,24 @@ const SolarSystem = ({ className, setBaseSpeed, baseSpeed }: SolarSystemProps) =
       textureLoader
     );
 
+    // Create glow texture
+    const glowTexture = createSunGlowTexture();
+
+    // Create glow material
+    const glowMaterial = new THREE.SpriteMaterial({
+      map: glowTexture,
+      blending: THREE.AdditiveBlending,
+      transparent: true,
+      opacity: 0.6,
+    });
+
+    // Create glow sprite
+    const glowSprite = new THREE.Sprite(glowMaterial);
+    glowSprite.scale.set(SUN_SIZE * 3, SUN_SIZE * 3, 1); // Adjust the scale as needed
+
+    // Add glow sprite to sun
+    sun.sphere.add(glowSprite);
+
     const sunPivot = createPivot(scene);
     sunPivot.add(sun.sphere);
 
@@ -331,7 +387,7 @@ const SolarSystem = ({ className, setBaseSpeed, baseSpeed }: SolarSystemProps) =
       renderer.dispose();
       window.removeEventListener('resize', onWindowResize);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBrowser, stars]);
 
   return (
