@@ -7,6 +7,9 @@ import { createOrbit } from './helpers/createOrbit';
 import { createPivot } from './helpers/createPivot';
 import { createPlanet } from './helpers/createPlanet';
 import { setSolarSystemSize } from './helpers/setSolarSystemSize';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import {
   EARTH_AXIS_TILT_ANGLE,
   EARTH_ORBIT_RADIUS,
@@ -230,6 +233,21 @@ const SolarSystem = ({
       }
     };
 
+    const composer = new EffectComposer(renderer);
+    const renderPass = new RenderPass(scene, camera);
+    composer.addPass(renderPass);
+
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      1.5,
+      0.4,
+      0.85
+    );
+    bloomPass.threshold = 0.1;
+    bloomPass.strength = 0.25;
+    bloomPass.radius = 0.1;
+    composer.addPass(bloomPass);
+
     window.addEventListener('resize', onWindowResize);
     const textureLoader = new THREE.TextureLoader();
 
@@ -249,7 +267,7 @@ const SolarSystem = ({
       map: glowTexture,
       blending: THREE.AdditiveBlending,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.8,
     });
 
     // Create glow sprite
@@ -290,6 +308,7 @@ const SolarSystem = ({
       MARS_ORBIT_RADIUS,
       ORBIT_SEGMENTS,
       scene,
+      false,
       1.88
     );
     setPosition(
@@ -308,12 +327,7 @@ const SolarSystem = ({
     const venusPivot = createPivot(scene);
     venusPivot.add(venus.sphere);
 
-    createOrbit(
-      VENUS_ORBIT_RADIUS,
-      VENUS_ORBIT_RADIUS,
-      ORBIT_SEGMENTS,
-      scene,
-    );
+    createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene, true);
     setPosition(venus, VENUS_ORBIT_RADIUS, orbitDegreesPerMillisecond.Venus);
 
     const mercury = createPlanet(
@@ -381,8 +395,8 @@ const SolarSystem = ({
       requestAnimationFrame(animate);
 
       lastRenderTime = currentRenderTime;
-
-      renderer.render(scene, camera);
+      composer.render();
+      // renderer.render(scene, camera);
     };
 
     animate();
