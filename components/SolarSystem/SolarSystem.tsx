@@ -243,7 +243,7 @@ const SolarSystem = ({
       0.4,
       0.85
     );
-    bloomPass.threshold = 0.1;
+    bloomPass.threshold = 0.2;
     bloomPass.strength = 0.25;
     bloomPass.radius = 0.1;
     composer.addPass(bloomPass);
