@@ -308,7 +308,12 @@ const SolarSystem = ({
     const venusPivot = createPivot(scene);
     venusPivot.add(venus.sphere);
 
-    createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    createOrbit(
+      VENUS_ORBIT_RADIUS,
+      VENUS_ORBIT_RADIUS,
+      ORBIT_SEGMENTS,
+      scene,
+    );
     setPosition(venus, VENUS_ORBIT_RADIUS, orbitDegreesPerMillisecond.Venus);
 
     const mercury = createPlanet(
