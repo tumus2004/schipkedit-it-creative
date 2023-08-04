@@ -11,14 +11,14 @@ interface IndexProps {
 const Index: React.FC = ({ className }: IndexProps) => {
   const [baseSpeed, setBaseSpeed] = useState<number>(480);
   return (
-    <div className='min-h-screen relative bg-gradient-to-br from-black to-gray-800'>
+    <div className='min-h-screen z-100 relative bg-gradient-to-br from-black to-gray-800'>
       <SolarSystem
         baseSpeed={baseSpeed}
         setBaseSpeed={setBaseSpeed}
         className='fixed top-0 left-0'
       />
       <div
-        className='bg-center z-50 w-full h-screen relative'
+        className='bg-center w-full h-screen relative'
         style={{ background: `transparent` }}>
         <div className='absolute top-10 center w-full text-center'>
           <p className='font-sans text-2xl text-gray-300'>
