@@ -18,5 +18,13 @@ export const LIGHT_FOUR_COLOR = 0xffffff;
 export const LIGHT_FOUR_INTENSITY = 1;
 export const LIGHT_FOUR_DISTANCE = 100;
 
+export const LIGHT_FIVE_COLOR = 0xffffff;
+export const LIGHT_FIVE_INTENSITY = 1;
+export const LIGHT_FIVE_DISTANCE = 100;
+
+export const LIGHT_SIX_COLOR = 0xffffff;
+export const LIGHT_SIX_INTENSITY = 1;
+export const LIGHT_SIX_DISTANCE = 100;
+
 export const YOUR_MAX_ZOOM = 100
 export const YOUR_MIN_ZOOM = 10

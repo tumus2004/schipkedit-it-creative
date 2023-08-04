@@ -46,6 +46,12 @@ import {
   CAMERA_NEAR,
   LIGHT_COLOR,
   LIGHT_DISTANCE,
+  LIGHT_SIX_COLOR,
+  LIGHT_SIX_DISTANCE,
+  LIGHT_SIX_INTENSITY,
+  LIGHT_FIVE_COLOR,
+  LIGHT_FIVE_DISTANCE,
+  LIGHT_FIVE_INTENSITY,
   LIGHT_FOUR_COLOR,
   LIGHT_FOUR_DISTANCE,
   LIGHT_FOUR_INTENSITY,
@@ -80,8 +86,8 @@ axios
 
 function createSunGlowTexture() {
   const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 256;
+  canvas.width = 1024;
+  canvas.height = 1024;
 
   const context = canvas.getContext('2d');
   if (!context) {
@@ -203,6 +209,22 @@ const SolarSystem = ({
       [10, -5, -10],
       scene
     );
+    
+    createAndAddLight(
+      LIGHT_FIVE_COLOR,
+      LIGHT_FIVE_INTENSITY,
+      LIGHT_FIVE_DISTANCE,
+      [20, -10, 10],
+      scene
+    );
+    
+    createAndAddLight(
+      LIGHT_SIX_COLOR,
+      LIGHT_SIX_INTENSITY,
+      LIGHT_SIX_DISTANCE,
+      [45, 30, -20],
+      scene
+    );
 
     camera.position.z = 30;
     camera.position.y = 9;
@@ -273,7 +295,7 @@ const SolarSystem = ({
       map: glowTexture,
       blending: THREE.AdditiveBlending,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.8,
     });
 
     // Create glow sprite
