@@ -2,11 +2,17 @@ import axios from 'axios';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { setPosition } from './helpers/setPosition';
-import { createOrbit } from './helpers/createOrbit';
-import { createPivot } from './helpers/createPivot';
-import { createPlanet } from './helpers/createPlanet';
-import { setSolarSystemSize } from './helpers/setSolarSystemSize';
+import {
+  setPosition,
+  createOrbit,
+  createPivot,
+  createPlanet,
+  setSolarSystemSize,
+  createRotationAxis,
+  createSunGlowTexture,
+  createAndAddLight,
+  createStars,
+} from './helpers';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -40,84 +46,21 @@ import {
   orbitDegreesPerMillisecond,
   rotationDegreesPerMillisecond,
 } from './constants/planetConstants';
-import { createRotationAxis } from './helpers/createRotationAxis';
 import {
   CAMERA_FAR,
   CAMERA_NEAR,
-  LIGHT_COLOR,
-  LIGHT_DISTANCE,
-  LIGHT_SIX_COLOR,
-  LIGHT_SIX_DISTANCE,
-  LIGHT_SIX_INTENSITY,
-  LIGHT_FIVE_COLOR,
-  LIGHT_FIVE_DISTANCE,
-  LIGHT_FIVE_INTENSITY,
-  LIGHT_FOUR_COLOR,
-  LIGHT_FOUR_DISTANCE,
-  LIGHT_FOUR_INTENSITY,
-  LIGHT_INTENSITY,
-  LIGHT_THREE_COLOR,
-  LIGHT_THREE_DISTANCE,
-  LIGHT_THREE_INTENSITY,
-  LIGHT_TWO_COLOR,
-  LIGHT_TWO_DISTANCE,
-  LIGHT_TWO_INTENSITY,
   YOUR_MAX_ZOOM,
   YOUR_MIN_ZOOM,
 } from './constants/configurationConstants';
-import { createAndAddLight } from './helpers/createAndAddLight';
 import { lights } from './constants/lightsConfiguration';
+import { fetchPlanetData } from './utils';
 interface SolarSystemProps {
   className?: string;
   setBaseSpeed: (speed: number) => void;
   baseSpeed: number;
 }
 
-axios
-  .get(
-    "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='199'&MAKE_EPHEM='YES'&EPHEM_TYPE='VECTORS'&CENTER='@10'&START_TIME='2022-01-01'&STOP_TIME='2022-01-02'&STEP_SIZE='1%20d'"
-  )
-  .then((response) => {
-    const mercuryData = response.data;
-    console.log(mercuryData);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-
-function createSunGlowTexture() {
-  const canvas = document.createElement('canvas');
-  canvas.width = 1024;
-  canvas.height = 1024;
-
-  const context = canvas.getContext('2d');
-  if (!context) {
-    console.error('Could not get 2D context');
-    return;
-  }
-
-  const gradient = context.createRadialGradient(
-    canvas.width / 2,
-    canvas.height / 2,
-    0,
-    canvas.width / 2,
-    canvas.height / 2,
-    canvas.width / 2
-  );
-
-  gradient.addColorStop(0, 'rgba(255,255,255,1)');
-  gradient.addColorStop(0.2, 'rgba(255,180,0,1)');
-  gradient.addColorStop(0.5, 'rgba(255,100,0,0.6)');
-  gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-  context.fillStyle = gradient;
-  context.fillRect(0, 0, canvas.width, canvas.height);
-
-  const texture = new THREE.Texture(canvas);
-  texture.needsUpdate = true;
-
-  return texture;
-}
+fetchPlanetData();
 
 const SolarSystem = ({
   className,
@@ -130,32 +73,14 @@ const SolarSystem = ({
   // Assuming the orbit speed of the moon, you can adjust it to the actual value
   const orbitDegreesPerMillisecondMoon = 0.000001 * BASE_SPEED;
 
-  const starCoords = [];
-
-  for (let i = 0; i < 10000; i++) {
-    const x = THREE.MathUtils.randFloatSpread(1000);
-    const y = THREE.MathUtils.randFloatSpread(1000);
-    const z = THREE.MathUtils.randFloatSpread(1000);
-
-    starCoords.push(x, y, z);
-  }
-
-  const starsGeometry = new THREE.BufferGeometry();
-
-  starsGeometry.setAttribute(
-    'position',
-    new THREE.Float32BufferAttribute(starCoords, 3)
-  );
-
-  const starsMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa });
-  const stars = new THREE.Points(starsGeometry, starsMaterial);
-
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
 
   if (containerRef.current) {
     containerRef.current.style.background = 'transparent';
   }
+
+  const stars = createStars();
 
   useEffect(() => {
     setSolarSystemSize();

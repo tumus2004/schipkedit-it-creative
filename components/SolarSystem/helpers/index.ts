@@ -4,3 +4,7 @@ export { createPivot } from './createPivot';
 export { createPlanet } from './createPlanet';
 export { createPlanetWithPivot } from './createPlanetWithPivot';
 export { createRotationAxis } from './createRotationAxis';
+export { createSunGlowTexture } from './createSunGlowTexture';
+export { setSolarSystemSize } from './setSolarSystemSize';
+export { setPosition } from './setPosition';
+export { createStars } from './createStars';
