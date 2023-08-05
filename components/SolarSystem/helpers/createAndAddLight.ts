@@ -4,7 +4,7 @@ export function createAndAddLight(
   color: THREE.ColorRepresentation | undefined,
   intensity: number | undefined,
   distance: number | undefined,
-  position: [number, number, number], // update this
+  position: [number, number, number],
   scene: THREE.Scene
 ) {
   const light = new THREE.PointLight(color, intensity, distance);

@@ -66,6 +66,7 @@ import {
   YOUR_MIN_ZOOM,
 } from './constants/configurationConstants';
 import { createAndAddLight } from './helpers/createAndAddLight';
+import { lights } from './constants/lightsConfiguration';
 interface SolarSystemProps {
   className?: string;
   setBaseSpeed: (speed: number) => void;
@@ -179,52 +180,15 @@ const SolarSystem = ({
     );
     containerRef.current.appendChild(renderer.domElement);
 
-    createAndAddLight(
-      LIGHT_COLOR,
-      LIGHT_INTENSITY,
-      LIGHT_DISTANCE,
-      [0, 15, 25],
-      scene
-    );
-    createAndAddLight(
-      LIGHT_TWO_COLOR,
-      LIGHT_TWO_INTENSITY,
-      LIGHT_TWO_DISTANCE,
-      [0, -15, -25],
-      scene
-    );
-
-    createAndAddLight(
-      LIGHT_THREE_COLOR,
-      LIGHT_THREE_INTENSITY,
-      LIGHT_THREE_DISTANCE,
-      [-10, 5, 10],
-      scene
-    );
-
-    createAndAddLight(
-      LIGHT_FOUR_COLOR,
-      LIGHT_FOUR_INTENSITY,
-      LIGHT_FOUR_DISTANCE,
-      [10, -5, -10],
-      scene
-    );
-
-    createAndAddLight(
-      LIGHT_FIVE_COLOR,
-      LIGHT_FIVE_INTENSITY,
-      LIGHT_FIVE_DISTANCE,
-      [20, -10, 10],
-      scene
-    );
-
-    createAndAddLight(
-      LIGHT_SIX_COLOR,
-      LIGHT_SIX_INTENSITY,
-      LIGHT_SIX_DISTANCE,
-      [45, 30, -20],
-      scene
-    );
+    lights.forEach((light) => {
+      createAndAddLight(
+        light.color,
+        light.intensity,
+        light.distance,
+        light.position,
+        scene
+      );
+    });
 
     camera.position.z = 30;
     camera.position.y = 9;
@@ -232,7 +196,7 @@ const SolarSystem = ({
     camera.lookAt(new THREE.Vector3(0, -1, 0));
 
     scene.add(stars);
-    
+
     scene.add(new THREE.AmbientLight(0xcccccc));
     const pointLight = new THREE.PointLight(0xffffff, 100);
     camera.add(pointLight);
@@ -278,7 +242,6 @@ const SolarSystem = ({
     const shaderPass = new ShaderPass(CopyShader);
     shaderPass.renderToScreen = true;
     composer.addPass(shaderPass);
-    
 
     window.addEventListener('resize', onWindowResize);
     const textureLoader = new THREE.TextureLoader();
@@ -297,7 +260,7 @@ const SolarSystem = ({
     // Create glow sprite
     const glowSprite = new THREE.Sprite(glowMaterial);
     glowSprite.scale.set(SUN_SIZE * 3, SUN_SIZE * 3, 1); // Adjust the scale as needed
-    
+
     const sun = createPlanet(
       SUN_SIZE,
       SUN_TEXTURE,
