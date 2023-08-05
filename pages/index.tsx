@@ -26,14 +26,14 @@ const Index: React.FC = ({ className }: IndexProps) => {
             irl
           </p>
         </div>
-        <div className='container mx-auto px-6 py-16'>
+        <div className='container pointer-events-none	mx-auto px-6 py-16'>
           <h1 className='text-6xl font-extrabold neonText text-gray-100 ml-4'>
             Schipked it
           </h1>
           <p className='text-gray-300 text-3xl font-light neonText ml-4 mt-4'>
             Work in progress
           </p>
-          <div className='flex relative flex-col z-50 lg:flex-row mt-12'>
+          {/* <div className='flex relative flex-col z-50 lg:flex-row mt-12'>
             <div className='relative group mt-8'>
               <Link
                 href='/works'
@@ -60,7 +60,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
