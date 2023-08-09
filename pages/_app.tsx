@@ -1,6 +1,5 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { initializeApp } from 'firebase/app';
 import dotenv from 'dotenv';
 
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,9 +17,6 @@ export const firebaseConfig = {
   // credential: admin.credential.cert(serviceAccount),
   databaseUrl: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 };
-
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
 
 export default function App({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;

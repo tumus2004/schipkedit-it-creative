@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import firebase, { initializeApp } from 'firebase/app';
-import { getDatabase, ref, push } from 'firebase/database';
 // const cors = require('cors')({ origin: true });
 //
 // interface ListItem {
