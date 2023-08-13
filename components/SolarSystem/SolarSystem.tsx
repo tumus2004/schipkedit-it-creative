@@ -54,6 +54,7 @@ import {
 } from './constants/configurationConstants';
 import { lights } from './constants/lightsConfiguration';
 import { fetchPlanetData } from './utils';
+import { createSolarBody } from './helpers/createSolarBody';
 interface SolarSystemProps {
   className?: string;
   setBaseSpeed: (speed: number) => void;
@@ -200,76 +201,116 @@ const SolarSystem = ({
     const sunPivot = createPivot(scene);
     sunPivot.add(sun.sphere);
 
-    const earth = createPlanet(
-      EARTH_SIZE,
-      EARTH_TEXTURE,
-      earthRotationAxis,
-      rotationDegreesPerMillisecond.Earth,
-      textureLoader
-    );
-    const earthPivot = createPivot(scene);
-    earthPivot.add(earth.sphere);
-
-    createOrbit(EARTH_ORBIT_RADIUS, EARTH_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
-    setPosition(earth, EARTH_ORBIT_RADIUS, rotationDegreesPerMillisecond.Earth);
-
-    const mars = createPlanet(
-      MARS_SIZE,
-      MARS_TEXTURE,
-      marsRotationAxis,
-      rotationDegreesPerMillisecond.Mars,
-      textureLoader
-    );
-    const marsPivot = createPivot(scene, 1.88);
-    marsPivot.add(mars.sphere);
-
-    createOrbit(
-      MARS_ORBIT_RADIUS,
-      MARS_ORBIT_RADIUS,
-      ORBIT_SEGMENTS,
+    const earth = createSolarBody({
+      size: EARTH_SIZE,
+      texture: EARTH_TEXTURE,
+      rotationAxis: earthRotationAxis,
+      rotationDegrees: rotationDegreesPerMillisecond.Earth,
+      orbitRadius: EARTH_ORBIT_RADIUS,
       scene,
-      1.88
-    );
-    setPosition(
-      mars,
-      MARS_ORBIT_RADIUS,
-      rotationDegreesPerMillisecond.Earth / 1.88
-    );
+      textureLoader,
+    });
 
-    const venus = createPlanet(
-      VENUS_SIZE,
-      VENUS_TEXTURE,
-      venusRotationAxis,
-      rotationDegreesPerMillisecond.Venus,
-      textureLoader
-    );
-    const venusPivot = createPivot(scene);
-    venusPivot.add(venus.sphere);
+    const mars = createSolarBody({
+      size: MARS_SIZE,
+      texture: MARS_TEXTURE,
+      rotationAxis: marsRotationAxis,
+      rotationDegrees: rotationDegreesPerMillisecond.Mars,
+      orbitRadius: MARS_ORBIT_RADIUS,
+      scene,
+      textureLoader,
+      orbitMultiplier: 1.88,
+    });
 
-    createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
-    setPosition(venus, VENUS_ORBIT_RADIUS, orbitDegreesPerMillisecond.Venus);
+    const venus = createSolarBody({
+      size: VENUS_SIZE,
+      texture: VENUS_TEXTURE,
+      rotationAxis: venusRotationAxis,
+      rotationDegrees: rotationDegreesPerMillisecond.Venus,
+      orbitRadius: VENUS_ORBIT_RADIUS,
+      scene,
+      textureLoader,
+    });
 
-    const mercury = createPlanet(
-      MERCURY_SIZE,
-      MERCURY_TEXTURE,
-      mercuryRotationAxis,
-      rotationDegreesPerMillisecond.Mercury,
-      textureLoader
-    );
-    const mercuryPivot = createPivot(scene);
-    mercuryPivot.add(mercury.sphere);
-
-    createOrbit(
-      MERCURY_ORBIT_RADIUS,
-      MERCURY_ORBIT_RADIUS,
-      ORBIT_SEGMENTS,
-      scene
-    );
-    setPosition(
-      mercury,
-      MERCURY_ORBIT_RADIUS,
-      orbitDegreesPerMillisecond.Mercury
-    );
+    const mercury = createSolarBody({
+      size: MERCURY_SIZE,
+      texture: MERCURY_TEXTURE,
+      rotationAxis: mercuryRotationAxis,
+      rotationDegrees: rotationDegreesPerMillisecond.Mercury,
+      orbitRadius: MERCURY_ORBIT_RADIUS,
+      scene,
+      textureLoader,
+    });
+    //     const earth = createPlanet(
+    //       EARTH_SIZE,
+    //       EARTH_TEXTURE,
+    //       earthRotationAxis,
+    //       rotationDegreesPerMillisecond.Earth,
+    //       textureLoader
+    //     );
+    //     const earthPivot = createPivot(scene);
+    //     earthPivot.add(earth.sphere);
+    //
+    //     createOrbit(EARTH_ORBIT_RADIUS, EARTH_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    //     setPosition(earth, EARTH_ORBIT_RADIUS, rotationDegreesPerMillisecond.Earth);
+    //
+    //     const mars = createPlanet(
+    //       MARS_SIZE,
+    //       MARS_TEXTURE,
+    //       marsRotationAxis,
+    //       rotationDegreesPerMillisecond.Mars,
+    //       textureLoader
+    //     );
+    //     const marsPivot = createPivot(scene, 1.88);
+    //     marsPivot.add(mars.sphere);
+    //
+    //     createOrbit(
+    //       MARS_ORBIT_RADIUS,
+    //       MARS_ORBIT_RADIUS,
+    //       ORBIT_SEGMENTS,
+    //       scene,
+    //       1.88
+    //     );
+    //     setPosition(
+    //       mars,
+    //       MARS_ORBIT_RADIUS,
+    //       rotationDegreesPerMillisecond.Earth / 1.88
+    //     );
+    //
+    //     const venus = createPlanet(
+    //       VENUS_SIZE,
+    //       VENUS_TEXTURE,
+    //       venusRotationAxis,
+    //       rotationDegreesPerMillisecond.Venus,
+    //       textureLoader
+    //     );
+    //     const venusPivot = createPivot(scene);
+    //     venusPivot.add(venus.sphere);
+    //
+    //     createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
+    //     setPosition(venus, VENUS_ORBIT_RADIUS, orbitDegreesPerMillisecond.Venus);
+    //
+    //     const mercury = createPlanet(
+    //       MERCURY_SIZE,
+    //       MERCURY_TEXTURE,
+    //       mercuryRotationAxis,
+    //       rotationDegreesPerMillisecond.Mercury,
+    //       textureLoader
+    //     );
+    //     const mercuryPivot = createPivot(scene);
+    //     mercuryPivot.add(mercury.sphere);
+    //
+    //     createOrbit(
+    //       MERCURY_ORBIT_RADIUS,
+    //       MERCURY_ORBIT_RADIUS,
+    //       ORBIT_SEGMENTS,
+    //       scene
+    //     );
+    //     setPosition(
+    //       mercury,
+    //       MERCURY_ORBIT_RADIUS,
+    //       orbitDegreesPerMillisecond.Mercury
+    //     );
 
     const moon = createPlanet(
       MOON_SIZE,
@@ -281,7 +322,7 @@ const SolarSystem = ({
 
     setPosition(moon, MOON_ORBIT_RADIUS, orbitDegreesPerMillisecondMoon);
 
-    earth.sphere.add(moon.sphere);
+    earth.planet.sphere.add(moon.sphere);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.maxDistance = YOUR_MAX_ZOOM;
@@ -296,20 +337,21 @@ const SolarSystem = ({
       const currentRenderTime = window.performance.now();
       const deltaTime = currentRenderTime - lastRenderTime;
 
-      earth.rotate(deltaTime);
-      mars.rotate(deltaTime);
-      venus.rotate(deltaTime);
+      earth.planet.rotate(deltaTime);
+      mars.planet.rotate(deltaTime);
+      venus.planet.rotate(deltaTime);
+      mercury.planet.rotate(deltaTime);
       sun.rotate(deltaTime);
-      mercury.rotate(deltaTime);
       moon.rotate(deltaTime);
 
       controls.update();
 
-      earthPivot.rotation.y += orbitDegreesPerMillisecond.Earth * deltaTime;
-      marsPivot.rotation.y += orbitDegreesPerMillisecond.Mars * deltaTime;
-      venusPivot.rotation.y += orbitDegreesPerMillisecond.Venus * deltaTime;
+      earth.pivot.rotation.y += orbitDegreesPerMillisecond.Earth * deltaTime;
+      mars.pivot.rotation.y += orbitDegreesPerMillisecond.Mars * deltaTime;
+      venus.pivot.rotation.y += orbitDegreesPerMillisecond.Venus * deltaTime;
+      mercury.pivot.rotation.y +=
+        orbitDegreesPerMillisecond.Mercury * deltaTime;
       sunPivot.rotation.y += rotationDegreesPerMillisecond.Sun * deltaTime;
-      mercuryPivot.rotation.y += orbitDegreesPerMillisecond.Mercury * deltaTime;
 
       requestAnimationFrame(animate);
 

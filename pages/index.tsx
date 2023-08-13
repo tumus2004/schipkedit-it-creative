@@ -20,12 +20,12 @@ const Index: React.FC = ({ className }: IndexProps) => {
       <div
         className='bg-center w-full h-screen relative'
         style={{ background: `transparent` }}>
-        <div className='text-5xl font-extrabold absolute top-0 md:top-16 w-full text-center'>
+        <div className='text-4xl md:text-6xl font-extrabold absolute top-16 w-full text-center'>
           <span className='bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-sky-700'>
           1 Second = {baseSpeed / 60} {baseSpeed === 60 ? `hour` : `hours`}
           </span>
         </div>
-        <div className='container pointer-events-none	mx-auto px-6 py-16'>
+        <div className='container pointer-events-none	mx-auto px-6 pt-32'>
           <h1 className='font-extrabold text-gray-100 ml-4'>Schipked it</h1>
           <p className='text-gray-300 text-2xs font-light ml-4 mt-0'>
             Work in progress
