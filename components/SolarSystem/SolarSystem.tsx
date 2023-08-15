@@ -254,6 +254,14 @@ const SolarSystem = ({
 
     let lastRenderTime = performance.now();
 
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    function onMouseMove(event: any) {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
     const animate = function () {
       const currentRenderTime = window.performance.now();
       const deltaTime = currentRenderTime - lastRenderTime;
