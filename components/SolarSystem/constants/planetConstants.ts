@@ -47,42 +47,43 @@ export const orbitDegreesPerMillisecond = {
   Sun: 0,
 };
 
-export const SUN_SIZE = 3;
-export const SUN_TEXTURE = '/thesun.jpg';
-export const SUN_AXIS_TILT_ANGLE = 7.25;
+const planetConstants = {
+  SUN_SIZE: 3,
+  SUN_TEXTURE: '/thesun.jpg',
+  SUN_AXIS_TILT_ANGLE: 7.25,
 
-export const EARTH_SIZE = 1;
-export const EARTH_TEXTURE = '/earthtexture.jpg';
-export const EARTH_ORBIT_RADIUS = 10;
-export const EARTH_AXIS_TILT_ANGLE = 23.5;
+  EARTH_SIZE: 1,
+  EARTH_TEXTURE: '/earthtexture.jpg',
+  EARTH_ORBIT_RADIUS: 10,
+  EARTH_AXIS_TILT_ANGLE: 23.5,
 
-export const MARS_SIZE = 0.53;
-export const MARS_TEXTURE = '/marstexture.png';
-export const MARS_ORBIT_RADIUS = 15.3;
-export const MARS_AXIS_TILT_ANGLE = 25.19;
+  MARS_SIZE: 0.53,
+  MARS_TEXTURE: '/marstexture.png',
+  MARS_ORBIT_RADIUS: 15.3,
+  MARS_AXIS_TILT_ANGLE: 25.19,
 
-export const VENUS_SIZE = 0.949;
-export const VENUS_TEXTURE = '/venustexture.jpg';
-export const VENUS_ORBIT_RADIUS = 7.2;
-export const VENUS_AXIS_TILT_ANGLE = 3;
+  VENUS_SIZE: 0.949,
+  VENUS_TEXTURE: '/venustexture.jpg',
+  VENUS_ORBIT_RADIUS: 7.2,
+  VENUS_AXIS_TILT_ANGLE: 3,
 
-export const MERCURY_SIZE = 0.38;
-export const MERCURY_TEXTURE = '/mercurytexture.jpg';
-export const MERCURY_ORBIT_RADIUS = 3.9;
-export const MERCURY_AXIS_TILT_ANGLE = 0.03;
+  MERCURY_SIZE: 0.38,
+  MERCURY_TEXTURE: '/mercurytexture.jpg',
+  MERCURY_ORBIT_RADIUS: 3.9,
+  MERCURY_AXIS_TILT_ANGLE: 0.03,
 
-export const ORBIT_SEGMENTS = 1024;
-export const ORBIT_LINE_COLOR = 0xffffff;
-export const ORBIT_INNER_RADIUS = 9.95;
-export const ORBIT_OUTER_RADIUS = 10.05;
-export const ORBIT_TILT_ANGLE = 1.85;
+  ORBIT_SEGMENTS: 1024,
+  ORBIT_LINE_COLOR: 0xffffff,
+  ORBIT_INNER_RADIUS: 9.95,
+  ORBIT_OUTER_RADIUS: 10.05,
+  ORBIT_TILT_ANGLE: 1.85,
 
-export const MOON_SIZE = 0.272;
-export const MOON_TEXTURE = '/moontexture.jpg';
-export const MOON_ORBIT_RADIUS = EARTH_SIZE + 0.5257;
+  MOON_SIZE: 0.272,
+  MOON_TEXTURE: '/moontexture.jpg',
+  MOON_ORBIT_RADIUS: 0.5257,
 
-// Assuming same tilt axis as earth for simplicity
-export const MOON_AXIS_TILT_ANGLE = (1 / 4) * EARTH_AXIS_TILT_ANGLE;
+  MOON_AXIS_TILT_ANGLE: 5.875,
+};
 
 // Constants for planets
 export const PLANETS_CONFIGURATION = [
@@ -140,3 +141,5 @@ export const PLANETS_CONFIGURATION = [
     orbitSpeed: 0.00000004736 * BASE_SPEED,
   },
 ];
+
+export default planetConstants;

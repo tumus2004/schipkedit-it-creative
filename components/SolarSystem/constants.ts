@@ -1,6 +1,6 @@
 export const PLANETS = [
   {
-	id: 'Earth',
+    id: 'Earth',
     texture: '/texture.png',
     size: 1,
     relativeRotationSpeed: 1,
@@ -10,7 +10,7 @@ export const PLANETS = [
     orbitTiltAngle: 0,
   },
   {
-	id: 'Mars',
+    id: 'Mars',
     texture: '/marstexture.jpg',
     size: 0.53,
     rotationSpeed: 1.03,
@@ -25,7 +25,7 @@ export const PLANETS = [
 export const ORBIT = {
   innerRadius: 0.7,
   outerRadius: 1,
-  segments: 64,
+  segments: 1024,
 };
 
 export const CAMERA = {
@@ -50,4 +50,4 @@ export const SCENE_SIZE = {
   1920: 70,
 };
 
-export const ORBIT_SEGMENTS = 64;
+export const ORBIT_SEGMENTS = 1024;

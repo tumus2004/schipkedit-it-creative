@@ -18,40 +18,11 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
-import {
-  EARTH_AXIS_TILT_ANGLE,
-  EARTH_ORBIT_RADIUS,
-  EARTH_SIZE,
-  EARTH_TEXTURE,
-  MARS_AXIS_TILT_ANGLE,
-  MARS_ORBIT_RADIUS,
-  MARS_SIZE,
-  MARS_TEXTURE,
-  MERCURY_AXIS_TILT_ANGLE,
-  MERCURY_ORBIT_RADIUS,
-  MERCURY_SIZE,
-  MERCURY_TEXTURE,
-  MOON_AXIS_TILT_ANGLE,
-  MOON_ORBIT_RADIUS,
-  MOON_SIZE,
-  MOON_TEXTURE,
-  ORBIT_SEGMENTS,
-  SUN_AXIS_TILT_ANGLE,
-  SUN_SIZE,
-  SUN_TEXTURE,
-  VENUS_AXIS_TILT_ANGLE,
-  VENUS_ORBIT_RADIUS,
-  VENUS_SIZE,
-  VENUS_TEXTURE,
+import planetConstants, {
   orbitDegreesPerMillisecond,
   rotationDegreesPerMillisecond,
 } from './constants/planetConstants';
-import {
-  CAMERA_FAR,
-  CAMERA_NEAR,
-  YOUR_MAX_ZOOM,
-  YOUR_MIN_ZOOM,
-} from './constants/configurationConstants';
+import configurationConstants from './constants/configurationConstants';
 import { lights } from './constants/lightsConfiguration';
 import { fetchPlanetData } from './utils';
 import { createSolarBody } from './helpers/createSolarBody';
@@ -94,8 +65,8 @@ const SolarSystem = ({
     const camera = new THREE.PerspectiveCamera(
       setSolarSystemSize(),
       containerRef.current.clientWidth / containerRef.current.clientHeight,
-      CAMERA_NEAR,
-      CAMERA_FAR
+      configurationConstants.CAMERA_NEAR,
+      configurationConstants.CAMERA_FAR
     );
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -137,12 +108,24 @@ const SolarSystem = ({
     bloomPass.strength = 1.2;
     bloomPass.radius = 0.1;
 
-    const earthRotationAxis = createRotationAxis(EARTH_AXIS_TILT_ANGLE);
-    const marsRotationAxis = createRotationAxis(MARS_AXIS_TILT_ANGLE);
-    const venusRotationAxis = createRotationAxis(VENUS_AXIS_TILT_ANGLE);
-    const mercuryRotationAxis = createRotationAxis(MERCURY_AXIS_TILT_ANGLE);
-    const sunRotationAxis = createRotationAxis(SUN_AXIS_TILT_ANGLE);
-    const moonRotationAxis = createRotationAxis(MOON_AXIS_TILT_ANGLE);
+    const earthRotationAxis = createRotationAxis(
+      planetConstants.EARTH_AXIS_TILT_ANGLE
+    );
+    const marsRotationAxis = createRotationAxis(
+      planetConstants.MARS_AXIS_TILT_ANGLE
+    );
+    const venusRotationAxis = createRotationAxis(
+      planetConstants.VENUS_AXIS_TILT_ANGLE
+    );
+    const mercuryRotationAxis = createRotationAxis(
+      planetConstants.MERCURY_AXIS_TILT_ANGLE
+    );
+    const sunRotationAxis = createRotationAxis(
+      planetConstants.SUN_AXIS_TILT_ANGLE
+    );
+    const moonRotationAxis = createRotationAxis(
+      planetConstants.MOON_AXIS_TILT_ANGLE
+    );
 
     const onWindowResize = () => {
       if (containerRef.current) {
@@ -185,11 +168,15 @@ const SolarSystem = ({
 
     // Create glow sprite
     const glowSprite = new THREE.Sprite(glowMaterial);
-    glowSprite.scale.set(SUN_SIZE * 3, SUN_SIZE * 3, 1); // Adjust the scale as needed
+    glowSprite.scale.set(
+      planetConstants.SUN_SIZE * 3,
+      planetConstants.SUN_SIZE * 3,
+      1
+    ); // Adjust the scale as needed
 
     const sun = createPlanet(
-      SUN_SIZE,
-      SUN_TEXTURE,
+      planetConstants.SUN_SIZE,
+      planetConstants.SUN_TEXTURE,
       sunRotationAxis,
       rotationDegreesPerMillisecond.Sun,
       textureLoader
@@ -202,131 +189,65 @@ const SolarSystem = ({
     sunPivot.add(sun.sphere);
 
     const earth = createSolarBody({
-      size: EARTH_SIZE,
-      texture: EARTH_TEXTURE,
+      size: planetConstants.EARTH_SIZE,
+      texture: planetConstants.EARTH_TEXTURE,
       rotationAxis: earthRotationAxis,
       rotationDegrees: rotationDegreesPerMillisecond.Earth,
-      orbitRadius: EARTH_ORBIT_RADIUS,
+      orbitRadius: planetConstants.EARTH_ORBIT_RADIUS,
       scene,
       textureLoader,
     });
 
     const mars = createSolarBody({
-      size: MARS_SIZE,
-      texture: MARS_TEXTURE,
+      size: planetConstants.MARS_SIZE,
+      texture: planetConstants.MARS_TEXTURE,
       rotationAxis: marsRotationAxis,
       rotationDegrees: rotationDegreesPerMillisecond.Mars,
-      orbitRadius: MARS_ORBIT_RADIUS,
+      orbitRadius: planetConstants.MARS_ORBIT_RADIUS,
       scene,
       textureLoader,
       orbitMultiplier: 1.88,
     });
 
     const venus = createSolarBody({
-      size: VENUS_SIZE,
-      texture: VENUS_TEXTURE,
+      size: planetConstants.VENUS_SIZE,
+      texture: planetConstants.VENUS_TEXTURE,
       rotationAxis: venusRotationAxis,
       rotationDegrees: rotationDegreesPerMillisecond.Venus,
-      orbitRadius: VENUS_ORBIT_RADIUS,
+      orbitRadius: planetConstants.VENUS_ORBIT_RADIUS,
       scene,
       textureLoader,
     });
 
     const mercury = createSolarBody({
-      size: MERCURY_SIZE,
-      texture: MERCURY_TEXTURE,
+      size: planetConstants.MERCURY_SIZE,
+      texture: planetConstants.MERCURY_TEXTURE,
       rotationAxis: mercuryRotationAxis,
       rotationDegrees: rotationDegreesPerMillisecond.Mercury,
-      orbitRadius: MERCURY_ORBIT_RADIUS,
+      orbitRadius: planetConstants.MERCURY_ORBIT_RADIUS,
       scene,
       textureLoader,
     });
-    //     const earth = createPlanet(
-    //       EARTH_SIZE,
-    //       EARTH_TEXTURE,
-    //       earthRotationAxis,
-    //       rotationDegreesPerMillisecond.Earth,
-    //       textureLoader
-    //     );
-    //     const earthPivot = createPivot(scene);
-    //     earthPivot.add(earth.sphere);
-    //
-    //     createOrbit(EARTH_ORBIT_RADIUS, EARTH_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
-    //     setPosition(earth, EARTH_ORBIT_RADIUS, rotationDegreesPerMillisecond.Earth);
-    //
-    //     const mars = createPlanet(
-    //       MARS_SIZE,
-    //       MARS_TEXTURE,
-    //       marsRotationAxis,
-    //       rotationDegreesPerMillisecond.Mars,
-    //       textureLoader
-    //     );
-    //     const marsPivot = createPivot(scene, 1.88);
-    //     marsPivot.add(mars.sphere);
-    //
-    //     createOrbit(
-    //       MARS_ORBIT_RADIUS,
-    //       MARS_ORBIT_RADIUS,
-    //       ORBIT_SEGMENTS,
-    //       scene,
-    //       1.88
-    //     );
-    //     setPosition(
-    //       mars,
-    //       MARS_ORBIT_RADIUS,
-    //       rotationDegreesPerMillisecond.Earth / 1.88
-    //     );
-    //
-    //     const venus = createPlanet(
-    //       VENUS_SIZE,
-    //       VENUS_TEXTURE,
-    //       venusRotationAxis,
-    //       rotationDegreesPerMillisecond.Venus,
-    //       textureLoader
-    //     );
-    //     const venusPivot = createPivot(scene);
-    //     venusPivot.add(venus.sphere);
-    //
-    //     createOrbit(VENUS_ORBIT_RADIUS, VENUS_ORBIT_RADIUS, ORBIT_SEGMENTS, scene);
-    //     setPosition(venus, VENUS_ORBIT_RADIUS, orbitDegreesPerMillisecond.Venus);
-    //
-    //     const mercury = createPlanet(
-    //       MERCURY_SIZE,
-    //       MERCURY_TEXTURE,
-    //       mercuryRotationAxis,
-    //       rotationDegreesPerMillisecond.Mercury,
-    //       textureLoader
-    //     );
-    //     const mercuryPivot = createPivot(scene);
-    //     mercuryPivot.add(mercury.sphere);
-    //
-    //     createOrbit(
-    //       MERCURY_ORBIT_RADIUS,
-    //       MERCURY_ORBIT_RADIUS,
-    //       ORBIT_SEGMENTS,
-    //       scene
-    //     );
-    //     setPosition(
-    //       mercury,
-    //       MERCURY_ORBIT_RADIUS,
-    //       orbitDegreesPerMillisecond.Mercury
-    //     );
 
     const moon = createPlanet(
-      MOON_SIZE,
-      MOON_TEXTURE,
+      planetConstants.MOON_SIZE,
+      planetConstants.MOON_TEXTURE,
       moonRotationAxis,
       rotationDegreesPerMillisecond.Moon,
       textureLoader
     );
 
-    setPosition(moon, MOON_ORBIT_RADIUS, orbitDegreesPerMillisecondMoon);
+    setPosition(
+      moon,
+      planetConstants.MOON_ORBIT_RADIUS,
+      orbitDegreesPerMillisecondMoon
+    );
 
     earth.planet.sphere.add(moon.sphere);
 
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.maxDistance = YOUR_MAX_ZOOM;
-    controls.minDistance = YOUR_MIN_ZOOM;
+    controls.maxDistance = configurationConstants.YOUR_MAX_ZOOM;
+    controls.minDistance = configurationConstants.YOUR_MIN_ZOOM;
     controls.enablePan = true;
     controls.enableZoom = true;
     controls.enableRotate = true;

@@ -1,9 +1,10 @@
+import configurationConstants from './../constants/configurationConstants';
 import { Vector3 } from 'three';
 import { createPlanet } from './createPlanet';
 import { createPivot } from './createPivot';
 import { createOrbit } from './createOrbit';
 import { setPosition } from './setPosition';
-import { ORBIT_SEGMENTS } from '../constants/planetConstants';
+import planetConstants from '../constants/planetConstants';
 
 interface SolarBodyProps {
   size: number;
@@ -41,7 +42,13 @@ export const createSolarBody = ({
   pivot.add(planet.sphere);
 
   // 4. Create the orbit.
-  createOrbit(orbitRadius, orbitRadius, ORBIT_SEGMENTS, scene, orbitMultiplier);
+  createOrbit(
+    orbitRadius,
+    orbitRadius,
+    planetConstants.ORBIT_SEGMENTS,
+    scene,
+    orbitMultiplier
+  );
 
   // 5. Set the position of the planet.
   setPosition(planet, orbitRadius, rotationDegrees / orbitMultiplier);
