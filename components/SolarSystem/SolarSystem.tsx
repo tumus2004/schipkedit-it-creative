@@ -28,7 +28,7 @@ import { fetchPlanetData } from './utils';
 import { createSolarBody } from './helpers/createSolarBody';
 interface SolarSystemProps {
   className?: string;
-  setBaseSpeedFunc: (speed: number) => void;
+  setBaseSpeed: (speed: number) => void;
   baseSpeed: number;
 }
 
@@ -36,7 +36,7 @@ fetchPlanetData();
 
 const SolarSystem = ({
   className,
-  setBaseSpeedFunc,
+  setBaseSpeed,
   baseSpeed,
 }: SolarSystemProps) => {
   // Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
