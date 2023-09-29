@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import dotenv from 'dotenv';
 import SolarSystem from '../components/SolarSystem/SolarSystem';
 
 interface IndexProps {
