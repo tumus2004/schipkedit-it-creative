@@ -26,6 +26,7 @@ import configurationConstants from './constants/configurationConstants';
 import { lights } from './constants/lightsConfiguration';
 import { fetchPlanetData } from './utils';
 import { createSolarBody } from './helpers/createSolarBody';
+import { PlanetStates } from '../PlanetStats';
 interface SolarSystemProps {
   className?: string;
   setBaseSpeed: (speed: number) => void;
@@ -33,6 +34,12 @@ interface SolarSystemProps {
 }
 
 fetchPlanetData();
+
+const planet = 'Earth';
+const size = '12,756 km';
+const radialVelocity = '29.78 km/s';
+const orbitalVelocity = '107,218 km/h';
+const orbitalPeriod = '365.25 days';
 
 const SolarSystem = ({
   className,
@@ -300,6 +307,13 @@ const SolarSystem = ({
 
   return (
     <div className='absolute left-0 top-0 w-full z-50 h-full'>
+      <PlanetStates
+        planet={planet}
+        size={size}
+        radialVelocity={radialVelocity}
+        orbitalVelocity={orbitalVelocity}
+        orbitalPeriod={orbitalPeriod}
+      />
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );
