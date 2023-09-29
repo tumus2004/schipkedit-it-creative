@@ -7,6 +7,7 @@ interface IndexProps {
 
 const Index: React.FC = ({ className }: IndexProps) => {
   const [baseSpeed, setBaseSpeed] = useState<number>(480);
+
   return (
     <div className='min-h-screen z-100 relative bg-gradient-to-br from-stone-800'>
       <SolarSystem
