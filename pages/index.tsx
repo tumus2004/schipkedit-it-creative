@@ -38,7 +38,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
             />
           </div>
         </div>
-        <div className='container pointer-events-none	mx-auto px-6 pt-32'>
+        <div className='container	mx-auto px-6 pt-32'>
           <h1 className='font-extrabold text-gray-100 ml-4'>Schipked it</h1>
           <p className='text-gray-300 text-2xs font-light ml-4 mt-0'>
             Work in progress
