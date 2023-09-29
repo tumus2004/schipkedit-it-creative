@@ -28,7 +28,7 @@ import { fetchPlanetData } from './utils';
 import { createSolarBody } from './helpers/createSolarBody';
 interface SolarSystemProps {
   className?: string;
-  setBaseSpeed: (speed: number) => void;
+  setBaseSpeedFunc: (speed: number) => void;
   baseSpeed: number;
 }
 
@@ -36,7 +36,7 @@ fetchPlanetData();
 
 const SolarSystem = ({
   className,
-  setBaseSpeed,
+  setBaseSpeedFunc,
   baseSpeed,
 }: SolarSystemProps) => {
   // Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
@@ -296,8 +296,7 @@ const SolarSystem = ({
       renderer.dispose();
       window.removeEventListener('resize', onWindowResize);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBrowser, stars]);
+  }, [isBrowser, orbitDegreesPerMillisecondMoon, stars]);
 
   return (
     <div className='absolute left-0 top-0 w-full z-50 h-full'>

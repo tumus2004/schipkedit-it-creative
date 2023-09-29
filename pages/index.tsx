@@ -10,19 +10,29 @@ interface IndexProps {
 
 const Index: React.FC = ({ className }: IndexProps) => {
   const [baseSpeed, setBaseSpeed] = useState<number>(480);
+
+  const setBaseSpeedFunc = (speed: number) => {
+    setBaseSpeed(speed);
+  };
+
   return (
     <div className='min-h-screen z-100 relative bg-gradient-to-br from-stone-800'>
       <SolarSystem
         baseSpeed={baseSpeed}
-        setBaseSpeed={setBaseSpeed}
+        setBaseSpeedFunc={() => setBaseSpeedFunc(baseSpeed)}
         className='fixed top-0 left-0'
       />
       <div
         className='bg-center w-full h-screen relative'
         style={{ background: `transparent` }}>
         <div className='text-4xl md:text-6xl font-extrabold absolute top-16 w-full text-center'>
+          <input
+            type='number'
+            value={baseSpeed}
+            onChange={(e) => setBaseSpeedFunc(parseInt(e.target.value))}
+          />
           <span className='bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-sky-700'>
-          1 Second = {baseSpeed / 60} {baseSpeed === 60 ? `hour` : `hours`}
+            1 Second = {baseSpeed / 60} {baseSpeed === 60 ? `hour` : `hours`}
           </span>
         </div>
         <div className='container pointer-events-none	mx-auto px-6 pt-32'>
