@@ -7,7 +7,6 @@ export const fetchPlanetData = async () => {
 
   try {
     const response = await axios.get(`${BASE_URL}${CONFIG_PARAMS}`);
-    console.log(response.data.result);
   } catch (error) {
     console.log(error);
   }

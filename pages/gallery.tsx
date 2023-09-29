@@ -15,10 +15,6 @@ const Gallery: React.FC = () => {
   const [listFiles, setListFiles] = useState([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    console.log(listFiles, 'listfiles');
-  }, [listFiles]);
-
   const config = {
     bucketName: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
     dirName: 'images',
@@ -91,8 +87,7 @@ const Gallery: React.FC = () => {
   };
 
   s3.deleteObject(deleteParams, function (err, data) {
-    if (err) console.log(err, err.stack); // an error occurred
-    else console.log('Delete Success'); // successful response
+    if (err) console.log(err, err.stack);
   });
 
   return (
@@ -116,7 +111,7 @@ const Gallery: React.FC = () => {
         ref={inputRef}
         onChange={handleUploadOfImage}
       />
-      
+
       {imageUpload && (
         <>
           <button

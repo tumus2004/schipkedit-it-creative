@@ -20,7 +20,6 @@ const DEFAULT_SIZES = `(max-width: ${getBreakpointWidth(
 
 function getBreakpointWidth(name: string) {
   const breakpoint = Breakpoints.find((bp) => bp.name === name);
-  console.log(breakpoint, 'breakpoints');
   return breakpoint ? breakpoint.width : undefined;
 }
 
