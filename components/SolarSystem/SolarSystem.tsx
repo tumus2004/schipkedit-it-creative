@@ -3,29 +3,18 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import {
-  setPosition,
-  createOrbit,
-  createPivot,
-  createPlanet,
-  setSolarSystemSize,
-  createRotationAxis,
-  createSunGlowTexture,
-  createAndAddLight,
   createStars,
+  setSolarSystemSize,
+  createSunGlowTexture,
 } from './helpers';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
-import planetConstants, {
-  orbitDegreesPerMillisecond,
-  rotationDegreesPerMillisecond,
-} from './constants/planetConstants';
 import configurationConstants from './constants/configurationConstants';
 import { lights } from './constants/lightsConfiguration';
 import { fetchPlanetData } from './utils';
-import { createSolarBody } from './helpers/createSolarBody';
 import { PlanetStates } from '../PlanetStats';
 interface SolarSystemProps {
   className?: string;
@@ -33,13 +22,286 @@ interface SolarSystemProps {
   baseSpeed: number;
 }
 
-fetchPlanetData();
+// fetchPlanetData();
 
 const planet = 'Earth';
 const size = '12,756 km';
 const radialVelocity = '29.78 km/s';
 const orbitalVelocity = '107,218 km/h';
 const orbitalPeriod = '365.25 days';
+
+/*
+ ** PLANET DATA
+ */
+// Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
+let BASE_SPEED = 480;
+
+// Planet rotation time in real world days
+export const rotationTimeInDays = {
+  Earth: 1,
+  Sun: 25.38,
+  Mars: 1.03,
+  Venus: 243,
+  Mercury: 58.6,
+  Moon: 27.3,
+};
+
+// Planet orbit time in real world days
+export const orbitTimeInDays = {
+  Earth: 365.25,
+  Mars: 687,
+  Venus: 224.7,
+  Mercury: 88,
+  Moon: 27.3,
+  Sun: 0,
+};
+
+export const distancePerOrbitInKm = {
+  Earth: 94000000,
+  Mars: 1430000000,
+  Venus: 679000000,
+  Mercury: 363000000,
+  Moon: 2415000,
+  Sun: 0,
+};
+
+export const rotationDegreesPerMillisecond = {
+  Earth: 0.000004167 * BASE_SPEED,
+  Mars: 0.000004057 * BASE_SPEED,
+  Venus: 0.00000001714 * BASE_SPEED,
+  Mercury: 0.0000000711 * BASE_SPEED,
+  Sun: 0.0000001643 * BASE_SPEED,
+  Moon: 0.0000001526 * BASE_SPEED,
+};
+
+export const orbitDegreesPerMillisecond = {
+  Earth: 0.0000000114077 * BASE_SPEED,
+  Mars: 0.000000006067 * BASE_SPEED,
+  Venus: 0.00000001854 * BASE_SPEED,
+  Mercury: 0.00000004736 * BASE_SPEED,
+  Moon: 0.0000001526 * BASE_SPEED,
+  Sun: 0,
+};
+
+const planetConstants = {
+  SUN_SIZE: 3,
+  SUN_TEXTURE: '/thesun.jpg',
+  SUN_AXIS_TILT_ANGLE: 7.25,
+
+  EARTH_SIZE: 1,
+  EARTH_TEXTURE: '/earthtexture.jpg',
+  EARTH_ORBIT_RADIUS: 10,
+  EARTH_AXIS_TILT_ANGLE: 23.5,
+
+  MARS_SIZE: 0.532,
+  MARS_TEXTURE: '/marstexture.png',
+  MARS_ORBIT_RADIUS: 15.3,
+  MARS_AXIS_TILT_ANGLE: 25.19,
+
+  VENUS_SIZE: 0.949,
+  VENUS_TEXTURE: '/venustexture.jpg',
+  VENUS_ORBIT_RADIUS: 7.2,
+  VENUS_AXIS_TILT_ANGLE: 3,
+
+  MERCURY_SIZE: 0.383,
+  MERCURY_TEXTURE: '/mercurytexture.jpg',
+  MERCURY_ORBIT_RADIUS: 3.9,
+  MERCURY_AXIS_TILT_ANGLE: 0.03,
+
+  ORBIT_SEGMENTS: 1024,
+  ORBIT_LINE_COLOR: 0xffffff,
+  ORBIT_INNER_RADIUS: 9.95,
+  ORBIT_OUTER_RADIUS: 10.05,
+  ORBIT_TILT_ANGLE: 1.85,
+
+  MOON_SIZE: 0.272,
+  MOON_TEXTURE: '/moontexture.jpg',
+  MOON_ORBIT_RADIUS: 1.5257,
+  MOON_AXIS_TILT_ANGLE: 5.875,
+};
+/*
+ ** END PLANET DATA
+ */
+
+/*
+ ** HELPER FUNCTIONS
+ */
+
+export const createOrbit = (
+  innerRadius: number,
+  outerRadius: number,
+  segments: number,
+  scene: THREE.Scene,
+  tiltAngle: number = 0
+) => {
+  const orbitGeometry = new THREE.RingGeometry(
+    innerRadius,
+    outerRadius,
+    segments
+  );
+  orbitGeometry.rotateX(Math.PI / 2 + THREE.MathUtils.degToRad(tiltAngle));
+  const orbit = new THREE.Line(
+    orbitGeometry,
+    new THREE.LineBasicMaterial({ color: 0xffffff })
+  );
+  scene.add(orbit);
+  return orbit;
+};
+
+interface Planet {
+  sphere: THREE.Mesh;
+  rotate: (deltaTime: number) => void;
+}
+
+export const createPlanet = (
+  radius: number,
+  texture: string,
+  rotationAxis: THREE.Vector3,
+  rotationAngle: number,
+  textureLoader: THREE.TextureLoader,
+  name: string
+): Planet => {
+  const planetTexture = textureLoader.load(texture);
+  const geometry = new THREE.SphereGeometry(radius, 64, 64);
+  const material = new THREE.MeshStandardMaterial({ map: planetTexture });
+  const sphere = new THREE.Mesh(geometry, material);
+  sphere.name = name;
+
+  const rotate = (deltaTime: number) => {
+    sphere.rotateOnAxis(rotationAxis, rotationAngle * deltaTime);
+  };
+
+  return { sphere, rotate };
+};
+
+export const createPlanetWithPivot = (
+  radius: number,
+  texture: string,
+  rotationAxis: THREE.Vector3,
+  rotationAngle: number,
+  textureLoader: THREE.TextureLoader,
+  scene: THREE.Scene,
+  name: string,
+  tiltAngle: number = 0
+) => {
+  const planet = createPlanet(
+    radius,
+    texture,
+    rotationAxis,
+    rotationAngle,
+    textureLoader,
+    name
+  );
+  const planetPivot = createPivot(scene, tiltAngle);
+  planetPivot.add(planet.sphere);
+  return { ...planet, pivot: planetPivot };
+};
+
+export function createRotationAxis(tiltAngle: number) {
+  return new THREE.Vector3(
+    Math.sin(THREE.MathUtils.degToRad(tiltAngle)),
+    Math.cos(THREE.MathUtils.degToRad(tiltAngle)),
+    0
+  );
+}
+
+export const setPosition = (
+  planet: { sphere: THREE.Mesh },
+  orbitRadius: number,
+  timeFactor: number
+) => {
+  const orbitAngle =
+    (new Date().getTime() / (24 * 60 * 60 * 1000)) * timeFactor;
+  const position = new THREE.Vector3(
+    orbitRadius * Math.cos(orbitAngle),
+    0,
+    orbitRadius * Math.sin(orbitAngle)
+  );
+  planet.sphere.position.copy(position);
+};
+
+interface SolarBodyProps {
+  size: number;
+  texture: string;
+  rotationAxis: THREE.Vector3;
+  rotationDegrees: number;
+  orbitRadius: number;
+  scene: THREE.Scene;
+  textureLoader: THREE.TextureLoader;
+  name: string;
+  orbitMultiplier?: number;
+}
+
+export const createSolarBody = ({
+  size,
+  texture,
+  rotationAxis,
+  rotationDegrees,
+  orbitRadius,
+  scene,
+  orbitMultiplier = 1,
+  name,
+  textureLoader,
+}: SolarBodyProps) => {
+  const planet = createPlanet(
+    size,
+    texture,
+    rotationAxis,
+    rotationDegrees,
+    textureLoader,
+    name
+  );
+
+  // 2. Create the pivot.
+  const pivot = createPivot(scene, orbitMultiplier);
+
+  // 3. Add the planet to the pivot.
+  pivot.add(planet.sphere);
+
+  // 4. Create the orbit.
+  createOrbit(
+    orbitRadius,
+    orbitRadius,
+    planetConstants.ORBIT_SEGMENTS,
+    scene,
+    orbitMultiplier
+  );
+
+  // 5. Set the position of the planet.
+  setPosition(planet, orbitRadius, rotationDegrees / orbitMultiplier);
+
+  return { planet, pivot };
+};
+
+export function createAndAddLight(
+  color: THREE.ColorRepresentation | undefined,
+  intensity: number | undefined,
+  distance: number | undefined,
+  position: [number, number, number],
+  scene: THREE.Scene
+) {
+  const light = new THREE.PointLight(color, intensity, distance);
+  light.position.set(...position);
+  scene.add(light);
+}
+
+export const createPivot = (scene: THREE.Scene, tiltAngle: number = 0) => {
+  const pivot = new THREE.Object3D();
+  pivot.rotation.x = THREE.MathUtils.degToRad(tiltAngle);
+  scene.add(pivot);
+  return pivot;
+};
+
+export const addToExistingPivot = (
+  pivot: THREE.Object3D,
+  object: THREE.Object3D
+) => {
+  pivot.add(object);
+  return pivot;
+};
+/*
+ ** END HELPER FUNCTIONS
+ */
 
 const SolarSystem = ({
   className,
@@ -49,8 +311,8 @@ const SolarSystem = ({
   // Multiples of 60 is 1 hour per second. 120 is 2 hours per second etc...
   let BASE_SPEED = baseSpeed;
 
-  // Assuming the orbit speed of the moon, you can adjust it to the actual value
-  const orbitDegreesPerMillisecondMoon = 0.000001 * BASE_SPEED;
+  // // Assuming the orbit speed of the moon, you can adjust it to the actual value
+  // const orbitDegreesPerMillisecondMoon = 0.000001 * BASE_SPEED;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const isBrowser = typeof window !== 'undefined';
@@ -62,8 +324,6 @@ const SolarSystem = ({
   const stars = createStars();
 
   useEffect(() => {
-    setSolarSystemSize();
-
     if (!isBrowser || !containerRef.current) {
       return;
     }
@@ -186,7 +446,8 @@ const SolarSystem = ({
       planetConstants.SUN_TEXTURE,
       sunRotationAxis,
       rotationDegreesPerMillisecond.Sun,
-      textureLoader
+      textureLoader,
+      'sun'
     );
 
     // Add glow sprite to sun
@@ -202,6 +463,7 @@ const SolarSystem = ({
       rotationDegrees: rotationDegreesPerMillisecond.Earth,
       orbitRadius: planetConstants.EARTH_ORBIT_RADIUS,
       scene,
+      name: 'earth',
       textureLoader,
     });
 
@@ -213,6 +475,7 @@ const SolarSystem = ({
       orbitRadius: planetConstants.MARS_ORBIT_RADIUS,
       scene,
       textureLoader,
+      name: 'mars',
       orbitMultiplier: 1.88,
     });
 
@@ -223,6 +486,7 @@ const SolarSystem = ({
       rotationDegrees: rotationDegreesPerMillisecond.Venus,
       orbitRadius: planetConstants.VENUS_ORBIT_RADIUS,
       scene,
+      name: 'venus',
       textureLoader,
     });
 
@@ -233,24 +497,34 @@ const SolarSystem = ({
       rotationDegrees: rotationDegreesPerMillisecond.Mercury,
       orbitRadius: planetConstants.MERCURY_ORBIT_RADIUS,
       scene,
+      name: 'mercury',
       textureLoader,
     });
 
+    /*
+     ** MOON
+     */
     const moon = createPlanet(
       planetConstants.MOON_SIZE,
       planetConstants.MOON_TEXTURE,
       moonRotationAxis,
       rotationDegreesPerMillisecond.Moon,
-      textureLoader
+      textureLoader,
+      'moon'
     );
 
     setPosition(
       moon,
       planetConstants.MOON_ORBIT_RADIUS,
-      orbitDegreesPerMillisecondMoon
+      orbitDegreesPerMillisecond.Moon
     );
 
-    earth.planet.sphere.add(moon.sphere);
+    const moonPivot = createPivot(scene);
+    moonPivot.add(moon.sphere);
+    earth.planet.sphere.add(moonPivot);
+    /*
+     ** END MOON
+     */
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.maxDistance = configurationConstants.YOUR_MAX_ZOOM;
@@ -277,8 +551,8 @@ const SolarSystem = ({
       mars.planet.rotate(deltaTime);
       venus.planet.rotate(deltaTime);
       mercury.planet.rotate(deltaTime);
-      sun.rotate(deltaTime);
       moon.rotate(deltaTime);
+      sun.rotate(deltaTime);
 
       controls.update();
 
@@ -287,6 +561,7 @@ const SolarSystem = ({
       venus.pivot.rotation.y += orbitDegreesPerMillisecond.Venus * deltaTime;
       mercury.pivot.rotation.y +=
         orbitDegreesPerMillisecond.Mercury * deltaTime;
+      moonPivot.rotation.y += orbitDegreesPerMillisecond.Moon * deltaTime;
       sunPivot.rotation.y += rotationDegreesPerMillisecond.Sun * deltaTime;
 
       requestAnimationFrame(animate);
@@ -303,7 +578,7 @@ const SolarSystem = ({
       renderer.dispose();
       window.removeEventListener('resize', onWindowResize);
     };
-  }, [isBrowser, orbitDegreesPerMillisecondMoon, stars]);
+  }, [isBrowser, stars]);
 
   return (
     <div className='absolute left-0 top-0 w-full z-50 h-full'>

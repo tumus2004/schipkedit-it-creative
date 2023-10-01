@@ -37,7 +37,6 @@ export const uploadToS3 = async (
 
   upload.on('httpUploadProgress', (progress) => {
     const percent = Math.round((progress.loaded / progress.total) * 100);
-    console.log((progress.loaded * 100) / progress.total, 'percent');
     setUploadProgress(percent);
   });
 

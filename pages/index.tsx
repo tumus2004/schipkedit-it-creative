@@ -9,7 +9,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
   const [baseSpeed, setBaseSpeed] = useState<number>(480);
 
   return (
-    <div className='min-h-screen z-100 relative bg-gradient-to-br from-stone-800'>
+    <div className='min-h-screen z-100 p-4 md:p-10 relative bg-gradient-to-br from-stone-800'>
       <SolarSystem
         baseSpeed={baseSpeed}
         setBaseSpeed={setBaseSpeed}
@@ -23,12 +23,12 @@ const Index: React.FC = ({ className }: IndexProps) => {
             1 Second = {baseSpeed / 60} {baseSpeed === 60 ? `hour` : `hours`}
           </span>
         </div>
-        <div className='container pointer-events-none	mx-auto px-6 pt-32'>
+        {/* <div className='container pointer-events-none	mx-auto px-6 pt-32'>
           <h1 className='font-extrabold text-gray-100 ml-4'>Schipked it</h1>
           <p className='text-gray-300 text-2xs font-light ml-4 mt-0'>
             Work in progress
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

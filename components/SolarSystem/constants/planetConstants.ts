@@ -27,6 +27,7 @@ export const distancePerOrbitInKm = {
   Venus: 679000000,
   Mercury: 363000000,
   Sun: 0,
+  Moon: 384400,
 };
 
 export const rotationDegreesPerMillisecond = {
@@ -80,8 +81,7 @@ const planetConstants = {
 
   MOON_SIZE: 0.272,
   MOON_TEXTURE: '/moontexture.jpg',
-  MOON_ORBIT_RADIUS: 0.5257,
-
+  MOON_ORBIT_RADIUS: 1.5257,
   MOON_AXIS_TILT_ANGLE: 5.875,
 };
 
