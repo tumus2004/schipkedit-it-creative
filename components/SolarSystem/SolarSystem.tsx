@@ -68,10 +68,10 @@ export const distancePerOrbitInKm = {
 export const rotationDegreesPerMillisecond = {
   Earth: 0.000004167 * BASE_SPEED,
   Mars: 0.000004057 * BASE_SPEED,
-  Venus: 0.00000001714 * BASE_SPEED,
+  Venus: -0.00000001714 * BASE_SPEED,
   Mercury: 0.0000000711 * BASE_SPEED,
   Sun: 0.0000001643 * BASE_SPEED,
-  Moon: 0.0000001526 * BASE_SPEED,
+  Moon: 0.000000152625153 * BASE_SPEED,
 };
 
 export const orbitDegreesPerMillisecond = {
@@ -79,7 +79,7 @@ export const orbitDegreesPerMillisecond = {
   Mars: 0.000000006067 * BASE_SPEED,
   Venus: 0.00000001854 * BASE_SPEED,
   Mercury: 0.00000004736 * BASE_SPEED,
-  Moon: 0.0000001526 * BASE_SPEED,
+  Moon: 0.000000152625153 * BASE_SPEED,
   Sun: 0,
 };
 
@@ -519,7 +519,7 @@ const SolarSystem = ({
       orbitDegreesPerMillisecond.Moon
     );
 
-    const moonPivot = createPivot(scene);
+    const moonPivot = createPivot(scene, planetConstants.MOON_AXIS_TILT_ANGLE);
     moonPivot.add(moon.sphere);
     earth.planet.sphere.add(moonPivot);
     /*
