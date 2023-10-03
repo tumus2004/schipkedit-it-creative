@@ -20,6 +20,20 @@ export const PlanetStates = ({
   const [mousePosY, setMousePosY] = useState<number>(0);
   const box = useRef<HTMLDivElement>(null);
 
+  console.clear();
+  box.current?.addEventListener('pointermove', (ev) => {
+    const rect = box.current?.getBoundingClientRect();
+    box.current?.style.setProperty(
+      '--x',
+      `${rect?.left && ev.clientX - rect?.left}`
+    );
+    box.current?.style.setProperty(
+      '--y',
+      `${rect?.top && ev.clientY - rect?.top}`
+    );
+    console.log(ev.clientX, ev.clientY);
+  });
+
   useEffect(() => {
     const currentBox = box.current;
 
@@ -66,28 +80,27 @@ export const PlanetStates = ({
   return (
     <div
       ref={box}
-      className={`planet-stats overflow-hidden rounded-xl bot-0 left-0 ml-4 md:ml-16 lg:ml-32 mt-16 md:mt-32 lg:mt-64 border ${
-        mousePosX > 0 ? 'border-[#fff]/50' : 'border-[#fff]/25'
-      } transition ease transition-duration-500 absolute p-4 gap-4 min-w-max ease-in`}>
+      id='planet-stats'
+      className='planet-stats overflow-hidden rounded-xl p-2 border border-white border-opacity-50 transition ease-in duration-500 relative'>
       <div className='flex justify-between gap-4'>
         <div className='text-gray-300 text-xs'>Planet</div>
-        <div className='text-gray-100 text-xs'>{planet}</div>
+        <div className='text-gray-100 text-right text-xs'>{planet}</div>
       </div>
       <div className='flex justify-between gap-4'>
         <div className='text-gray-300 text-xs'>Size</div>
-        <div className='text-gray-100 text-xs'>{size}</div>
+        <div className='text-gray-100 text-right text-xs'>{size}</div>
       </div>
       <div className='flex justify-between gap-4'>
         <div className='text-gray-300 text-xs'>Radial Velocity</div>
-        <div className='text-gray-100 text-xs'>{radialVelocity}</div>
+        <div className='text-gray-100 text-right text-xs'>{radialVelocity}</div>
       </div>
       <div className='flex justify-between gap-4'>
         <div className='text-gray-300 text-xs'>Orbital Velocity</div>
-        <div className='text-gray-100 text-xs'>{orbitalVelocity}</div>
+        <div className='text-gray-100 text-right text-xs'>{orbitalVelocity}</div>
       </div>
       <div className='flex justify-between gap-4'>
         <div className='text-gray-300 text-xs'>Orbital Period</div>
-        <div className='text-gray-100 text-xs'>{orbitalPeriod}</div>
+        <div className='text-gray-100 text-right text-xs'>{orbitalPeriod}</div>
       </div>
     </div>
   );

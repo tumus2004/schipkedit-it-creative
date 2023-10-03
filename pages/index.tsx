@@ -18,7 +18,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
       <div
         className='bg-center w-full h-screen relative'
         style={{ background: `transparent` }}>
-        <div className='text-4xl md:text-6xl font-extrabold absolute top-16 w-full text-center'>
+        <div className='text-4xl md:text-6xl font-extrabold absolute bottom-16 w-full text-center'>
           <span className='bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-sky-700'>
             1 Second = {baseSpeed / 60} {baseSpeed === 60 ? `hour` : `hours`}
           </span>

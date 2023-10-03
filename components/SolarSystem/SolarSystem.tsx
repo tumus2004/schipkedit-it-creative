@@ -24,11 +24,78 @@ interface SolarSystemProps {
 
 // fetchPlanetData();
 
-const planet = 'Earth';
-const size = '12,756 km';
-const radialVelocity = '29.78 km/s';
-const orbitalVelocity = '107,218 km/h';
-const orbitalPeriod = '365.25 days';
+const planetStats = [
+  {
+    planet: 'Earth',
+    size: '12,756 km',
+    radialVelocity: '29.78 km/s',
+    orbitalVelocity: '107,218 km/h',
+    orbitalPeriod: '365.25 days',
+  },
+  {
+    planet: 'Mercury',
+    size: '4,879 km',
+    radialVelocity: '47.36 km/s',
+    orbitalVelocity: '172,440 km/h',
+    orbitalPeriod: '88 days',
+  },
+  {
+    planet: 'Venus',
+    size: '12,104 km',
+    radialVelocity: '35.02 km/s',
+    orbitalVelocity: '126,072 km/h',
+    orbitalPeriod: '224.7 days',
+  },
+  {
+    planet: 'Mars',
+    size: '6,779 km',
+    radialVelocity: '24.13 km/s',
+    orbitalVelocity: '86,904 km/h',
+    orbitalPeriod: '687 days',
+  },
+  {
+    planet: 'Jupiter',
+    size: '139,822 km',
+    radialVelocity: '13.06 km/s',
+    orbitalVelocity: '47,016 km/h',
+    orbitalPeriod: '11.9 years',
+  },
+  {
+    planet: 'Saturn',
+    size: '116,464 km',
+    radialVelocity: '9.64 km/s',
+    orbitalVelocity: '34,704 km/h',
+    orbitalPeriod: '29.5 years',
+  },
+  {
+    planet: 'Uranus',
+    size: '50,724 km',
+    radialVelocity: '6.81 km/s',
+    orbitalVelocity: '24,516 km/h',
+    orbitalPeriod: '84 years',
+  },
+  {
+    planet: 'Neptune',
+    size: '49,244 km',
+    radialVelocity: '5.43 km/s',
+    orbitalVelocity: '19,548 km/h',
+    orbitalPeriod: '165 years',
+  },
+  {
+    planet: 'Pluto',
+    size: '2,370 km',
+    radialVelocity: '4.74 km/s',
+    orbitalVelocity: '17,064 km/h',
+    orbitalPeriod: '248 years',
+  },
+  {
+    planet: 'Moon',
+    size: '3,474 km',
+    radialVelocity: '1.022 km/s',
+    orbitalVelocity: '3,679 km/h',
+    orbitalPeriod: '27.3 days',
+  },
+];
 
 /*
  ** PLANET DATA
@@ -582,13 +649,18 @@ const SolarSystem = ({
 
   return (
     <div className='absolute left-0 top-0 w-full z-50 h-full'>
-      <PlanetStates
-        planet={planet}
-        size={size}
-        radialVelocity={radialVelocity}
-        orbitalVelocity={orbitalVelocity}
-        orbitalPeriod={orbitalPeriod}
-      />
+      <div className='grid grid-cols-1 gap-1 md:grid-cols-4 p-4'>
+        {planetStats.map((planet) => (
+          <PlanetStates
+            planet={planet.planet}
+            size={planet.size}
+            radialVelocity={planet.radialVelocity}
+            orbitalVelocity={planet.orbitalVelocity}
+            orbitalPeriod={planet.orbitalPeriod}
+            key={planet.planet}
+          />
+        ))}
+      </div>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
     </div>
   );
