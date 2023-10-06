@@ -647,9 +647,35 @@ const SolarSystem = ({
     };
   }, [isBrowser, stars]);
 
+  useEffect(() => {
+    const featuresEl: HTMLDivElement | null =
+      document.querySelector('.planet-stats');
+    const featureEls: NodeListOf<HTMLDivElement> =
+      document.querySelectorAll('.feature');
+
+    if (featuresEl && featuresEl != null) {
+      featuresEl.addEventListener('pointermove', (ev) => {
+        featureEls.forEach((featureEl) => {
+          // Not optimized yet, I know
+          const rect = featureEl.getBoundingClientRect();
+
+          featureEl.style.setProperty(
+            '--x',
+            JSON.stringify(ev.clientX - rect.left)
+          );
+          featureEl.style.setProperty(
+            '--y',
+            JSON.stringify(ev.clientY - rect.top)
+          );
+        });
+      });
+    }
+  }, []);
+
   return (
-    <div className='absolute left-0 top-0 w-full z-50 h-full'>
-      <div className='grid grid-cols-1 gap-1 md:grid-cols-4 p-4'>
+    <div className='relative flex justify-center items-center left-0 top-0 w-full h-full'>
+      <div className='planet-stats'>
+        {/* <div className='planet-stats grid grid-cols-1 gap-1 md:grid-cols-4 p-4'> */}
         {planetStats.map((planet) => (
           <PlanetStates
             planet={planet.planet}

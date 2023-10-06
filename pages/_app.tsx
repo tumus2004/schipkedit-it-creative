@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/SolarSystem.css';
 import type { AppProps } from 'next/app';
 import dotenv from 'dotenv';
 
