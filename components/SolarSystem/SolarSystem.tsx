@@ -15,7 +15,6 @@ import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
 import configurationConstants from './constants/configurationConstants';
 import { lights } from './constants/lightsConfiguration';
 // import { fetchPlanetData } from './utils';
-import { PlanetStates } from '../PlanetStats';
 
 // fetchPlanetData();
 
@@ -152,7 +151,12 @@ export const createPlanet = (
 ): Planet => {
   const planetTexture = textureLoader.load(texture);
   const geometry = new THREE.SphereGeometry(radius, 64, 64);
-  const material = new THREE.MeshStandardMaterial({ map: planetTexture });
+  const material = new THREE.MeshStandardMaterial({
+    map: planetTexture,
+    toneMapped: false,
+    metalness: 0.3,
+    roughness: 0.7,
+  });
   const sphere = new THREE.Mesh(geometry, material);
   sphere.name = name;
 

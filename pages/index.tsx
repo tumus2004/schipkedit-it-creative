@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SolarSystem from '../components/SolarSystem/SolarSystem';
-import { PlanetStates } from '../components/PlanetStats';
+import { PlanetStats } from '../components/PlanetStats';
 
 interface IndexProps {
   className?: string;
@@ -88,10 +88,9 @@ const Index: React.FC = ({ className }: IndexProps) => {
     const featureEls: NodeListOf<HTMLDivElement> =
       document.querySelectorAll('.feature');
 
-    if (featuresEl && featuresEl != null) {
+    if (featuresEl) {
       featuresEl.addEventListener('pointermove', (ev) => {
         featureEls.forEach((featureEl) => {
-          // Not optimized yet, I know
           const rect = featureEl.getBoundingClientRect();
 
           featureEl.style.setProperty(
@@ -104,16 +103,25 @@ const Index: React.FC = ({ className }: IndexProps) => {
           );
         });
       });
+
+      // Add the mouseleave event listener
+      featuresEl.addEventListener('mouseleave', () => {
+        featureEls.forEach((featureEl) => {
+          // Use a value outside possible bounds to hide the glow
+          featureEl.style.setProperty('--x', '-9999px');
+          featureEl.style.setProperty('--y', '-9999px');
+        });
+      });
     }
   }, []);
 
   return (
     <>
-      <div className='h-screen p-4 md:p-10 bg-gradient-to-br from-stone-800'>
+      <div className='h-screen p-4 md:p-10 bg-gradient-to-br from-stone-900'>
         <div className='planet-stats'>
           {/* <div className='planet-stats grid grid-cols-1 gap-1 md:grid-cols-4 p-4'> */}
           {planetStats.map((planet) => (
-            <PlanetStates
+            <PlanetStats
               planet={planet.planet}
               size={planet.size}
               radialVelocity={planet.radialVelocity}
@@ -129,19 +137,13 @@ const Index: React.FC = ({ className }: IndexProps) => {
           className='fixed top-0 left-0'
         />
         <div
-          className='bg-center w-full bottom-0 absolute'
+          className='bg-center w-full bottom-16 left-0 absolute'
           style={{ background: `transparent` }}>
-          <div className='text-4xl md:text-6xl font-extrabold relative bottom-16 w-full text-center'>
+          <div className='text-3xl md:text-6xl font-extrabold relative w-full text-center'>
             <span className='bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-sky-700'>
               1 Second = {baseSpeed / 60} {baseSpeed === 60 ? `hour` : `hours`}
             </span>
           </div>
-          {/* <div className='container pointer-events-none	mx-auto px-6 pt-32'>
-          <h1 className='font-extrabold text-gray-100 ml-4'>Schipked it</h1>
-          <p className='text-gray-300 text-2xs font-light ml-4 mt-0'>
-            Work in progress
-          </p>
-        </div> */}
         </div>
       </div>
     </>
