@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   images: {
     domains: ['schipkeditbucket.s3.ap-southeast-2.amazonaws.com'],
     remotePatterns: [

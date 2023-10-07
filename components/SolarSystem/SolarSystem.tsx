@@ -14,88 +14,10 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
 import configurationConstants from './constants/configurationConstants';
 import { lights } from './constants/lightsConfiguration';
-import { fetchPlanetData } from './utils';
+// import { fetchPlanetData } from './utils';
 import { PlanetStates } from '../PlanetStats';
-interface SolarSystemProps {
-  className?: string;
-  setBaseSpeed: (speed: number) => void;
-  baseSpeed: number;
-}
 
 // fetchPlanetData();
-
-const planetStats = [
-  {
-    planet: 'Earth',
-    size: '12,756 km',
-    radialVelocity: '29.78 km/s',
-    orbitalVelocity: '107,218 km/h',
-    orbitalPeriod: '365.25 days',
-  },
-  {
-    planet: 'Mercury',
-    size: '4,879 km',
-    radialVelocity: '47.36 km/s',
-    orbitalVelocity: '172,440 km/h',
-    orbitalPeriod: '88 days',
-  },
-  {
-    planet: 'Venus',
-    size: '12,104 km',
-    radialVelocity: '35.02 km/s',
-    orbitalVelocity: '126,072 km/h',
-    orbitalPeriod: '224.7 days',
-  },
-  {
-    planet: 'Mars',
-    size: '6,779 km',
-    radialVelocity: '24.13 km/s',
-    orbitalVelocity: '86,904 km/h',
-    orbitalPeriod: '687 days',
-  },
-  {
-    planet: 'Jupiter',
-    size: '139,822 km',
-    radialVelocity: '13.06 km/s',
-    orbitalVelocity: '47,016 km/h',
-    orbitalPeriod: '11.9 years',
-  },
-  {
-    planet: 'Saturn',
-    size: '116,464 km',
-    radialVelocity: '9.64 km/s',
-    orbitalVelocity: '34,704 km/h',
-    orbitalPeriod: '29.5 years',
-  },
-  {
-    planet: 'Uranus',
-    size: '50,724 km',
-    radialVelocity: '6.81 km/s',
-    orbitalVelocity: '24,516 km/h',
-    orbitalPeriod: '84 years',
-  },
-  {
-    planet: 'Neptune',
-    size: '49,244 km',
-    radialVelocity: '5.43 km/s',
-    orbitalVelocity: '19,548 km/h',
-    orbitalPeriod: '165 years',
-  },
-  {
-    planet: 'Pluto',
-    size: '2,370 km',
-    radialVelocity: '4.74 km/s',
-    orbitalVelocity: '17,064 km/h',
-    orbitalPeriod: '248 years',
-  },
-  {
-    planet: 'Moon',
-    size: '3,474 km',
-    radialVelocity: '1.022 km/s',
-    orbitalVelocity: '3,679 km/h',
-    orbitalPeriod: '27.3 days',
-  },
-];
 
 /*
  ** PLANET DATA
@@ -369,6 +291,12 @@ export const addToExistingPivot = (
 /*
  ** END HELPER FUNCTIONS
  */
+
+interface SolarSystemProps {
+  className?: string;
+  setBaseSpeed: (speed: number) => void;
+  baseSpeed: number;
+}
 
 const SolarSystem = ({
   className,
@@ -647,46 +575,8 @@ const SolarSystem = ({
     };
   }, [isBrowser, stars]);
 
-  useEffect(() => {
-    const featuresEl: HTMLDivElement | null =
-      document.querySelector('.planet-stats');
-    const featureEls: NodeListOf<HTMLDivElement> =
-      document.querySelectorAll('.feature');
-
-    if (featuresEl && featuresEl != null) {
-      featuresEl.addEventListener('pointermove', (ev) => {
-        featureEls.forEach((featureEl) => {
-          // Not optimized yet, I know
-          const rect = featureEl.getBoundingClientRect();
-
-          featureEl.style.setProperty(
-            '--x',
-            JSON.stringify(ev.clientX - rect.left)
-          );
-          featureEl.style.setProperty(
-            '--y',
-            JSON.stringify(ev.clientY - rect.top)
-          );
-        });
-      });
-    }
-  }, []);
-
   return (
-    <div className='relative flex justify-center items-center left-0 top-0 w-full h-full'>
-      <div className='planet-stats'>
-        {/* <div className='planet-stats grid grid-cols-1 gap-1 md:grid-cols-4 p-4'> */}
-        {planetStats.map((planet) => (
-          <PlanetStates
-            planet={planet.planet}
-            size={planet.size}
-            radialVelocity={planet.radialVelocity}
-            orbitalVelocity={planet.orbitalVelocity}
-            orbitalPeriod={planet.orbitalPeriod}
-            key={planet.planet}
-          />
-        ))}
-      </div>
+    <div className='absolute flex justify-center items-center left-0 top-0 w-full h-full'>
       <div
         ref={containerRef}
         style={{
