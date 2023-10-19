@@ -245,6 +245,9 @@ export const createSolarBody = ({
     name
   );
 
+  planet.sphere.name = name;
+  planet.sphere.addEventListener('click', () => handlePlanetClick(name));
+
   // 2. Create the pivot.
   const pivot = createPivot(scene, orbitMultiplier);
 
@@ -291,6 +294,10 @@ export const addToExistingPivot = (
 ) => {
   pivot.add(object);
   return pivot;
+};
+
+export const handlePlanetClick = (planetName: string) => {
+  alert(`You clicked on ${planetName}!`);
 };
 /*
  ** END HELPER FUNCTIONS
@@ -533,14 +540,6 @@ const SolarSystem = ({
     controls.enableRotate = true;
 
     let lastRenderTime = performance.now();
-
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-
-    function onMouseMove(event: any) {
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    }
 
     const animate = function () {
       const currentRenderTime = window.performance.now();

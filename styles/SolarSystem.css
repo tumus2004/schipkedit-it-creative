@@ -12,9 +12,10 @@
 
 @media screen and (max-width: 768px) {
   .planet-stats {
-    grid-template-columns: repeat(1, 1fr);
+    display: none;
+    /* grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    height: 100vh;
+    height: 100vh; */
   }
 }
 
