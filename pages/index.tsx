@@ -66,7 +66,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
             Showcase
           </h2>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <button className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               <Image
                 alt='E-commerce Website Image'
                 className='rounded-t-lg'
@@ -90,7 +90,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                   and logarithmic orbit are based on real physics.
                 </p>
               </div>
-            </div>
+            </button>
             <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               <Image
                 alt='Blog Platform Image'
@@ -211,7 +211,9 @@ const Index: React.FC = ({ className }: IndexProps) => {
         </section>
         <div className='absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-900 to-transparent' />
         <footer className='w-full h-20 flex items-center justify-center border-t border-gray-700 px-6 md:px-8 lg:px-12 bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
-          <p className='text-gray-300 whitespace-nowrap'>© 2023 Schipke&apos;d it Creative</p>
+          <p className='text-gray-300 whitespace-nowrap'>
+            © 2023 Schipke&apos;d it Creative
+          </p>
         </footer>
       </main>
     </div>
