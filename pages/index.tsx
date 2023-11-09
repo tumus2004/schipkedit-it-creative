@@ -80,12 +80,14 @@ const Index: React.FC = ({ className }: IndexProps) => {
               />
               <div className='p-4'>
                 <h3 className='text-2xl font-semibold text-white'>
-                  E-commerce Website
+                  Solar System
                 </h3>
                 <p className='mt-2 text-lg'>
-                  An e-commerce website built with React and Node.js. It
-                  features a user-friendly interface, secure payment gateway,
-                  and advanced search filters.
+                  Three.js project that displays the solar system. It features a
+                  dynamic camera, planet stats, and a speed slider, along with
+                  real time planet rotation and revolution controls. The planet
+                  location is based on real NASA data, and the planet rotation
+                  and logarithmic orbit are based on real physics.
                 </p>
               </div>
             </div>
@@ -106,8 +108,9 @@ const Index: React.FC = ({ className }: IndexProps) => {
                   Blog Platform
                 </h3>
                 <p className='mt-2 text-lg'>
-                  A dynamic blogging platform developed using Django. It
-                  supports user authentication, post creation, and has a
+                  A dynamic blogging platform developed using React
+                  (Typescript), HTML and Tailwind. It supports user
+                  authentication, post creation, image upload and display with a
                   responsive design.
                 </p>
               </div>
@@ -129,7 +132,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                   Weather App
                 </h3>
                 <p className='mt-2 text-lg'>
-                  A weather forecasting app built with Vue.js. It uses the
+                  A weather forecasting app built with Next.js. It uses the
                   OpenWeatherMap API to fetch and display weather data based on
                   user&apos;s location.
                 </p>
@@ -152,7 +155,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                   Task Manager App
                 </h3>
                 <p className='mt-2 text-lg'>
-                  A task management application created with Angular. It allows
+                  A task management application created with React. It allows
                   users to create, update, and organize tasks effectively.
                 </p>
               </div>
@@ -174,9 +177,9 @@ const Index: React.FC = ({ className }: IndexProps) => {
                   Restaurant Reservation System
                 </h3>
                 <p className='mt-2 text-lg'>
-                  A restaurant reservation system developed using Express.js. It
-                  features real-time availability updates and email
-                  notifications.
+                  A restaurant reservation system developed using Next.js,
+                  python for the backend and React. It features real-time
+                  availability updates and email notifications.
                 </p>
               </div>
             </div>
@@ -193,13 +196,14 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 width='200'
               />
               <div className='p-4'>
-                <h3 className='text-2xl font-semibold text-white'>
-                  Social Media Dashboard
-                </h3>
+                <h3 className='text-2xl font-semibold text-white'>JB HiFi</h3>
                 <p className='mt-2 text-lg'>
-                  A social media dashboard built with Svelte. It aggregates data
-                  from various platforms and presents them in a user-friendly
-                  manner.
+                  Australia&apos;s leading retail electronics brand and one of
+                  the most widely used e-commerce sites in Australia, and the
+                  world. Using liquid (old-school shopify) but fully customised
+                  into a React environment with CSS-in-JS, styled components and
+                  using various technology stacks at an enterprise level, this
+                  was an incredible experience to be a part of.
                 </p>
               </div>
             </div>
@@ -207,7 +211,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
         </section>
         <div className='absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-900 to-transparent' />
         <footer className='w-full h-20 flex items-center justify-center border-t border-gray-700 px-6 md:px-8 lg:px-12 bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
-          <p className='text-gray-300 whitespace-nowrap'>© 2023 John Doe</p>
+          <p className='text-gray-300 whitespace-nowrap'>© 2023 Schipke&apos;d it Creative</p>
         </footer>
       </main>
     </div>
