@@ -1,152 +1,217 @@
 import React, { useState, useEffect } from 'react';
 import SolarSystem from '../components/SolarSystem/SolarSystem';
 import { PlanetStats } from '../components/PlanetStats';
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface IndexProps {
   className?: string;
 }
 
-const planetStats = [
-  {
-    planet: 'Earth',
-    size: '12,756 km',
-    radialVelocity: '29.78 km/s',
-    orbitalVelocity: '107,218 km/h',
-    orbitalPeriod: '365.25 days',
-  },
-  {
-    planet: 'Mercury',
-    size: '4,879 km',
-    radialVelocity: '47.36 km/s',
-    orbitalVelocity: '172,440 km/h',
-    orbitalPeriod: '88 days',
-  },
-  {
-    planet: 'Venus',
-    size: '12,104 km',
-    radialVelocity: '35.02 km/s',
-    orbitalVelocity: '126,072 km/h',
-    orbitalPeriod: '224.7 days',
-  },
-  {
-    planet: 'Mars',
-    size: '6,779 km',
-    radialVelocity: '24.13 km/s',
-    orbitalVelocity: '86,904 km/h',
-    orbitalPeriod: '687 days',
-  },
-  {
-    planet: 'Jupiter',
-    size: '139,822 km',
-    radialVelocity: '13.06 km/s',
-    orbitalVelocity: '47,016 km/h',
-    orbitalPeriod: '11.9 years',
-  },
-  {
-    planet: 'Saturn',
-    size: '116,464 km',
-    radialVelocity: '9.64 km/s',
-    orbitalVelocity: '34,704 km/h',
-    orbitalPeriod: '29.5 years',
-  },
-  {
-    planet: 'Uranus',
-    size: '50,724 km',
-    radialVelocity: '6.81 km/s',
-    orbitalVelocity: '24,516 km/h',
-    orbitalPeriod: '84 years',
-  },
-  {
-    planet: 'Neptune',
-    size: '49,244 km',
-    radialVelocity: '5.43 km/s',
-    orbitalVelocity: '19,548 km/h',
-    orbitalPeriod: '165 years',
-  },
-  {
-    planet: 'Pluto',
-    size: '2,370 km',
-    radialVelocity: '4.74 km/s',
-    orbitalVelocity: '17,064 km/h',
-    orbitalPeriod: '248 years',
-  },
-  {
-    planet: 'Moon',
-    size: '3,474 km',
-    radialVelocity: '1.022 km/s',
-    orbitalVelocity: '3,679 km/h',
-    orbitalPeriod: '27.3 days',
-  },
-];
-
 const Index: React.FC = ({ className }: IndexProps) => {
-  const [baseSpeed, setBaseSpeed] = useState<number>(480);
-
-  useEffect(() => {
-    const featuresEl: HTMLDivElement | null =
-      document.querySelector('.planet-stats');
-    const featureEls: NodeListOf<HTMLDivElement> =
-      document.querySelectorAll('.feature');
-
-    if (featuresEl) {
-      featuresEl.addEventListener('pointermove', (ev) => {
-        featureEls.forEach((featureEl) => {
-          const rect = featureEl.getBoundingClientRect();
-
-          featureEl.style.setProperty(
-            '--x',
-            JSON.stringify(ev.clientX - rect.left)
-          );
-          featureEl.style.setProperty(
-            '--y',
-            JSON.stringify(ev.clientY - rect.top)
-          );
-        });
-      });
-
-      // Add the mouseleave event listener
-      featuresEl.addEventListener('mouseleave', () => {
-        featureEls.forEach((featureEl) => {
-          // Use a value outside possible bounds to hide the glow
-          featureEl.style.setProperty('--x', '-9999px');
-          featureEl.style.setProperty('--y', '-9999px');
-        });
-      });
-    }
-  }, []);
-
   return (
-    <>
-      <div className='h-screen p-4 md:p-10 bg-gradient-to-br from-stone-900'>
-        <div className='planet-stats'>
-          {/* <div className='planet-stats grid grid-cols-1 gap-1 md:grid-cols-4 p-4'> */}
-          {planetStats.map((planet) => (
-            <PlanetStats
-              planet={planet.planet}
-              size={planet.size}
-              radialVelocity={planet.radialVelocity}
-              orbitalVelocity={planet.orbitalVelocity}
-              orbitalPeriod={planet.orbitalPeriod}
-              key={planet.planet}
-            />
-          ))}
+    <div className='flex flex-col min-h-screen bg-gray-900 overflow-hidden relative lg:min-w-[1440px]'>
+      <header className='w-full px-6 py-4 flex items-center justify-between md:px-8 lg:px-12 bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
+        <div className='flex items-center space-x-2'>
+          <svg
+            className=' h-8 w-8 text-blue-400'
+            fill='none'
+            height='24'
+            stroke='currentColor'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            strokeWidth='2'
+            viewBox='0 0 24 24'
+            width='24'
+            xmlns='http://www.w3.org/2000/svg'>
+            <polyline points='16 18 22 12 16 6' />
+            <polyline points='8 6 2 12 8 18' />
+          </svg>
+          <span className='text-2xl font-semibold text-white whitespace-nowrap'>
+            John Doe
+          </span>
         </div>
-        <SolarSystem
-          baseSpeed={baseSpeed}
-          setBaseSpeed={setBaseSpeed}
-          className='fixed top-0 left-0'
-        />
-        <div
-          className='bg-center w-full bottom-16 left-0 absolute'
-          style={{ background: `transparent` }}>
-          <div className='text-3xl md:text-6xl font-extrabold relative w-full text-center'>
-            <span className='bg-clip-text text-transparent bg-gradient-to-br from-red-700 to-sky-700'>
-              1 Second = {baseSpeed / 60} {baseSpeed === 60 ? `hour` : `hours`}
-            </span>
+        <nav className='space-x-4'>
+          <Link
+            className='text-gray-300 hover:text-blue-500 transition-colors duration-300 whitespace-nowrap'
+            href='#'>
+            About
+          </Link>
+          <Link
+            className='text-gray-300 hover:text-blue-500 transition-colors duration-300 whitespace-nowrap'
+            href='#'>
+            Projects
+          </Link>
+          <Link
+            className='text-gray-300 hover:text-blue-500 transition-colors duration-300 whitespace-nowrap'
+            href='#'>
+            Contact
+          </Link>
+        </nav>
+      </header>
+      <main className='flex-1 w-full mt-16 text-gray-300 px-6 md:px-8 lg:px-12 overflow-y-auto scrollbar-hide'>
+        <section className='mb-12' id='about'>
+          <h1 className='text-5xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-green-400 whitespace-nowrap'>
+            Hello, I&apos;m John Doe
+          </h1>
+          <p className='mt-6 text-xl'>
+            I&apos;m a full-stack web developer with a passion for creating beautiful
+            and responsive websites. With over 5 years of experience in various
+            programming languages and frameworks, I can help bring your ideas to
+            life.
+          </p>
+        </section>
+        <section className='mb-12' id='projects'>
+          <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-green-400 whitespace-nowrap'>
+            Showcase
+          </h2>
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <Image
+                alt='E-commerce Website Image'
+                className='rounded-t-lg'
+                height='200'
+                src='/placeholder.svg'
+                style={{
+                  aspectRatio: '200/200',
+                  objectFit: 'cover',
+                }}
+                width='200'
+              />
+              <div className='p-4'>
+                <h3 className='text-2xl font-semibold text-white'>
+                  E-commerce Website
+                </h3>
+                <p className='mt-2 text-lg'>
+                  An e-commerce website built with React and Node.js. It
+                  features a user-friendly interface, secure payment gateway,
+                  and advanced search filters.
+                </p>
+              </div>
+            </div>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <Image
+                alt='Blog Platform Image'
+                className='rounded-t-lg'
+                height='200'
+                src='/placeholder.svg'
+                style={{
+                  aspectRatio: '200/200',
+                  objectFit: 'cover',
+                }}
+                width='200'
+              />
+              <div className='p-4'>
+                <h3 className='text-2xl font-semibold text-white'>
+                  Blog Platform
+                </h3>
+                <p className='mt-2 text-lg'>
+                  A dynamic blogging platform developed using Django. It
+                  supports user authentication, post creation, and has a
+                  responsive design.
+                </p>
+              </div>
+            </div>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <Image
+                alt='Weather App Image'
+                className='rounded-t-lg'
+                height='200'
+                src='/placeholder.svg'
+                style={{
+                  aspectRatio: '200/200',
+                  objectFit: 'cover',
+                }}
+                width='200'
+              />
+              <div className='p-4'>
+                <h3 className='text-2xl font-semibold text-white'>
+                  Weather App
+                </h3>
+                <p className='mt-2 text-lg'>
+                  A weather forecasting app built with Vue.js. It uses the
+                  OpenWeatherMap API to fetch and display weather data based on
+                  user&apos;s location.
+                </p>
+              </div>
+            </div>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <Image
+                alt='Task Manager App Image'
+                className='rounded-t-lg'
+                height='200'
+                src='/placeholder.svg'
+                style={{
+                  aspectRatio: '200/200',
+                  objectFit: 'cover',
+                }}
+                width='200'
+              />
+              <div className='p-4'>
+                <h3 className='text-2xl font-semibold text-white'>
+                  Task Manager App
+                </h3>
+                <p className='mt-2 text-lg'>
+                  A task management application created with Angular. It allows
+                  users to create, update, and organize tasks effectively.
+                </p>
+              </div>
+            </div>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <Image
+                alt='Restaurant Reservation System Image'
+                className='rounded-t-lg'
+                height='200'
+                src='/placeholder.svg'
+                style={{
+                  aspectRatio: '200/200',
+                  objectFit: 'cover',
+                }}
+                width='200'
+              />
+              <div className='p-4'>
+                <h3 className='text-2xl font-semibold text-white'>
+                  Restaurant Reservation System
+                </h3>
+                <p className='mt-2 text-lg'>
+                  A restaurant reservation system developed using Express.js. It
+                  features real-time availability updates and email
+                  notifications.
+                </p>
+              </div>
+            </div>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+              <Image
+                alt='Social Media Dashboard Image'
+                className='rounded-t-lg'
+                height='200'
+                src='/placeholder.svg'
+                style={{
+                  aspectRatio: '200/200',
+                  objectFit: 'cover',
+                }}
+                width='200'
+              />
+              <div className='p-4'>
+                <h3 className='text-2xl font-semibold text-white'>
+                  Social Media Dashboard
+                </h3>
+                <p className='mt-2 text-lg'>
+                  A social media dashboard built with Svelte. It aggregates data
+                  from various platforms and presents them in a user-friendly
+                  manner.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </>
+        </section>
+        <div className='absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-900 to-transparent' />
+        <footer className='w-full h-20 flex items-center justify-center border-t border-gray-700 px-6 md:px-8 lg:px-12 bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
+          <p className='text-gray-300 whitespace-nowrap'>© 2023 John Doe</p>
+        </footer>
+      </main>
+    </div>
   );
 };
+
 export default Index;
