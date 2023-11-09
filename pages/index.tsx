@@ -51,7 +51,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
       </header>
       <main className='flex-1 w-full mt-16 text-gray-300 px-6 md:px-8 lg:px-12 overflow-y-auto scrollbar-hide'>
         <section className='mb-12' id='about'>
-          <h1 className='text-5xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-green-400 whitespace-nowrap'>
+          <h1 className='text-5xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-green-400 whitespace-nowrap'>
             Hello, I&apos;m Tom.
           </h1>
           {/* <p className='mt-6 text-xl'>
@@ -62,7 +62,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
           </p> */}
         </section>
         <section className='mb-12' id='projects'>
-          <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-800 to-green-400 whitespace-nowrap'>
+          <h2 className='text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-100 to-green-400 whitespace-nowrap'>
             Showcase
           </h2>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
