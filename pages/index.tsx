@@ -140,7 +140,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
               </div>
             </div>
             <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-100 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
-              <Image
+              {/* <Image
                 alt='Task Manager App Image'
                 className='rounded-t-lg'
                 height='200'
@@ -150,7 +150,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                   objectFit: 'cover',
                 }}
                 width='200'
-              />
+              /> */}
               <div className='p-4'>
                 <h3 className='text-2xl font-semibold text-white'>
                   Task Manager App
