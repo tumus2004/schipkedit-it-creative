@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SolarSystem from '../components/SolarSystem/SolarSystem';
-import { PlanetStats } from '../components/PlanetStats';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -66,7 +65,9 @@ const Index: React.FC = ({ className }: IndexProps) => {
             Showcase
           </h2>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
-            <button className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <Link
+              href='/solarSystem'
+              className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               <Image
                 alt='E-commerce Website Image'
                 className='rounded-t-lg'
@@ -90,7 +91,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                   and logarithmic orbit are based on real physics.
                 </p>
               </div>
-            </button>
+            </Link>
             <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-800 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               <Image
                 alt='Blog Platform Image'
