@@ -53,12 +53,12 @@ const Index: React.FC = ({ className }: IndexProps) => {
           <h1 className='text-6xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:to-yellow-500 whitespace-nowrap'>
             Hello, I&apos;m Tom.
           </h1>
-          {/* <p className='mt-6 text-xl'>
-            I&apos;m a full-stack web developer with a passion for creating beautiful
+          <p className='mt-6 text-lg'>
+            I&apos;m a software engineer and web developer with a passion for creating beautiful
             and responsive websites. With over 5 years of experience in various
             programming languages and frameworks, I can help bring your ideas to
             life.
-          </p> */}
+          </p>
         </section>
         <section className='mb-12' id='projects'>
           <h2 className='text-4xl font-bold bg-clip-text bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:from-pink-500 hover:to-yellow-500 whitespace-nowrap'>
