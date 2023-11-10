@@ -54,10 +54,10 @@ const Index: React.FC = ({ className }: IndexProps) => {
             Hello, I&apos;m Tom.
           </h1>
           <p className='mt-6 text-lg'>
-            I&apos;m a software engineer and web developer with a passion for creating beautiful
-            and responsive websites. With over 5 years of experience in various
-            programming languages and frameworks, I can help bring your ideas to
-            life.
+            I&apos;m a software engineer and web developer with a passion for
+            creating beautiful and responsive websites. With over 5 years of
+            experience in various programming languages and frameworks, I can
+            help bring your ideas to life.
           </p>
         </section>
         <section className='mb-12' id='projects'>
@@ -67,7 +67,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
             <Link
               href='/solarSystem'
-              className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-100 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+              className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               {/* <Image
                 alt='E-commerce Website Image'
                 className='rounded-t-lg'
@@ -92,7 +92,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </p>
               </div>
             </Link>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-100 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               {/* <Image
                 alt='Blog Platform Image'
                 className='rounded-t-lg'
@@ -116,7 +116,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </p>
               </div>
             </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-100 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               {/* <Image
                 alt='Weather App Image'
                 className='rounded-t-lg'
@@ -139,7 +139,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </p>
               </div>
             </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-100 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               {/* <Image
                 alt='Task Manager App Image'
                 className='rounded-t-lg'
@@ -161,7 +161,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </p>
               </div>
             </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-100 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               {/* <Image
                 alt='Restaurant Reservation System Image'
                 className='rounded-t-lg'
@@ -184,7 +184,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 </p>
               </div>
             </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-100 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
               {/* <Image
                 alt='Social Media Dashboard Image'
                 className='rounded-t-lg'
@@ -210,8 +210,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
             </div>
           </div>
         </section>
-        <div className='absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-900 to-transparent' />
-        <footer className='w-full h-20 flex items-center justify-center border-t border-gray-700 px-6 md:px-8 lg:px-12 bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
+        <footer className='absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-900 to-transparent w-full flex items-center justify-center border-t border-gray-700 px-6 md:px-8 lg:px-12 bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
           <p className='text-gray-300 whitespace-nowrap'>
             © 2023 Schipke&apos;d it Creative
           </p>
