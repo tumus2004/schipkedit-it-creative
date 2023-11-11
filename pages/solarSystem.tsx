@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { PlanetStats } from '../components/PlanetStats';
 import SolarSystem from '../components/SolarSystem/SolarSystem';
+import Header from '../components/Header/Header';
 
 interface Props {
   className?: string;
@@ -117,6 +118,7 @@ const SolarSystemWrapper: React.FC = ({ className }: Props) => {
 
   return (
     <>
+      <Header />
       <div className='h-screen p-4 md:p-10 bg-gradient-to-br from-stone-900'>
         <div className='planet-stats'>
           {/* <div className='planet-stats grid grid-cols-1 gap-1 md:grid-cols-4 p-4'> */}
