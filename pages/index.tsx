@@ -8,9 +8,44 @@ interface IndexProps {
 }
 
 const Index: React.FC = ({ className }: IndexProps) => {
+  
+  useEffect(() => {
+    const featuresEl: HTMLDivElement | null =
+      document.querySelector('.planet-stats');
+    const featureEls: NodeListOf<HTMLDivElement> =
+      document.querySelectorAll('.feature');
+
+    if (featuresEl) {
+      featuresEl.addEventListener('pointermove', (ev) => {
+        featureEls.forEach((featureEl) => {
+          const rect = featureEl.getBoundingClientRect();
+
+          featureEl.style.setProperty(
+            '--x',
+            JSON.stringify(ev.clientX - rect.left)
+          );
+          featureEl.style.setProperty(
+            '--y',
+            JSON.stringify(ev.clientY - rect.top)
+          );
+        });
+      });
+
+      // Add the mouseleave event listener
+      featuresEl.addEventListener('mouseleave', () => {
+        featureEls.forEach((featureEl) => {
+          // Use a value outside possible bounds to hide the glow
+          featureEl.style.setProperty('--x', '-9999px');
+          featureEl.style.setProperty('--y', '-9999px');
+        });
+      });
+    }
+  }, []);
+
+
   return (
-    <div className='flex flex-col min-h-screen bg-gray-900 overflow-hidden relative lg:min-w-[1440px]'>
-      <header className='w-full px-6 py-4 flex items-center justify-between md:px-8 lg:px-12 bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
+    <div className='flex flex-col min-h-screen bg-stone-900 overflow-hidden relative lg:min-w-[1440px]'>
+      <header className='w-full px-6 py-4 flex items-center justify-between md:px-8 lg:px-12 bg-stone-900 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30'>
         <div className='flex items-center space-x-2'>
           <svg
             className=' h-8 w-8 text-blue-400'
@@ -64,11 +99,13 @@ const Index: React.FC = ({ className }: IndexProps) => {
           <h2 className='text-4xl font-bold bg-clip-text bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:from-pink-500 hover:to-yellow-500 whitespace-nowrap'>
             Showcase
           </h2>
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'>
-            <Link
-              href='/solarSystem'
-              className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
-              {/* <Image
+          <div className='h-screen p-4 md:p-10 bg-gradient-to-br from-stone-900'>
+            <div className='planet-stats'>
+              {/* <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6'> */}
+              <Link href='/solarSystem' className='feature' id='feature'>
+                {/* 
+              // className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'> 
+                <Image
                 alt='E-commerce Website Image'
                 className='rounded-t-lg'
                 height='200'
@@ -79,21 +116,22 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 }}
                 width='200'
               /> */}
-              <div className='p-4'>
-                <h3 className='text-2xl font-semibold text-white'>
-                  Solar System
-                </h3>
-                <p className='mt-2 text-lg'>
-                  Three.js project that displays the solar system. It features a
-                  dynamic camera, planet stats, and a speed slider, along with
-                  real time planet rotation and revolution controls. The planet
-                  location is based on real NASA data, and the planet rotation
-                  and logarithmic orbit are based on real physics.
-                </p>
-              </div>
-            </Link>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
-              {/* <Image
+                <div className='feature-content'>
+                  <h3 className='text-2xl font-semibold text-white'>
+                    Solar System
+                  </h3>
+                  <p className='mt-2 text-lg'>
+                    Three.js project that displays the solar system. It features
+                    a dynamic camera, planet stats, and a speed slider, along
+                    with real time planet rotation and revolution controls. The
+                    planet location is based on real NASA data, and the planet
+                    rotation and logarithmic orbit are based on real physics.
+                  </p>
+                </div>
+              </Link>
+              {/* <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'> */}
+              <div className='feature'>
+                {/* <Image
                 alt='Blog Platform Image'
                 className='rounded-t-lg'
                 height='200'
@@ -104,20 +142,20 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 }}
                 width='200'
               /> */}
-              <div className='p-4'>
-                <h3 className='text-2xl font-semibold text-white'>
-                  Blog Platform
-                </h3>
-                <p className='mt-2 text-lg'>
-                  A dynamic blogging platform developed using React
-                  (Typescript), HTML and Tailwind. It supports user
-                  authentication, post creation, image upload and display with a
-                  responsive design.
-                </p>
+                <div className='feature-content'>
+                  <h3 className='text-2xl font-semibold text-white'>
+                    Blog Platform
+                  </h3>
+                  <p className='mt-2 text-lg'>
+                    A dynamic blogging platform developed using React
+                    (Typescript), HTML and Tailwind. It supports user
+                    authentication, post creation, image upload and display with
+                    a responsive design.
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
-              {/* <Image
+              <div className='feature'>
+                {/* <Image
                 alt='Weather App Image'
                 className='rounded-t-lg'
                 height='200'
@@ -128,19 +166,19 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 }}
                 width='200'
               /> */}
-              <div className='p-4'>
-                <h3 className='text-2xl font-semibold text-white'>
-                  Weather App
-                </h3>
-                <p className='mt-2 text-lg'>
-                  A weather forecasting app built with Next.js. It uses the
-                  OpenWeatherMap API to fetch and display weather data based on
-                  user&apos;s location.
-                </p>
+                <div className='feature-content'>
+                  <h3 className='text-2xl font-semibold text-white'>
+                    Weather App
+                  </h3>
+                  <p className='mt-2 text-lg'>
+                    A weather forecasting app built with Next.js. It uses the
+                    OpenWeatherMap API to fetch and display weather data based
+                    on user&apos;s location.
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
-              {/* <Image
+              <div className='feature'>
+                {/* <Image
                 alt='Task Manager App Image'
                 className='rounded-t-lg'
                 height='200'
@@ -151,18 +189,18 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 }}
                 width='200'
               /> */}
-              <div className='p-4'>
-                <h3 className='text-2xl font-semibold text-white'>
-                  Task Manager App
-                </h3>
-                <p className='mt-2 text-lg'>
-                  A task management application created with React. It allows
-                  users to create, update, and organize tasks effectively.
-                </p>
+                <div className='feature-content'>
+                  <h3 className='text-2xl font-semibold text-white'>
+                    Task Manager App
+                  </h3>
+                  <p className='mt-2 text-lg'>
+                    A task management application created with React. It allows
+                    users to create, update, and organize tasks effectively.
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
-              {/* <Image
+              <div className='feature'>
+                {/* <Image
                 alt='Restaurant Reservation System Image'
                 className='rounded-t-lg'
                 height='200'
@@ -173,19 +211,19 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 }}
                 width='200'
               /> */}
-              <div className='p-4'>
-                <h3 className='text-2xl font-semibold text-white'>
-                  Restaurant Reservation System
-                </h3>
-                <p className='mt-2 text-lg'>
-                  A restaurant reservation system developed using Next.js,
-                  python for the backend and React. It features real-time
-                  availability updates and email notifications.
-                </p>
+                <div className='feature-content'>
+                  <h3 className='text-2xl font-semibold text-white'>
+                    Restaurant Reservation System
+                  </h3>
+                  <p className='mt-2 text-lg'>
+                    A restaurant reservation system developed using Next.js,
+                    python for the backend and React. It features real-time
+                    availability updates and email notifications.
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className='bg-gray-800 rounded-lg shadow-xl backdrop-filter backdrop-blur-lg bg-opacity-30 hover:bg-gradient-to-r hover:from-gray-900 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105'>
-              {/* <Image
+              <div className='feature'>
+                {/* <Image
                 alt='Social Media Dashboard Image'
                 className='rounded-t-lg'
                 height='200'
@@ -196,16 +234,18 @@ const Index: React.FC = ({ className }: IndexProps) => {
                 }}
                 width='200'
               /> */}
-              <div className='p-4'>
-                <h3 className='text-2xl font-semibold text-white'>JB HiFi</h3>
-                <p className='mt-2 text-lg'>
-                  Australia&apos;s leading retail electronics brand and one of
-                  the most widely used e-commerce sites in Australia, and the
-                  world. Using liquid (old-school shopify) but fully customised
-                  into a React environment with CSS-in-JS, styled components and
-                  using various technology stacks at an enterprise level, this
-                  was an incredible experience to be a part of.
-                </p>
+                <div className='feature-content'>
+                  <h3 className='text-2xl font-semibold text-white'>JB HiFi</h3>
+                  <p className='mt-2 text-lg'>
+                    Australia&apos;s leading retail electronics brand and one of
+                    the most widely used e-commerce sites in Australia, and the
+                    world. Using liquid (old-school shopify) but fully
+                    customised into a React environment with CSS-in-JS, styled
+                    components and using various technology stacks at an
+                    enterprise level, this was an incredible experience to be a
+                    part of.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
