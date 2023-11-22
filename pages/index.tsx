@@ -43,7 +43,7 @@ const Index: React.FC = ({ className }: IndexProps) => {
   }, []);
 
   return (
-    <div className='flex flex-col min-h-screen bg-stone-900 overflow-hidden relative'>
+    <div className='flex flex-col bg-stone-900 overflow-hidden relative'>
       <Header />
       <main className='flex-1 w-full mt-16 text-gray-300 px-6 md:px-8 lg:px-12 overflow-y-auto scrollbar-hide'>
         <section className='mb-12' id='about'>
