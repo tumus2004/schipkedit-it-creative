@@ -53,7 +53,7 @@ const Header: React.FC = () => {
         </svg>
       </button>
       <nav
-        className={`fixed inset-0 bg-black bg-opacity-90 z-20 flex flex-col items-center justify-center transform transition-transform ease-in-out ${
+        className={`fixed inset-0 bg-black bg-opacity-90 z-20 flex flex-col h-screen items-center justify-center transform transition-all ease-in-out ${
           isMenuOpen ? "translate-y-0 absolute" : "-translate-y-full fixed"
         } md:hidden`}
       >
