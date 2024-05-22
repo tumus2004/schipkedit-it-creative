@@ -13,8 +13,16 @@
 @media screen and (max-width: 768px) {
   .showcase {
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(8, 1fr);
-    height: 150vh;
+    grid-template-rows: repeat(6, 1fr);
+    height: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  .showcase {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    height: 100%;
   }
 }
 
