@@ -13,13 +13,13 @@ const DevNotes: React.FC = () => {
     <div className="bg-center w-full h-screen bg-no-repeat bg-cover md:bg-fixed">
       {notesToRemember.map((notes) => (
         <>
-          <div className="container mx-auto px-6 py-16" key={notes.id}>
+          <div className="container mx-auto px-6" key={notes.id}>
             {notes.id}
           </div>
-          <div className="container mx-auto px-6 py-16" key={notes.id}>
+          <div className="container mx-auto px-6" key={notes.id}>
             {notes.title}
           </div>
-          <div className="container mx-auto px-6 py-16" key={notes.id}>
+          <div className="container mx-auto px-6" key={notes.id}>
             {notes.content}
           </div>
         </>
