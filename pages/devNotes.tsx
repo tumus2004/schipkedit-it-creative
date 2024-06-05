@@ -13,6 +13,16 @@ const DevNotes: React.FC = () => {
         "Change ownership of node_modules cache folder to avoid permission issues",
       content: `sudo mkdir -p node_modules/.cache && sudo chmod -R 777 node_modules/.cache`,
     },
+    {
+      id: "3",
+      title: "Fix openVPN error: Error calling protect() method on socket",
+      content:
+        "sudo launchctl unload -w /Library/LaunchDaemons/org.openvpn.client.plist",
+      contentLine2: "ps auxww | grep ovpnagent",
+      contentLine3:
+        "sudo launchctl load -w /Library/LaunchDaemons/org.openvpn.client.plist",
+      contentLine4: "ps auxww | grep ovpnagent",
+    },
   ];
 
   return (
@@ -35,6 +45,21 @@ const DevNotes: React.FC = () => {
           <pre className="p-4 bg-gray-100 rounded-lg overflow-auto">
             <code className="text-gray-800">{notes.content}</code>
           </pre>
+          {notes.contentLine2 && (
+            <pre className="p-4 bg-gray-100 rounded-lg overflow-auto">
+              <code className="text-gray-800">{notes.contentLine2}</code>
+            </pre>
+          )}
+          {notes.contentLine3 && (
+            <pre className="p-4 bg-gray-100 rounded-lg overflow-auto">
+              <code className="text-gray-800">{notes.contentLine3}</code>
+            </pre>
+          )}
+          {notes.contentLine4 && (
+            <pre className="p-4 bg-gray-100 rounded-lg overflow-auto">
+              <code className="text-gray-800">{notes.contentLine4}</code>
+            </pre>
+          )}
         </section>
       ))}
     </div>
