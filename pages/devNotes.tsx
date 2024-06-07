@@ -23,6 +23,13 @@ const DevNotes: React.FC = () => {
         "sudo launchctl load -w /Library/LaunchDaemons/org.openvpn.client.plist",
       contentLine4: "ps auxww | grep ovpnagent",
     },
+    {
+      id: "4",
+      title: "Run a test file from JL container",
+      content: "// Enter the JL container: docker exec -it jl bash",
+      contentLine2:
+        "Run the php test file: ./vendor/bin/phpunit testing/php/jumbo/lotteries/core/service/SubscriptionTicketServiceTest.php",
+    },
   ];
 
   return (
