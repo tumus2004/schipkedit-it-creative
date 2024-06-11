@@ -36,6 +36,13 @@ const DevNotes: React.FC = () => {
       content: "sudo pmset disablesleep 1 // To disable sleep",
       contentLine2: "sudo pmset disablesleep 0 // To enable sleep",
     },
+    {
+      id: "6",
+      title: "enable subscription in JL overrides for consul config",
+      content: '"RECURRING_PURCHASE_SUBSCRIPTION": {',
+      contentLine2: '"enabled": true,',
+      contentLine3: '},',
+    }
   ];
 
   return (
