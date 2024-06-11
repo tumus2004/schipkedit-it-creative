@@ -41,8 +41,8 @@ const DevNotes: React.FC = () => {
       title: "enable subscription in JL overrides for consul config",
       content: '"RECURRING_PURCHASE_SUBSCRIPTION": {',
       contentLine2: '"enabled": true,',
-      contentLine3: '},',
-    }
+      contentLine3: "},",
+    },
   ];
 
   return (
