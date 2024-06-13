@@ -50,7 +50,7 @@ const DevNotes: React.FC = () => {
     },
     {
       id: "8",
-      title: "To get into consul for a specific built staging environment",
+      title: "To get into consul for a specific built staging environment, example zim5",
       content: "sudo docker inspect zim5cluster-consul-master-1 | grep master",
       contentLine2: "ssh ho-staging5.lan",
     },
