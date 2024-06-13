@@ -46,8 +46,14 @@ const DevNotes: React.FC = () => {
     {
       id: "7",
       title: "Clear cache when consul has changed",
-      content: "add ?clear_cache=true to any page url"
-    }
+      content: "add ?clear_cache=true to any page url",
+    },
+    {
+      id: "8",
+      title: "To get into consul for a specific built staging environment",
+      content: "sudo docker inspect zim5cluster-consul-master-1 | grep master",
+      contentLine2: "ssh ho-staging5.lan",
+    },
   ];
 
   return (
@@ -92,4 +98,3 @@ const DevNotes: React.FC = () => {
 };
 
 export default DevNotes;
-
