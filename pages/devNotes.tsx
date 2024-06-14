@@ -38,10 +38,15 @@ const DevNotes: React.FC = () => {
     },
     {
       id: "6",
-      title: "enable subscription in JL overrides for consul config",
-      content: '"RECURRING_PURCHASE_SUBSCRIPTION": {',
-      contentLine2: ` "enabled": true,`,
-      contentLine3: "},",
+      title:
+        "enable subscription and timed pause in JL overrides for consul config",
+      content: `"RECURRING_PURCHASE_SUBSCRIPTION": {"enabled": true},
+       	"RECURRING_PURCHASE_AUTOPLAY": {
+ 					"enabled": true
+				},
+      	"ADMIN_FEATURE_AUTOPLAY_TIMED_PAUSE": true,
+      	"ADMIN_FEATURE_SUBSCRIPTION_TIMED_PAUSE": true,',
+    },`,
     },
     {
       id: "7",
@@ -50,7 +55,8 @@ const DevNotes: React.FC = () => {
     },
     {
       id: "8",
-      title: "To get into consul for a specific built staging environment, example zim5",
+      title:
+        "To get into consul for a specific built staging environment, example zim5",
       content: "sudo docker inspect zim5cluster-consul-master-1 | grep master",
       contentLine2: "ssh ho-staging5.lan",
     },
