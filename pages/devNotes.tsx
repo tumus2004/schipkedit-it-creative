@@ -60,6 +60,11 @@ const DevNotes: React.FC = () => {
       content: "sudo docker inspect zim5cluster-consul-master-1 | grep master",
       contentLine2: "ssh ho-staging5.lan",
     },
+    {
+      id: "9",
+      title: "ISO 8601 date format",
+      content: "2024-05-31T12:50:11+10:00",
+    },
   ];
 
   return (
