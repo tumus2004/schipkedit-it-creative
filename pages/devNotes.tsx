@@ -88,6 +88,7 @@ const DevNotes: React.FC = () => {
       id: "10",
       title: "To access the consul UI for a staging environment (example has zim5)",
       content: "https://admin.zim5.staging.ozl.jumdev.com/consul/ui/dc1/services",
+      contentLine2: 'and look for CONSUL_MASTER_TOKEN'
     }
   ];
 
