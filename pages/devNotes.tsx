@@ -84,6 +84,11 @@ const DevNotes: React.FC = () => {
       title: "ISO 8601 date format",
       content: "2024-05-31T12:50:11+10:00",
     },
+    {
+      id: "10",
+      title: "To access the consul UI for a staging environment (example has zim5)",
+      content: "https://admin.zim5.staging.ozl.jumdev.com/consul/ui/dc1/services",
+    }
   ];
 
   return (
