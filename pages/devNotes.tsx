@@ -41,6 +41,8 @@ const DevNotes: React.FC = () => {
       title:
         "enable subscription and timed pause in JL overrides for consul config",
       content: `
+    "CLIENT_CAPABILITY_AUTOPLAY_PAUSE": true,
+    "CLIENT_CAPABILITY_SUBSCRIPTION_PAUSE": true,
     "RECURRING_PURCHASE_SUBSCRIPTION": {
     	"enabled": true,
       "timed_pause": {
