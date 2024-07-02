@@ -88,10 +88,22 @@ const DevNotes: React.FC = () => {
     },
     {
       id: "10",
-      title: "To access the consul UI for a staging environment (example has zim5)",
-      content: "https://admin.zim5.staging.ozl.jumdev.com/consul/ui/dc1/services",
-      contentLine2: 'and look for CONSUL_MASTER_TOKEN'
-    }
+      title:
+        "To access the consul UI for a staging environment (example has zim5)",
+      content:
+        "https://admin.zim5.staging.ozl.jumdev.com/consul/ui/dc1/services",
+      contentLine2: "and look for CONSUL_MASTER_TOKEN",
+    },
+    {
+      id: "11",
+      title: "updating an entry in database directly within a container",
+      content: "ssh thomassc@ho-staging4.lan",
+      contentLine2: "sudo docker exec -it zim4cluster-jl-cmd-test-1 bash",
+      contentLine3:
+        "./psql.sh 1 (for example - whichever database # you want to access)",
+      contentLine4: "then run `table recurring_purchase_event`",
+      contentLine5: `it should be the last number in the list of "recurring_purchase_event_id" list but update the next query to match update recurring_purchase_event set recurring_purchase_event_timestamp = '2024-05-24 16:58:20.753479+00', recurring_purchase_event_data = '{"paused_until": "2024-06-15T09:58:20+1000", "is_system_change": false}', recurring_purchase_event_triggered_timestamp = '2024-05-24 05:09:29.530161+00' where recurring_purchase_event_id = #;`,
+    },
   ];
 
   return (
@@ -127,6 +139,11 @@ const DevNotes: React.FC = () => {
           {notes.contentLine4 && (
             <pre className="p-4 bg-gray-100 rounded-lg overflow-auto">
               <code className="text-gray-800">{notes.contentLine4}</code>
+            </pre>
+          )}
+          {notes.contentLine5 && (
+            <pre className="p-4 bg-gray-100 rounded-lg overflow-auto">
+              <code className="text-gray-800">{notes.contentLine5}</code>
             </pre>
           )}
         </section>
