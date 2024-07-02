@@ -8,6 +8,7 @@
   grid-template-rows: repeat(3, 1fr);
   position: relative;
   z-index: 1;
+  top: 40px;
 }
 
 @media screen and (max-width: 768px) {
