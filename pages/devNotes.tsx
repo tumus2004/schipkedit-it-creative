@@ -104,6 +104,18 @@ const DevNotes: React.FC = () => {
       contentLine4: "then run `table recurring_purchase_event`",
       contentLine5: `it should be the last number in the list of "recurring_purchase_event_id" list but update the next query to match update recurring_purchase_event set recurring_purchase_event_timestamp = '2024-05-24 16:58:20.753479+00', recurring_purchase_event_data = '{"paused_until": "2024-06-15T09:58:20+1000", "is_system_change": false}', recurring_purchase_event_triggered_timestamp = '2024-05-24 05:09:29.530161+00' where recurring_purchase_event_id = #;`,
     },
+    {
+      id: "12",
+      title: "consul for scheduled purchasing",
+      content: `
+        'ADMIN_FEATURE_SCHEDULED_PURCHASE': {
+          'enabled': true,
+        },
+        'SCHEDULED_PURCHASE': {
+          'enabled': true,
+        }',
+      `,
+    },
   ];
 
   return (
