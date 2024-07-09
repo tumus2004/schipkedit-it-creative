@@ -108,12 +108,12 @@ const DevNotes: React.FC = () => {
       id: "12",
       title: "consul for scheduled purchasing",
       content: `
-        'ADMIN_FEATURE_SCHEDULED_PURCHASE': {
-          'enabled': true,
-        },
-        'SCHEDULED_PURCHASE': {
-          'enabled': true,
-        }',
+    "ADMIN_FEATURE_SCHEDULED_PURCHASE": {
+			"enabled": true
+		},
+		"SCHEDULED_PURCHASE": {
+			"enabled": true
+    },
       `,
     },
   ];
