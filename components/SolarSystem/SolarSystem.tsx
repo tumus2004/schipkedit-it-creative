@@ -1,19 +1,19 @@
-import axios from 'axios';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import axios from "axios";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
 import {
   createStars,
   setSolarSystemSize,
   createSunGlowTexture,
-} from './helpers';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
-import configurationConstants from './constants/configurationConstants';
-import { lights } from './constants/lightsConfiguration';
+} from "./helpers";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { CopyShader } from "three/examples/jsm/shaders/CopyShader.js";
+import configurationConstants from "./constants/configurationConstants";
+import { lights } from "./constants/lightsConfiguration";
 // import { fetchPlanetData } from './utils';
 
 // fetchPlanetData();
@@ -73,26 +73,26 @@ export const orbitDegreesPerMillisecond = {
 
 const planetConstants = {
   SUN_SIZE: 3,
-  SUN_TEXTURE: '/thesun.jpg',
+  SUN_TEXTURE: "/thesun.jpg",
   SUN_AXIS_TILT_ANGLE: 7.25,
 
   EARTH_SIZE: 1,
-  EARTH_TEXTURE: '/earthtexture.jpg',
+  EARTH_TEXTURE: "/earthtexture.jpg",
   EARTH_ORBIT_RADIUS: 10,
   EARTH_AXIS_TILT_ANGLE: 23.5,
 
   MARS_SIZE: 0.532,
-  MARS_TEXTURE: '/marstexture.png',
+  MARS_TEXTURE: "/marstexture.png",
   MARS_ORBIT_RADIUS: 15.3,
   MARS_AXIS_TILT_ANGLE: 25.19,
 
   VENUS_SIZE: 0.949,
-  VENUS_TEXTURE: '/venustexture.jpg',
+  VENUS_TEXTURE: "/venustexture.jpg",
   VENUS_ORBIT_RADIUS: 7.2,
   VENUS_AXIS_TILT_ANGLE: 3,
 
   MERCURY_SIZE: 0.383,
-  MERCURY_TEXTURE: '/mercurytexture.jpg',
+  MERCURY_TEXTURE: "/mercurytexture.jpg",
   MERCURY_ORBIT_RADIUS: 3.9,
   MERCURY_AXIS_TILT_ANGLE: 0.03,
 
@@ -103,7 +103,7 @@ const planetConstants = {
   ORBIT_TILT_ANGLE: 1.85,
 
   MOON_SIZE: 0.272,
-  MOON_TEXTURE: '/moontexture.jpg',
+  MOON_TEXTURE: "/moontexture.jpg",
   MOON_ORBIT_RADIUS: 1.5257,
   MOON_AXIS_TILT_ANGLE: 5.875,
 };
@@ -246,7 +246,7 @@ export const createSolarBody = ({
   );
 
   planet.sphere.name = name;
-  planet.sphere.addEventListener('click', () => handlePlanetClick(name));
+  planet.sphere.addEventListener("click", () => handlePlanetClick(name));
 
   // 2. Create the pivot.
   const pivot = createPivot(scene, orbitMultiplier);
@@ -321,10 +321,10 @@ const SolarSystem = ({
   // const orbitDegreesPerMillisecondMoon = 0.000001 * BASE_SPEED;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const isBrowser = typeof window !== 'undefined';
+  const isBrowser = typeof window !== "undefined";
 
   if (containerRef.current) {
-    containerRef.current.style.background = 'transparent';
+    containerRef.current.style.background = "transparent";
   }
 
   const stars = createStars();
@@ -425,7 +425,7 @@ const SolarSystem = ({
     shaderPass.renderToScreen = true;
     composer.addPass(shaderPass);
 
-    window.addEventListener('resize', onWindowResize);
+    window.addEventListener("resize", onWindowResize);
     const textureLoader = new THREE.TextureLoader();
 
     // Create glow texture
@@ -453,7 +453,7 @@ const SolarSystem = ({
       sunRotationAxis,
       rotationDegreesPerMillisecond.Sun,
       textureLoader,
-      'sun'
+      "sun"
     );
 
     // Add glow sprite to sun
@@ -469,7 +469,7 @@ const SolarSystem = ({
       rotationDegrees: rotationDegreesPerMillisecond.Earth,
       orbitRadius: planetConstants.EARTH_ORBIT_RADIUS,
       scene,
-      name: 'earth',
+      name: "earth",
       textureLoader,
     });
 
@@ -481,7 +481,7 @@ const SolarSystem = ({
       orbitRadius: planetConstants.MARS_ORBIT_RADIUS,
       scene,
       textureLoader,
-      name: 'mars',
+      name: "mars",
       orbitMultiplier: 1.88,
     });
 
@@ -492,7 +492,7 @@ const SolarSystem = ({
       rotationDegrees: rotationDegreesPerMillisecond.Venus,
       orbitRadius: planetConstants.VENUS_ORBIT_RADIUS,
       scene,
-      name: 'venus',
+      name: "venus",
       textureLoader,
     });
 
@@ -503,7 +503,7 @@ const SolarSystem = ({
       rotationDegrees: rotationDegreesPerMillisecond.Mercury,
       orbitRadius: planetConstants.MERCURY_ORBIT_RADIUS,
       scene,
-      name: 'mercury',
+      name: "mercury",
       textureLoader,
     });
 
@@ -516,7 +516,7 @@ const SolarSystem = ({
       moonRotationAxis,
       rotationDegreesPerMillisecond.Moon,
       textureLoader,
-      'moon'
+      "moon"
     );
 
     setPosition(
@@ -574,19 +574,19 @@ const SolarSystem = ({
     return () => {
       controls.dispose();
       renderer.dispose();
-      window.removeEventListener('resize', onWindowResize);
+      window.removeEventListener("resize", onWindowResize);
     };
   }, [isBrowser, stars]);
 
   return (
-    <div className='absolute flex justify-center items-center left-0 top-0 w-full h-full'>
+    <div className="absolute flex justify-center items-center left-0 top-0 w-full h-full">
       <div
         ref={containerRef}
         style={{
-          position: 'absolute',
-          top: '0',
-          width: '100%',
-          height: '100%',
+          position: "absolute",
+          top: "0",
+          width: "100%",
+          height: "100%",
         }}
       />
     </div>

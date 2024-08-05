@@ -116,6 +116,11 @@ const DevNotes: React.FC = () => {
     },
       `,
     },
+    {
+      id: "13",
+      title: "enter JL container locally",
+      content: "docker exec -it jl bash",
+    },
   ];
 
   return (
