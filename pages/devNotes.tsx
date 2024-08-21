@@ -121,6 +121,23 @@ const DevNotes: React.FC = () => {
       title: "enter JL container locally",
       content: "docker exec -it jl bash",
     },
+    {
+      id: "14",
+      title:
+        "execute recurring purchase script/cron to process a scheduled purchase as a status",
+      content: `
+        docker exec -it jl bash
+        ./psql.sh 1 (where 1 is the node number for a customer)
+        select * from recurring_purchase_event where recurring_purchase_event_id = 123;
+      `,
+      contentLineTwo: "or",
+      contentLine3: `
+        docker exec -it jl bash
+        ./psql.sh 1
+        cd bin
+        ./jumbo scheduled-purchase-process-on-next-cron -s ENCODED_ID_1 -f deposit_failed
+      `,
+    },
   ];
 
   return (
