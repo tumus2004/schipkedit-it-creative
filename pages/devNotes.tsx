@@ -138,6 +138,15 @@ const DevNotes: React.FC = () => {
         ./jumbo scheduled-purchase-process-on-next-cron -s ENCODED_ID_1 -f deposit_failed
       `,
     },
+    {
+      id: '15',
+      title: 'to purchase all scheduled purchases in the queue',
+      content: `
+        docker exec -it jl bash
+        ./jumbo.sh scheduled-purchase-process-on-next-cron --all
+        ./jumbo.sh scheduled-purchase
+      `
+    }
   ];
 
   return (
