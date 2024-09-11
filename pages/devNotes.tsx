@@ -146,6 +146,27 @@ const DevNotes: React.FC = () => {
         ./jumbo.sh scheduled-purchase-process-on-next-cron --all
         ./jumbo.sh scheduled-purchase
       `
+    },
+    {
+      id: '16',
+      title: 'to get distance of element from left and right edge of page',
+      content:`
+        // Replace 'elementId' with the actual ID of your element.
+        let elementId = 'elementId';
+        let element = document.getElementById(elementId);
+
+        // Make sure the element exists
+        if (element) {
+          let rect = element.getBoundingClientRect();
+          let leftEdgeDistance = rect.left;
+          let rightEdgeDistance = window.innerWidth - rect.right;
+
+          console.log("Left Edge Distance (from left side of the window): ", leftEdgeDistance, "px");
+          console.log("Right Edge Distance (from right side of the window): ", rightEdgeDistance, "px");
+        } else {
+          console.log("Element with ID '" + elementId + "' not found.");
+        }
+      `
     }
   ];
 
