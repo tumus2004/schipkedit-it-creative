@@ -139,18 +139,18 @@ const DevNotes: React.FC = () => {
       `,
     },
     {
-      id: '15',
-      title: 'to purchase all scheduled purchases in the queue',
+      id: "15",
+      title: "to purchase all scheduled purchases in the queue",
       content: `
         docker exec -it jl bash
         ./jumbo.sh scheduled-purchase-process-on-next-cron --all
         ./jumbo.sh scheduled-purchase
-      `
+      `,
     },
     {
-      id: '16',
-      title: 'to get distance of element from left and right edge of page',
-      content:`
+      id: "16",
+      title: "to get distance of element from left and right edge of page",
+      content: `
         // Replace 'elementId' with the actual ID of your element.
         let elementId = 'elementId';
         let element = document.getElementById(elementId);
@@ -166,8 +166,16 @@ const DevNotes: React.FC = () => {
         } else {
           console.log("Element with ID '" + elementId + "' not found.");
         }
-      `
-    }
+      `,
+    },
+    {
+      id: "17",
+      title:
+        "Shorthand to convert a string to a float in JavaScript, see the example below.",
+      content: `
+        const isZeroDeposit = isCheckout && +depositAmount.amount === 0.0;
+      `,
+    },
   ];
 
   return (
