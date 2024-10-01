@@ -125,3 +125,11 @@ a {
   text-shadow: 0 0 10px #d52f11, 0 0 20px #d52f11, 0 0 30px #d52f11,
     0 0 40px #d52f11;
 }
+
+@layer utilities {
+  .gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+}
