@@ -4,10 +4,14 @@ export const LandingHeader = () => {
 	const headerRef = useRef<HTMLSpanElement>(null);
 
 	useEffect(() => {
-		const handleMouseMove = (event: MouseEvent) => {
-			const header = headerRef.current;
-			if (!header) return;
+		const header = headerRef.current;
+		if (!header) return;
 
+		header.style.color = 'transparent';
+		header.style.background = 'linear-gradient(90deg, teal, green, yellow, orange, red)';
+		header.style.backgroundClip = 'text';
+
+		const handleMouseMove = (event: MouseEvent) => {
 			const { left, top, width, height } = header.getBoundingClientRect();
 			const mouseX = event.clientX;
 			const mouseY = event.clientY;
@@ -16,11 +20,9 @@ export const LandingHeader = () => {
 			const centerX = left + width / 2;
 			const centerY = top + height / 2;
 
-			// Calculate the angle (in degrees) between the center and the mouse position
 			const angle = Math.atan2(mouseY - centerY, mouseX - centerX) * (180 / Math.PI);
 
-			// Create the gradient with a dynamic angle
-			header.style.background = `linear-gradient(${angle}deg, teal, green, yellow, orange, red)`;
+			header.style.background = `linear-gradient(${angle}deg, #005a9a, green, yellow, orange, red)`;
 			header.style.color = 'transparent';
 			header.style.backgroundClip = 'text';
 		};

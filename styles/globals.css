@@ -2,6 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .gradient-text {
+    color: transparent;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(
+      var(--gradient-angle, 0deg),
+      red,
+      orange,
+      yellow,
+      green,
+      blue,
+      indigo,
+      violet
+    );
+    background-size: 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow:
+      /* Remove blur radius by setting it to 0 */
+    0 -1px 1px rgba(255, 255, 255, 0.2),
+      1px 1px 0 rgba(0, 0, 0, 0.1),
+      3px 3px 0 rgba(0, 0, 0, 0.1),
+      4px 4px 0 rgba(0, 0, 0, 0.1),
+      5px 5px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .gradient-text::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: brightness(1.2);
+    z-index: -1;
+  }
+}
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -124,12 +167,4 @@ a {
 .neonText {
   text-shadow: 0 0 10px #d52f11, 0 0 20px #d52f11, 0 0 30px #d52f11,
     0 0 40px #d52f11;
-}
-
-@layer utilities {
-  .gradient-text {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-  }
 }
