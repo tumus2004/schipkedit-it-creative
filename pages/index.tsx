@@ -13,10 +13,10 @@ const Index: React.FC = ({ className }: IndexProps) => {
 
 	return (
 		<div className='flex flex-col bg-stone-900 overflow-hidden relative'>
-			<Header />
-			<main className='flex-1 w-full mt-20 text-gray-300 px-6 md:px-8 lg:px-12 overflow-y-auto scrollbar-hide'>
+			{/* <Header /> */}
+			<main className='flex-1 w-full min-h-screen mt-20 lg:mt-0 text-gray-300 px-6 md:px-8 lg:px-0 lg:content-center overflow-y-auto scrollbar-hide'>
 				<LandingHeader />
-				<Showcase />
+				{/* <Showcase /> */}
 			</main>
 		</div>
 	);

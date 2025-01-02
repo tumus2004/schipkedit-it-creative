@@ -25,7 +25,7 @@ export const Services = () => {
 	return (
 		<section id='services' className='py-20 bg-gradient-to-b from-gray-900 to-black'>
 			<div className='container mx-auto px-6'>
-				<h2 className='text-4xl font-bold text-center text-gradient mb-12'>Our Services</h2>
+				<h2 className='text-4xl font-bold text-center text-gradient mb-12'>Mind, Body, Profit: Unleashed.</h2>
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
 					{services.map((service, index) => (
 						<div

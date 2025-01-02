@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 export const Hero = () => {
 	return (
-		<section className='relative md:h-[50vh] min-h-[500px] flex items-center overflow-hidden'>
+		<section className='relative flex items-center overflow-hidden min-h-[60vh] md:h-[50vh]'>
 			<Image
 				src='/img/hero-image.jpeg'
 				alt='Mountain peak'
@@ -32,7 +32,7 @@ export const Hero = () => {
 							href='#services'
 							className='border border-white text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-white hover:text-black transition duration-300 flex items-center justify-center'
 						>
-							Explore Services
+							Own Your Summit
 						</a>
 					</div>
 				</div>

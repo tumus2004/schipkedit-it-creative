@@ -14,7 +14,7 @@ const ProjRemarkableHome = () => {
 			<Header />
 			<Hero />
 			{/* <Story /> */}
-			<Highlights />
+			{/* <Highlights /> */}
 			<Services />
 			<Testimonials />
 			<CTA />

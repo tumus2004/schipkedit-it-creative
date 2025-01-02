@@ -10,7 +10,7 @@ const socialLinks = [
 
 export const SocialButtons = () => {
 	return (
-		<section className='py-12 bg-gradient-to-b from-gray-900 to-black'>
+		<section className='py-12 bg-transparent'>
 			<div className='container mx-auto px-6'>
 				<h2 className='text-2xl font-bold text-center text-gradient mb-8'>Connect With Us</h2>
 				<div className='flex justify-center space-x-6'>
