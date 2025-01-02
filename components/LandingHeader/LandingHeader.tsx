@@ -40,11 +40,11 @@ export const LandingHeader = () => {
 					Hello, I&apos;m Tom.
 				</span>
 			</h1>
-			<p className='mt-6 text-md pl-3.5'>
+			{/* <p className='mt-6 text-md pl-3.5'>
 				I&apos;m a software engineer and web developer with a passion for creating beautiful and responsive websites.
 				With over 5 years of experience in various programming languages and frameworks, I can help bring your ideas to
 				life.
-			</p>
+			</p> */}
 		</section>
 	);
 };
