@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 export const Hero = () => {
 	return (
-		<section className='relative flex items-center overflow-hidden min-h-[60vh] md:h-[50vh]'>
+		<section className='relative flex items-center overflow-hidden min-h-[60vh] md:h-[50vh] mt-16 md:mt-10 lg:mt-0'>
 			<Image
 				src='/img/hero-image.jpeg'
 				alt='Mountain peak'
