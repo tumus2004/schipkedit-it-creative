@@ -47,68 +47,13 @@ const DevNotes: React.FC = () => {
 				],
 			},
 			{
-				title: 'updating an entry in database directly within a container',
-				content: [
-					'ssh thomassc@ho-staging4.lan',
-					'sudo docker exec -it zim4cluster-jl-cmd-test-1 bash',
-					'./psql.sh 1 (for example - whichever database # you want to access)',
-					'then run `table recurring_purchase_event`',
-					`it should be the last number in the list of "recurring_purchase_event_id" list but update the next query to match update recurring_purchase_event`,
-					`set recurring_purchase_event_timestamp = '2024-05-24 16:58:20.753479+00', recurring_purchase_event_data = '{"paused_until": "2024-06-15T09:58:20+1000", "is_system_change": false}', recurring_purchase_event_triggered_timestamp = '2024-05-24 05:09:29.530161+00' where recurring_purchase_event_id = #;`,
-				],
-			},
-			{
-				title: 'enter JL container locally',
-				content: ['docker exec -it jl bash'],
-			},
-			{
-				title: 'execute recurring purchase script/cron to process a scheduled purchase as a status',
-				content: [
-					`docker exec -it jl bash`,
-					`./psql.sh 1 (where 1 is the node number for a customer)`,
-					`select * from recurring_purchase_event where recurring_purchase_event_id = 123;`,
-					`// OR`,
-					`docker exec -it jl bash`,
-					`./psql.sh 1`,
-					`./bin/jumbo scheduled-purchase-process-on-next-cron -s ENCODED_ID_1 -f deposit_failed`,
-				],
-			},
-			{
-				title: 'to purchase all scheduled purchases in the queue',
-				content: [
-					'docker exec -it jl bash',
-					'./jumbo.sh scheduled-purchase-process-on-next-cron --all',
-					'./jumbo.sh scheduled-purchase',
-				],
-			},
-			{
-				title: 'to get distance of element from left and right edge of page (copy and paste in console)',
-				content: [
-					`// Replace 'elementId' with the actual ID of your element.
-let elementId = 'elementId';
-let element = document.getElementById(elementId);
-  
-// Make sure the element exists
-if (element) {
-  let rect = element.getBoundingClientRect();
-  let leftEdgeDistance = rect.left;
-  let rightEdgeDistance = window.innerWidth - rect.right;
-  
-  console.log("Left Edge Distance (from left side of the window): ", leftEdgeDistance, "px");
-  console.log("Right Edge Distance (from right side of the window): ", rightEdgeDistance, "px");
-} else {
-  console.log("Element with ID '" + elementId + "' not found.");
-}`,
-				],
-			},
-			{
-				title: 'Shorthand to convert a string to a float in JavaScript, see the example below.',
-				content: [`const isZeroDeposit = isCheckout && +depositAmount.amount === 0.0;`],
-			},
-			{
 				title: 'Manually trigger a pact verification in jenkins',
-				content:
-					'You can trigger one in https://build.dev.benon.com/view/Pact/job/Pact.provider-verifier.jl-api-admin/. You need to set:\n- GERRIT_PATCHSET_REVISION to latest JL revision in production,\n- PACT_CONSUMER_NAME to admin-ui,\n- PACT_CONSUMER_VERSION to your admin patch commit hash',
+				content: [
+					'You can trigger one in https://build.dev.benon.com/view/Pact/job/Pact.provider-verifier.jl-api-admin/. You need to set:',
+					'- GERRIT_PATCHSET_REVISION to latest JL revision in production,',
+					'- PACT_CONSUMER_NAME to admin-ui,',
+					'- PACT_CONSUMER_VERSION to your admin patch commit hash',
+				],
 			},
 		],
 		[]
@@ -130,7 +75,7 @@ if (element) {
 					<div className='ml-4 mb-2 flex items-center gap-2'>
 						<div className='text-lg text-gray-800'>{note.title}</div>
 					</div>
-					{note.content.map((line, index) => (
+					{note.content.map((line: string, index: number) => (
 						<pre key={index} className='p-4 bg-gray-100 rounded-lg my-2 overflow-auto'>
 							<code className='text-gray-800'>{line}</code>
 						</pre>
