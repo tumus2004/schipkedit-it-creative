@@ -105,6 +105,11 @@ if (element) {
 				title: 'Shorthand to convert a string to a float in JavaScript, see the example below.',
 				content: [`const isZeroDeposit = isCheckout && +depositAmount.amount === 0.0;`],
 			},
+			{
+				title: 'Manually trigger a pact verification in jenkins',
+				content:
+					'You can trigger one in https://build.dev.benon.com/view/Pact/job/Pact.provider-verifier.jl-api-admin/. You need to set:\n- GERRIT_PATCHSET_REVISION to latest JL revision in production,\n- PACT_CONSUMER_NAME to admin-ui,\n- PACT_CONSUMER_VERSION to your admin patch commit hash',
+			},
 		],
 		[]
 	);
