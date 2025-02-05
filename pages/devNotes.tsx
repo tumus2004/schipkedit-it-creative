@@ -55,6 +55,16 @@ const DevNotes: React.FC = () => {
 					'- PACT_CONSUMER_VERSION to your admin patch commit hash',
 				],
 			},
+			{
+				title: 'check out JL locally and use it against admin/web',
+				content: [
+					'Checkout the JL patch you want to use',
+					'dab repo entrypoint run jl enter',
+					'make update_depends_composer',
+					'make build',
+					'make reload'
+				]
+			}
 		],
 		[]
 	);
