@@ -62,9 +62,20 @@ const DevNotes: React.FC = () => {
 					'dab repo entrypoint run jl enter',
 					'make update_depends_composer',
 					'make build',
-					'make reload'
-				]
-			}
+					'make reload',
+				],
+			},
+			{
+				title: 'add to overrides to enable recurring purchase operator recovery',
+				content: [
+					`"RECURRING_PURCHASE": {
+						"operator_recovery": false
+					},
+					"RECURRING_PURCHASE_SUBSCRIPTION": {
+						"enabled": true
+					},`,
+				],
+			},
 		],
 		[]
 	);
