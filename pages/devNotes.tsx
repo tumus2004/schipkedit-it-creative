@@ -76,6 +76,18 @@ const DevNotes: React.FC = () => {
 					},`,
 				],
 			},
+			{
+				title: 'Awesome prompt for cursor',
+				content: [
+					'Does this component follow react best practices, in particular the SOLID principles? If not, can you refactor it to be better without losing any functionality and without introducing any bugs or typescript errors?',
+				],
+			},
+			{
+				title: 'Check if a component is using the correct hook',
+				content: [
+					'Is this component using the correct hook? If not, can you refactor it to be better without losing any functionality and without introducing any bugs or typescript errors?',
+				],
+			},
 		],
 		[]
 	);
