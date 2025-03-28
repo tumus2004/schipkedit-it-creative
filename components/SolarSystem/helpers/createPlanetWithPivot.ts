@@ -8,14 +8,16 @@ export const createPlanetWithPivot = (
   rotationAngle: number,
   textureLoader: THREE.TextureLoader,
   scene: THREE.Scene,
-  tiltAngle: number = 0
+  tiltAngle: number = 0,
+  name?: string
 ) => {
   const planet = createPlanet(
     radius,
     texture,
     rotationAxis,
     rotationAngle,
-    textureLoader
+    textureLoader,
+    name
   );
   const planetPivot = createPivot(scene, tiltAngle);
   planetPivot.add(planet.sphere);

@@ -10,12 +10,17 @@ export const createPlanet = (
   texture: string,
   rotationAxis: THREE.Vector3,
   rotationAngle: number,
-  textureLoader: THREE.TextureLoader
+  textureLoader: THREE.TextureLoader,
+  name?: string
 ): Planet => {
   const planetTexture = textureLoader.load(texture);
   const geometry = new THREE.SphereGeometry(radius, 64, 64);
   const material = new THREE.MeshStandardMaterial({ map: planetTexture });
   const sphere = new THREE.Mesh(geometry, material);
+  
+  if (name) {
+    sphere.name = name;
+  }
 
   const rotate = (deltaTime: number) => {
     sphere.rotateOnAxis(rotationAxis, rotationAngle * deltaTime);

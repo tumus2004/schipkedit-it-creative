@@ -1,11 +1,12 @@
 import axios from "axios";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import {
   createStars,
   setSolarSystemSize,
   createSunGlowTexture,
+  setPositionFromVector
 } from "./helpers";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
@@ -14,6 +15,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { CopyShader } from "three/examples/jsm/shaders/CopyShader.js";
 import configurationConstants from "./constants/configurationConstants";
 import { lights } from "./constants/lightsConfiguration";
+import { fetchPlanetData, convertAstronomicalToSceneCoordinates, PlanetPositions } from './utils';
 // import { fetchPlanetData } from './utils';
 
 // fetchPlanetData();
@@ -223,6 +225,7 @@ interface SolarBodyProps {
   textureLoader: THREE.TextureLoader;
   name: string;
   orbitMultiplier?: number;
+  initialPosition?: THREE.Vector3;
 }
 
 export const createSolarBody = ({
@@ -235,6 +238,7 @@ export const createSolarBody = ({
   orbitMultiplier = 1,
   name,
   textureLoader,
+  initialPosition,
 }: SolarBodyProps) => {
   const planet = createPlanet(
     size,
@@ -264,7 +268,11 @@ export const createSolarBody = ({
   );
 
   // 5. Set the position of the planet.
-  setPosition(planet, orbitRadius, rotationDegrees / orbitMultiplier);
+  if (initialPosition) {
+    planet.sphere.position.copy(initialPosition);
+  } else {
+    setPosition(planet, orbitRadius, rotationDegrees / orbitMultiplier);
+  }
 
   return { planet, pivot };
 };
@@ -328,12 +336,43 @@ const SolarSystem = ({
   }
 
   const stars = createStars();
+  const [initialPositions, setInitialPositions] = useState<PlanetPositions | null>(null);
+  const [isPositionsLoaded, setIsPositionsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch planet positions data when component mounts
+  useEffect(() => {
+    const getPlanetPositions = async () => {
+      setIsLoading(true);
+      setError(null);
+      
+      try {
+        console.log("Fetching initial planet positions...");
+        const positions = await fetchPlanetData();
+        console.log("Received planet positions:", positions);
+        setInitialPositions(positions);
+        setIsPositionsLoaded(true);
+      } catch (error) {
+        console.error("Error fetching planet positions:", error);
+        setError("Failed to fetch planet positions. Using default placement.");
+        // Still proceed with default positions
+      } finally {
+        setIsLoading(false);
+        setIsPositionsLoaded(true);
+      }
+    };
+    
+    getPlanetPositions();
+  }, []);
 
   useEffect(() => {
-    if (!isBrowser || !containerRef.current) {
+    if (!isBrowser || !containerRef.current || !isPositionsLoaded) {
       return;
     }
 
+    console.log("Initializing solar system with positions:", initialPositions);
+    
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       setSolarSystemSize(),
@@ -471,7 +510,13 @@ const SolarSystem = ({
       scene,
       name: "earth",
       textureLoader,
+      initialPosition: initialPositions?.Earth ? 
+        convertAstronomicalToSceneCoordinates(
+          initialPositions.Earth,
+          planetConstants.EARTH_ORBIT_RADIUS
+        ) : undefined
     });
+    console.log("Earth position:", earth.planet.sphere.position);
 
     const mars = createSolarBody({
       size: planetConstants.MARS_SIZE,
@@ -483,7 +528,13 @@ const SolarSystem = ({
       textureLoader,
       name: "mars",
       orbitMultiplier: 1.88,
+      initialPosition: initialPositions?.Mars ?
+        convertAstronomicalToSceneCoordinates(
+          initialPositions.Mars,
+          planetConstants.MARS_ORBIT_RADIUS
+        ) : undefined
     });
+    console.log("Mars position:", mars.planet.sphere.position);
 
     const venus = createSolarBody({
       size: planetConstants.VENUS_SIZE,
@@ -494,7 +545,13 @@ const SolarSystem = ({
       scene,
       name: "venus",
       textureLoader,
+      initialPosition: initialPositions?.Venus ?
+        convertAstronomicalToSceneCoordinates(
+          initialPositions.Venus,
+          planetConstants.VENUS_ORBIT_RADIUS
+        ) : undefined
     });
+    console.log("Venus position:", venus.planet.sphere.position);
 
     const mercury = createSolarBody({
       size: planetConstants.MERCURY_SIZE,
@@ -505,7 +562,13 @@ const SolarSystem = ({
       scene,
       name: "mercury",
       textureLoader,
+      initialPosition: initialPositions?.Mercury ?
+        convertAstronomicalToSceneCoordinates(
+          initialPositions.Mercury,
+          planetConstants.MERCURY_ORBIT_RADIUS
+        ) : undefined
     });
+    console.log("Mercury position:", mercury.planet.sphere.position);
 
     /*
      ** MOON
@@ -528,6 +591,7 @@ const SolarSystem = ({
     const moonPivot = createPivot(scene, planetConstants.MOON_AXIS_TILT_ANGLE);
     moonPivot.add(moon.sphere);
     earth.planet.sphere.add(moonPivot);
+    console.log("Moon position:", moon.sphere.position);
     /*
      ** END MOON
      */
@@ -576,10 +640,20 @@ const SolarSystem = ({
       renderer.dispose();
       window.removeEventListener("resize", onWindowResize);
     };
-  }, [isBrowser, stars]);
+  }, [isBrowser, stars, isPositionsLoaded, initialPositions]);
 
   return (
     <div className="absolute flex justify-center items-center left-0 top-0 w-full h-full">
+      {isLoading && (
+        <div className="absolute z-10 bg-black bg-opacity-50 text-white p-2 rounded">
+          Loading planet positions...
+        </div>
+      )}
+      {error && (
+        <div className="absolute z-10 top-4 bg-red-500 bg-opacity-75 text-white p-2 rounded">
+          {error}
+        </div>
+      )}
       <div
         ref={containerRef}
         style={{

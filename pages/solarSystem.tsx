@@ -83,6 +83,7 @@ const planetStats = [
 
 const SolarSystemWrapper: React.FC = ({ className }: Props) => {
 	const [baseSpeed, setBaseSpeed] = useState<number>(480);
+	const [showPlanetStats, setShowPlanetStats] = useState<boolean>(false);
 
 	useMouseFeatureEffect('.planet-stats', '.feature');
 
@@ -90,18 +91,20 @@ const SolarSystemWrapper: React.FC = ({ className }: Props) => {
 		<>
 			<Header />
 			<div className='h-screen p-4 md:p-10 bg-gradient-to-br from-stone-900'>
-				<div className='planet-stats'>
-					{planetStats.map((planet) => (
-						<PlanetStats
-							planet={planet.planet}
-							size={planet.size}
-							radialVelocity={planet.radialVelocity}
-							orbitalVelocity={planet.orbitalVelocity}
-							orbitalPeriod={planet.orbitalPeriod}
-							key={planet.planet}
-						/>
-					))}
-				</div>
+				{showPlanetStats && (
+					<div className='planet-stats'>
+						{planetStats.map((planet) => (
+							<PlanetStats
+								planet={planet.planet}
+								size={planet.size}
+								radialVelocity={planet.radialVelocity}
+								orbitalVelocity={planet.orbitalVelocity}
+								orbitalPeriod={planet.orbitalPeriod}
+								key={planet.planet}
+							/>
+						))}
+					</div>
+				)}
 				<SolarSystem baseSpeed={baseSpeed} setBaseSpeed={setBaseSpeed} className='fixed top-0 left-0' />
 				<div className='bg-center w-full bottom-16 left-0 absolute' style={{ background: `transparent` }}>
 					<div className='text-3xl md:text-6xl font-extrabold relative w-full text-center'>
@@ -110,6 +113,13 @@ const SolarSystemWrapper: React.FC = ({ className }: Props) => {
 						</span>
 					</div>
 				</div>
+				
+				<button 
+					onClick={() => setShowPlanetStats(!showPlanetStats)}
+					className="absolute bottom-4 left-4 z-10 bg-black bg-opacity-50 text-white px-3 py-1 rounded hover:bg-opacity-70 transition-all"
+				>
+					{showPlanetStats ? 'Hide Stats' : 'Show Stats'}
+				</button>
 			</div>
 		</>
 	);

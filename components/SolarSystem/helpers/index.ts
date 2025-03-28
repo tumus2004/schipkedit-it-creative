@@ -7,4 +7,5 @@ export { createRotationAxis } from './createRotationAxis';
 export { createSunGlowTexture } from './createSunGlowTexture';
 export { setSolarSystemSize } from './setSolarSystemSize';
 export { setPosition } from './setPosition';
+export { setPositionFromVector } from './setPosition';
 export { createStars } from './createStars';

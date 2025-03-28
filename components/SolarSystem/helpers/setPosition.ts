@@ -14,3 +14,11 @@ export const setPosition = (
   );
   planet.sphere.position.copy(position);
 };
+
+// Overload to set position from a Vector3
+export const setPositionFromVector = (
+  planet: { sphere: THREE.Mesh },
+  position: THREE.Vector3
+) => {
+  planet.sphere.position.copy(position);
+};
