@@ -11,14 +11,14 @@ interface Props {
 const planetStats = [
 	{
 		planet: 'Earth',
-		size: '12,756 km',
+		size: '12,756 km', // Diameter
 		radialVelocity: '29.78 km/s',
 		orbitalVelocity: '107,218 km/h',
 		orbitalPeriod: '365.25 days',
 	},
 	{
 		planet: 'Mercury',
-		size: '4,879 km',
+		size: '4,879 km', // Diameter
 		radialVelocity: '47.36 km/s',
 		orbitalVelocity: '172,440 km/h',
 		orbitalPeriod: '88 days',

@@ -22,7 +22,7 @@ export const PlanetStats = ({
       <div className='feature-content flex flex-col my-0 p-4'>
         <strong>{planet}</strong>
         <div className='flex justify-between'>
-          <span className='text-gray-300 opacity-75 text-xs'>Size</span>
+          <span className='text-gray-300 opacity-75 text-xs'>Diameter</span>
           <span className='text-gray-100 opacity-75 text-right text-xs'>
             {size}
           </span>
