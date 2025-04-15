@@ -88,6 +88,10 @@ const DevNotes: React.FC = () => {
 					'Is this component using the correct hook? If not, can you refactor it to be better without losing any functionality and without introducing any bugs or typescript errors?',
 				],
 			},
+			{
+				title: 'Update CMS translations JSON after changing them in admin portal CMS',
+				content: ['docker exec -ti cms_api yarn cli seed snapshot'],
+			},
 		],
 		[]
 	);
