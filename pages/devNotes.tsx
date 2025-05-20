@@ -90,7 +90,10 @@ const DevNotes: React.FC = () => {
 			},
 			{
 				title: 'Update CMS translations JSON after changing them in admin portal CMS',
-				content: ['docker exec -ti cms_api yarn cli seed snapshot'],
+				content: [
+					'docker exec -ti cms_api yarn cli seed snapshot',
+					'docker exec -it cms_api yarn cli metadata snapshot',
+				],
 			},
 		],
 		[]
