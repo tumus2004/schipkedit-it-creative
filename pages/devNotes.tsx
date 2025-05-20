@@ -95,6 +95,15 @@ const DevNotes: React.FC = () => {
 					'docker exec -it cms_api yarn cli metadata snapshot',
 				],
 			},
+			{
+				title: 'If you encounter an error around error:  TypeError: Cannot convert undefined or null to object,',
+				content: [
+					'This is likely because your code is using a named export and looking for a default export.',
+					'you can do named but the loadable syntax needs to change',
+					'you just do loadable(() => import(‘./VariantC’))',
+					'and not import("./VariantC").then((module) => ({ default: module.VariantC })),',
+				],
+			},
 		],
 		[]
 	);
