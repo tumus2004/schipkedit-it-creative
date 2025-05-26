@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PasswordProtection from '../components/PasswordProtection';
 
 const DevNotes: React.FC = () => {
 	const notesToRemember = useMemo(
@@ -104,34 +105,47 @@ const DevNotes: React.FC = () => {
 					'and not import("./VariantC").then((module) => ({ default: module.VariantC })),',
 				],
 			},
+			{
+				title: 'enable zendesk/chat widget in staging',
+				content: [
+					'https://admin.handy5.staging.ozl.jumdev.com/admin/settings/zendesk',
+					'ZENDESK_API_KEY: 2e8148dd-5ec1-45ce-bd11-81eb89d9b228',
+					'Restart services:',
+					'ssh ho-staging5.lan',
+					'sudo docker exec -it handy5cluster-jl-cmd-1 bash ./jl_cli.sh ./bin/reload_cluster.php',
+					'sudo docker restart handy5cluster-tier2-1',
+				],
+			},
 		],
 		[]
 	);
 
 	return (
-		<div id='dev-notes' className='p-4 bg-gray-100 h-screen'>
-			<header className='mb-6 text-center'>
-				<h1 className='text-4xl font-bold bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent'>
-					Dev notes and tips
-				</h1>
-			</header>
+		<PasswordProtection>
+			<div id='dev-notes' className='p-4 bg-gray-100 h-screen'>
+				<header className='mb-6 text-center'>
+					<h1 className='text-4xl font-bold bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 bg-clip-text text-transparent'>
+						Dev notes and tips
+					</h1>
+				</header>
 
-			{notesToRemember.map((note) => (
-				<section
-					key={note.title}
-					className='mb-4 p-6 bg-white rounded-lg shadow-md border-l-4 border-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500'
-				>
-					<div className='ml-4 mb-2 flex items-center gap-2'>
-						<div className='text-lg text-gray-800'>{note.title}</div>
-					</div>
-					{note.content.map((line: string, index: number) => (
-						<pre key={index} className='p-4 bg-gray-100 rounded-lg my-2 overflow-auto'>
-							<code className='text-gray-800'>{line}</code>
-						</pre>
-					))}
-				</section>
-			))}
-		</div>
+				{notesToRemember.map((note) => (
+					<section
+						key={note.title}
+						className='mb-4 p-6 bg-white rounded-lg shadow-md border-l-4 border-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500'
+					>
+						<div className='ml-4 mb-2 flex items-center gap-2'>
+							<div className='text-lg text-gray-800'>{note.title}</div>
+						</div>
+						{note.content.map((line: string, index: number) => (
+							<pre key={index} className='p-4 bg-gray-100 rounded-lg my-2 overflow-auto'>
+								<code className='text-gray-800'>{line}</code>
+							</pre>
+						))}
+					</section>
+				))}
+			</div>
+		</PasswordProtection>
 	);
 };
 
