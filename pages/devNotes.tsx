@@ -116,6 +116,10 @@ const DevNotes: React.FC = () => {
 					'sudo docker restart handy5cluster-tier2-1',
 				],
 			},
+			{
+				title: 'kill cluster staging timer',
+				content: ['ssh ho-staging3.lan', 'sudo docker stop handy3cluster-monitor-1'],
+			},
 		],
 		[]
 	);
