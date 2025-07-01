@@ -120,6 +120,10 @@ const DevNotes: React.FC = () => {
 				title: 'kill cluster staging timer',
 				content: ['ssh ho-staging3.lan', 'sudo docker stop handy3cluster-monitor-1'],
 			},
+			{
+				title: 'To start social-play and have the cards visible',
+				content: ['dab jl bjumbo open-syndicates;', 'dab syndicates create-promoted-party;'],
+			},
 		],
 		[]
 	);
