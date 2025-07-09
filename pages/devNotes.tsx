@@ -124,6 +124,10 @@ const DevNotes: React.FC = () => {
 				title: 'To start social-play and have the cards visible',
 				content: ['dab jl bjumbo open-syndicates;', 'dab syndicates create-promoted-party;'],
 			},
+			{
+				title: 'to restart tier 2',
+				content: ['ssh ho-staging5.lan', 'sudo docker restart handy5cluster-tier2-1'],
+			}
 		],
 		[]
 	);
